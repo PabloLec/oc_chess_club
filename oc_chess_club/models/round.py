@@ -6,5 +6,15 @@ class Round:
         self.matches = []
         self.round_number = round_number
 
+    def __str__(self):
+        stdout_content = "   - Round Number: {num}\n".format(num=self.round_number)
+
+        stdout_content += "   - Matches -\n"
+
+        for started_match in self.matches:
+            stdout_content += started_match.__str__()
+
+        return stdout_content
+
     def add_match(self, match: Match):
         self.matches.append(match)

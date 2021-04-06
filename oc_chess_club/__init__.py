@@ -1,5 +1,5 @@
-from oc_chess_club.controller.tournament_handler import TournamentHandler
+from oc_chess_club.views.main_menu import MainMenu
 
 
 def main():
-    TournamentHandler()
+    MainMenu()

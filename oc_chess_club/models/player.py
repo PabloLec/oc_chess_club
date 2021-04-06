@@ -7,6 +7,8 @@ class Player:
         self.elo = elo
         self.id_num = id_num
 
+        self.points = 0
+
     def __str__(self):
         stdout_content = " - Player ID: {id}\n".format(id=self.id_num)
         stdout_content += "   - First Name: {first_name}\n".format(first_name=self.first_name)
