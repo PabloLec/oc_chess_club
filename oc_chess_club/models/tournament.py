@@ -13,9 +13,7 @@ class Tournament:
         description: str,
         id_num: int,
         is_finished: bool,
-        rounds: list,
     ):
-        self.players = []
 
         self.name = name
         self.location = location
@@ -26,7 +24,8 @@ class Tournament:
         self.id_num = id_num
         self.is_finished = is_finished
 
-        self.rounds = rounds
+        self.rounds = []
+        self.players = []
 
     def __str__(self):
         stdout_content = " - Tournament name: {name}\n".format(name=self.name)

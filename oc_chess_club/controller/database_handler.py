@@ -34,8 +34,9 @@ class DatabaseHandler:
                 id_num=player["id"],
             )
 
-    def load_tournaments(self, table):
-        pass
+    def load_tournaments(self):
+        for tournament in self.tournaments_table:
+            pass
 
     def create_player(self, first_name: str, last_name: str, dob: str, gender: str, elo: str, id_num: int = 0):
         player = Player(first_name, last_name, dob, gender, elo, id_num)
@@ -65,7 +66,6 @@ class DatabaseHandler:
             description=description,
             id_num=id_num,
             is_finished=is_finished,
-            rounds=[],
         )
         self.database.tournaments.append(tournament)
         self.save_tournament(tournament)
@@ -104,3 +104,10 @@ class DatabaseHandler:
             },
             query.id == int(tournament.id_num),
         )
+
+    def find_unfinished_tournaments(self):
+        query = Query()
+
+        result = self.tournaments_table.search(query["Is Finished"] == False)
+
+        return result

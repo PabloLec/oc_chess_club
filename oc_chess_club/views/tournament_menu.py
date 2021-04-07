@@ -1,6 +1,7 @@
 import typer
 
 from oc_chess_club.views.new_tournament import NewTournamentMenu
+from oc_chess_club.views.load_tournament import LoadTournamentMenu
 
 
 class TournamentMenu:
@@ -20,8 +21,13 @@ class TournamentMenu:
 
         if selection == "1":
             self.create_new_tournament()
+        elif selection == "2":
+            self.load_tournament()
         else:
             self.user_selection()
 
-    def create_new_tournament(self=None):
+    def create_new_tournament(self):
         NewTournamentMenu()
+
+    def load_tournament(self):
+        LoadTournamentMenu()
