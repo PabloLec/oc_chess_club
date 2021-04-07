@@ -4,10 +4,7 @@ from oc_chess_club.views.new_tournament import NewTournamentMenu
 
 
 class TournamentMenu:
-    typer_app = typer.Typer()
-
     def __init__(self):
-        self.typer_app()
         self.print_menu()
         self.user_selection()
 
@@ -26,6 +23,5 @@ class TournamentMenu:
         else:
             self.user_selection()
 
-    @typer_app.command("new")
     def create_new_tournament(self=None):
         NewTournamentMenu()

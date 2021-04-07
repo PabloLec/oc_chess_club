@@ -1,5 +1,5 @@
-from oc_chess_club.views.main_menu import MainMenu
+import oc_chess_club.views.typer_app as _TYPER_APP
 
 
 def main():
-    MainMenu()
+    _TYPER_APP._MAIN_TYPER_APP()

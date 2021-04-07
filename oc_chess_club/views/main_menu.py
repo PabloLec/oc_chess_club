@@ -5,11 +5,7 @@ from oc_chess_club.views.tournament_menu import TournamentMenu
 
 
 class MainMenu:
-    typer_app = typer.Typer()
-    typer_app.add_typer(TournamentMenu.typer_app, name="tournament")
-
     def __init__(self):
-        self.typer_app()
         self.tournament_handler = None
         self.print_menu()
         self.user_selection()
