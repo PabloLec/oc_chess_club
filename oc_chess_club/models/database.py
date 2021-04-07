@@ -5,9 +5,10 @@ class Database:
     def __init__(self, location: str):
         self.location = location
         self.players = []
-        self.tournaments = None
+        self.tournaments = []
 
         self.db = None
+        self.load_database()
 
     def load_database(self):
         self.db = TinyDB(self.location)

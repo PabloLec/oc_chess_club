@@ -3,19 +3,30 @@ from oc_chess_club.models.player import Player
 
 
 class Tournament:
-    def __init__(self):
-        self.participating_players = []
+    def __init__(
+        self,
+        name: str,
+        location: str,
+        date: str,
+        number_of_rounds: int,
+        time_control: str,
+        description: str,
+        id_num: int,
+        is_finished: bool,
+        rounds: list,
+    ):
+        self.players = []
 
-        self.name = ""
-        self.location = ""
-        self.date = ""
-        self.number_of_rounds = 4
-        self.time_control = ""
-        self.description = ""
+        self.name = name
+        self.location = location
+        self.date = date
+        self.number_of_rounds = number_of_rounds
+        self.time_control = time_control
+        self.description = description
+        self.id_num = id_num
+        self.is_finished = is_finished
 
-        self.rounds = []
-
-        self.is_finished = False
+        self.rounds = rounds
 
     def __str__(self):
         stdout_content = " - Tournament name: {name}\n".format(name=self.name)
@@ -35,11 +46,11 @@ class Tournament:
 
     def add_player(self, player: Player):
 
-        self.participating_players.append(player)
+        self.players.append(player)
 
     def is_tournament_full(self):
 
-        if self.participating_players >= 8:
+        if self.players >= 8:
             return True
         else:
             return False

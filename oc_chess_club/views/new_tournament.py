@@ -1,6 +1,8 @@
 import typer
 from datetime import datetime
 
+from oc_chess_club.controller.database_handler import DatabaseHandler
+
 
 class NewTournamentMenu:
     def __init__(self):
@@ -13,6 +15,7 @@ class NewTournamentMenu:
 
         self.settings_prompt()
         self.confirm_settings()
+        self.save_tournament()
 
     def settings_prompt(self):
         typer.secho("Création d'un nouveau tournoi", fg=typer.colors.BLUE)
@@ -80,3 +83,15 @@ class NewTournamentMenu:
         if not confirm:
             typer.secho("Annulation. Le tournoi n'est pas créé.", fg=typer.colors.RED)
             raise typer.Exit
+
+    def save_tournament(self):
+        database_handler = DatabaseHandler()
+
+        database_handler.create_tournament(
+            name=self.tournament_name,
+            location=self.location,
+            date=self.date,
+            number_of_rounds=int(self.number_of_rounds),
+            time_control=self.time_control,
+            description=self.description,
+        )
