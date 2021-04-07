@@ -1,25 +1,28 @@
 import typer
 from datetime import datetime
 
-from oc_chess_club.controller.database_handler import DatabaseHandler
+from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
 
 
 class NewTournamentMenu:
     def __init__(self):
+
         self.tournament_name = ""
         self.location = ""
         self.date = ""
         self.number_of_rounds = ""
         self.time_control = ""
         self.description = ""
+        self.players = []
 
         self.settings_prompt()
+        self.add_players()
         self.confirm_settings()
         self.save_tournament()
 
     def settings_prompt(self):
         typer.secho("Création d'un nouveau tournoi", fg=typer.colors.BLUE)
-        typer.secho("Entrez les informations du tournoi\n")
+        typer.echo("Entrez les informations du tournoi\n")
 
         while len(self.tournament_name) == 0:
             self.tournament_name = typer.prompt("Nom du tournoi")
@@ -38,6 +41,37 @@ class NewTournamentMenu:
 
         while len(self.description) == 0:
             self.description = typer.prompt("Description")
+
+    def add_players(self):
+
+        typer.secho("\nEntrez le numéro d'un joueur à ajouter\n", fg=typer.colors.BLUE)
+
+        available_players = _DATABASE_HANDLER.players_by_id()
+        for player in available_players:
+            player_id = typer.style(str(player.id_num), bold=True)
+            typer.echo(f"{player_id}. {player.first_name} {player.last_name}")
+
+        while len(self.players) < 8:
+            selection = typer.prompt(f"Joueur ({str(len(self.players))}/8)")
+            if self.player_exists(available_players=available_players, selected_id=selection):
+                self.players.append(int(selection))
+
+    def player_exists(self, available_players: list, selected_id: str):
+        if not selected_id.isnumeric():
+            typer.secho("Entrez le numéro du joueur apparaissant devant son nom", fg=typer.colors.RED)
+            return False
+
+        if int(selected_id) in self.players:
+            typer.secho(f"Le joueur numéro {selected_id} a déjà été ajouté", fg=typer.colors.RED)
+            return False
+
+        for player in available_players:
+            if int(selected_id) == player.id_num:
+                return True
+
+        typer.secho(f"Pas de joueur avec le numéro {selected_id}", fg=typer.colors.RED)
+
+        return False
 
     def date_is_valid(self):
         try:
@@ -78,6 +112,8 @@ class NewTournamentMenu:
         typer.echo(parameter + self.time_control)
         parameter = typer.style("Description: ", bold=True)
         typer.echo(parameter + self.description)
+        parameter = typer.style("Joueurs: ", bold=True)
+        typer.echo(parameter + ", ".join(str(x) for x in self.players))
 
         confirm = typer.confirm("\nSouhaitez vous confirmer la création de ce tournoi ?")
         if not confirm:
@@ -85,13 +121,13 @@ class NewTournamentMenu:
             raise typer.Exit
 
     def save_tournament(self):
-        database_handler = DatabaseHandler()
 
-        database_handler.create_tournament(
+        _DATABASE_HANDLER.create_tournament(
             name=self.tournament_name,
             location=self.location,
             date=self.date,
             number_of_rounds=int(self.number_of_rounds),
             time_control=self.time_control,
             description=self.description,
+            players=self.players,
         )

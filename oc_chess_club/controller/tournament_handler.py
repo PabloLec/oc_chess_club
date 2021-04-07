@@ -3,55 +3,36 @@ from oc_chess_club.models.round import Round
 from oc_chess_club.models.match import Match
 
 from oc_chess_club.controller.tournament_generator import TournamentGenerator
-from oc_chess_club.controller.database_handler import DatabaseHandler
+from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
 
 
 class TournamentHandler:
-    def __init__(self, resume_tournament: bool = False):
-        self.tournament = None
+    def __init__(self, tournament_id):
+        self.tournament = _DATABASE_HANDLER.database.tournaments[tournament_id]
+        self.current_round = len(self.tournament.rounds) + 1
 
-        self.database_handler = DatabaseHandler()
+        self.generator = TournamentGenerator(players=self.tournament.players)
 
-        ## TO DO ##
-        self.selected_players = self.database_handler.database.players[:8]
-        ## ## ## ##
-
-        self.generator = TournamentGenerator(players=self.selected_players)
-
-        if not resume_tournament:
-            self.start_tournament()
-
-    def start_tournament(self):
-        self.tournament = Tournament()
-        self.create_round(round_number=1)
-
-    def create_round(self, round_number: int):
-        if round_number == 1:
+    def create_round(self):
+        if len(self.tournament.rounds) == 0:
             matches = self.generator.generate_first_round()
         else:
             pass
 
-        current_round = Round(round_number=round_number)
-        for match in matches:
-            match_object = Match(players=match)
-            current_round.add_match(match=match_object)
+        round_id = _DATABASE_HANDLER.create_round(
+            round_number=len(self.tournament.rounds) + 1, tournament_id=self.tournament.id_num
+        )
+        created_round = _DATABASE_HANDLER.database.rounds[round_id]
 
-        self.tournament.add_round(round_object=current_round)
+        for players in matches:
+            match_id = _DATABASE_HANDLER.create_match(players=players, round_id=round_id)
+            created_round.add_match(match=_DATABASE_HANDLER.database.matches[match_id])
 
-    def set_tournament_name(self, name: str):
-        self.tournament.name = name
+        self.tournament.rounds.append(created_round)
 
-    def set_tournament_location(self, location: str):
-        self.tournament.location = location
+    def is_tournament_full(self):
 
-    def set_tournament_date(self, date: str):
-        self.tournament.date = date
-
-    def set_tournament_description(self, description: str):
-        self.tournament.description = description
-
-    def set_tournament_time_control(self, time_control: str):
-        self.tournament.time_control = time_control
-
-    def change_number_of_rounds(self, number_of_rounds: int):
-        self.tournament.number_of_rounds = number_of_rounds
+        if len(self.tournament.players) == 8:
+            return True
+        else:
+            return False

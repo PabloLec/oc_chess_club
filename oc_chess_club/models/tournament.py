@@ -13,6 +13,7 @@ class Tournament:
         description: str,
         id_num: int,
         is_finished: bool,
+        players: list,
     ):
 
         self.name = name
@@ -23,9 +24,9 @@ class Tournament:
         self.description = description
         self.id_num = id_num
         self.is_finished = is_finished
+        self.players = players
 
         self.rounds = []
-        self.players = []
 
     def __str__(self):
         stdout_content = " - Tournament name: {name}\n".format(name=self.name)
@@ -46,13 +47,6 @@ class Tournament:
     def add_player(self, player: Player):
 
         self.players.append(player)
-
-    def is_tournament_full(self):
-
-        if self.players >= 8:
-            return True
-        else:
-            return False
 
     def add_round(self, round_object: Round):
         self.rounds.append(round_object)
