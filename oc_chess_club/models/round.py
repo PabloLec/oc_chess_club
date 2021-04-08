@@ -3,7 +3,7 @@ from oc_chess_club.models.match import Match
 
 class Round:
     def __init__(self, round_number: int, tournament_id: int, id_num: int):
-        self.matches = []
+        self.matches = {}
         self.id_num = id_num
         self.tournament_id = tournament_id
 

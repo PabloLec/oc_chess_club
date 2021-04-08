@@ -1,5 +1,6 @@
 class Match:
-    def __init__(self, players: tuple, round_id: int, id_num: int):
+    def __init__(self, players: tuple, tournament_id: int, round_id: int, id_num: int):
+        self.tournament_id = tournament_id
         self.round_id = round_id
         self.id_num = id_num
 

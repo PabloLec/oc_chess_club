@@ -6,8 +6,8 @@ class Database:
         self.location = location
         self.players = {}
         self.tournaments = {}
-        self.rounds = {}
-        self.matches = {}
+        # self.rounds = {}
+        # self.matches = {}
 
         self.db = None
         self.load_database()

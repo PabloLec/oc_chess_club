@@ -25,6 +25,8 @@ class DatabaseHandler:
 
         self.load_players()
         self.load_tournaments()
+        self.load_rounds()
+        self.load_matches()
 
     def load_players(self):
         for player in self.players_table:
@@ -90,6 +92,12 @@ class DatabaseHandler:
         self.database.tournaments[tournament.id_num] = tournament
         self.save_tournament(tournament=tournament)
 
+    def load_rounds(self):
+        for round_ in self.rounds_table:
+            self.create_round(
+                round_number=round_["Round number"], tournament_id=round_["Tournament id"], id_num=round_["id"]
+            )
+
     def create_round(
         self,
         round_number: int,
@@ -101,20 +109,33 @@ class DatabaseHandler:
 
         created_round = Round(round_number=round_number, tournament_id=tournament_id, id_num=id_num)
 
-        self.database.rounds[created_round.id_num] = created_round
-        # self.save_round(round=created_round)
+        # self.database.rounds[created_round.id_num] = created_round
+        self.database.tournaments[created_round.tournament_id].rounds[id_num] = created_round
+        self.save_round(round_=created_round)
 
         return id_num
 
-    def create_match(self, players: tuple, round_id, id_num: int = 0):
+    def load_matches(self):
+        for match in self.matches_table:
+
+            player_1 = self.database.players[match["Player 1"]]
+            player_2 = self.database.players[match["Player_2"]]
+
+            players = (player_1, player_2)
+
+            self.create_match(
+                players=players, tournament_id=match["Tournament id"], round_id=match["Round id"], id_num=match["id"]
+            )
+
+    def create_match(self, players: tuple, tournament_id: int, round_id: int, id_num: int = 0):
         if id_num == 0:
             id_num = self.find_next_id(self.matches_table)
 
-        match = Match(players=players, round_id=round_id, id_num=id_num)
-        self.database.matches[match.id_num] = match
-        # self.save_match(match=match)
+        match = Match(players=players, tournament_id=tournament_id, round_id=round_id, id_num=id_num)
 
-        return id_num
+        # self.database.matches[match.id_num] = match
+        self.database.tournaments[match.tournament_id].rounds[round_id].matches[id_num] = match
+        self.save_match(match=match)
 
     def find_next_id(self, table):
 
@@ -134,7 +155,7 @@ class DatabaseHandler:
         if type(element) == Tournament:
             self.save_tournament(element)
 
-    def save_tournament(self, tournament):
+    def save_tournament(self, tournament: Tournament):
         query = Query()
 
         players_id = []
@@ -155,6 +176,33 @@ class DatabaseHandler:
                 "id": int(tournament.id_num),
             },
             query.id == int(tournament.id_num),
+        )
+
+    def save_round(self, round_: Round):
+        query = Query()
+
+        self.rounds_table.upsert(
+            {
+                "Round number": round_.round_number,
+                "Tournament id": int(round_.tournament_id),
+                "id": int(round_.id_num),
+            },
+            query.id == int(round_.id_num),
+        )
+
+    def save_match(self, match: Match):
+        query = Query()
+
+        self.matches_table.upsert(
+            {
+                "Player 1": match.player_1.id_num,
+                "Player_2": match.player_2.id_num,
+                "Winner": match.winner,
+                "Tournament id": int(match.tournament_id),
+                "Round id": int(match.round_id),
+                "id": int(match.id_num),
+            },
+            query.id == int(match.id_num),
         )
 
     def find_unfinished_tournaments(self):

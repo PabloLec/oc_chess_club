@@ -26,7 +26,8 @@ class Tournament:
         self.is_finished = is_finished
         self.players = players
 
-        self.rounds = []
+        self.rounds = {}
+        self.leaderboard = {}
 
     def __str__(self):
         stdout_content = " - Tournament name: {name}\n".format(name=self.name)
