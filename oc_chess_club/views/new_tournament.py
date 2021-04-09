@@ -46,7 +46,7 @@ class NewTournamentMenu:
 
         typer.secho("\nEntrez le numéro d'un joueur à ajouter\n", fg=typer.colors.BLUE)
 
-        available_players = _DATABASE_HANDLER.players_by_id()
+        available_players = _DATABASE_HANDLER.helper.sort_players_by_id(players=_DATABASE_HANDLER.database.players)
         for player in available_players:
             player_id = typer.style(str(player.id_num), bold=True)
             typer.echo(f"{player_id}. {player.first_name} {player.last_name}")
@@ -112,13 +112,20 @@ class NewTournamentMenu:
         typer.echo(parameter + self.time_control)
         parameter = typer.style("Description: ", bold=True)
         typer.echo(parameter + self.description)
-        parameter = typer.style("Joueurs: ", bold=True)
-        typer.echo(parameter + ", ".join(str(x) for x in self.players))
+        self.list_participating_players()
 
         confirm = typer.confirm("\nSouhaitez vous confirmer la création de ce tournoi ?")
         if not confirm:
             typer.secho("Annulation. Le tournoi n'est pas créé.", fg=typer.colors.RED)
             raise typer.Exit
+
+    def list_participating_players(self):
+        typer.secho("\n Liste des joueurs: ", bold=True)
+        for player in self.players:
+            name = _DATABASE_HANDLER.helper.player_name_from_id(
+                players=_DATABASE_HANDLER.database.players, player_id=player
+            )
+            typer.echo(f" - {name}")
 
     def save_tournament(self):
 

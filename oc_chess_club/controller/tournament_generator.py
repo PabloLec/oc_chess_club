@@ -1,5 +1,6 @@
 from oc_chess_club.models.tournament import Tournament
 from oc_chess_club.models.player import Player
+from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
 
 
 class TournamentGenerator:
@@ -46,10 +47,11 @@ class TournamentGenerator:
                 id_1 = sorted_players[0]
                 id_2 = sorted_players[opponent]
 
+                player_1 = _DATABASE_HANDLER.helper.player_object_from_id_str(players=self.players, player_id=id_1)
+                player_2 = _DATABASE_HANDLER.helper.player_object_from_id_str(players=self.players, player_id=id_2)
+
                 if not self.players_have_already_met(matches=matches, id_1=id_1, id_2=id_2):
-                    matches.append(
-                        (self.player_object_from_id(player_id=id_1), self.player_object_from_id(player_id=id_2))
-                    )
+                    matches.append((player_1, player_2))
                     del sorted_players[0]
                     del sorted_players[opponent - 1]
                     break

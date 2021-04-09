@@ -5,11 +5,13 @@ from oc_chess_club.models.player import Player
 from oc_chess_club.models.tournament import Tournament
 from oc_chess_club.models.round import Round
 from oc_chess_club.models.match import Match
+from oc_chess_club.controller.database_helper import DatabaseHelper
 
 
 class DatabaseHandler:
     def __init__(self):
         self.database = Database("/home/pablo/openclassrooms/oc_chess_club/oc_chess_club/bdd_test.json")
+        self.helper = DatabaseHelper()
 
         self.players_table = None
         self.tournaments_table = None
@@ -228,15 +230,6 @@ class DatabaseHandler:
         result = self.tournaments_table.search(query["Is Finished"] == False)
 
         return result
-
-    def players_by_id(self):
-        ordered_ids = sorted(self.database.players, key=lambda x: x)
-
-        ordered_players = []
-        for id_num in ordered_ids:
-            ordered_players.append(self.database.players[id_num])
-
-        return ordered_players
 
 
 _DATABASE_HANDLER = DatabaseHandler()

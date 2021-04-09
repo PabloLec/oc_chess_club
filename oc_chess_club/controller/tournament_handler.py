@@ -8,7 +8,7 @@ from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
 
 
 class TournamentHandler:
-    def __init__(self, tournament_id):
+    def __init__(self, tournament_id: int):
         self.tournament = _DATABASE_HANDLER.database.tournaments[tournament_id]
         self.current_round_num = 0
         self.current_round_id = 0
@@ -26,12 +26,14 @@ class TournamentHandler:
         self.update_tournament_progression()
 
     def match_generator(self):
-        while not self.is_tournament_finished():
-            next_match = self.find_next_match()
-            if next_match is not None:
-                return next_match
-            else:
-                self.create_round()
+        next_match = self.find_next_match()
+        if next_match is not None:
+            return next_match
+        elif not self.is_tournament_finished():
+            self.create_round()
+            return self.find_next_match()
+        else:
+            return None
 
     def find_next_round(self):
         # Search if a round is not yet finished to resume it
@@ -52,7 +54,7 @@ class TournamentHandler:
         if len(self.tournament.rounds) == 0:
             matches = self.generator.generate_first_round()
         else:
-            all_matches_list = self.list_all_matches()
+            all_matches_list = _DATABASE_HANDLER.helper.list_all_matches(tournament=self.tournament)
             matches = self.generator.generate_other_round(
                 matches=all_matches_list, leaderboard=self.tournament.leaderboard
             )
@@ -61,7 +63,6 @@ class TournamentHandler:
             round_number=len(self.tournament.rounds) + 1, tournament_id=self.tournament.id_num
         )
 
-        _DATABASE_HANDLER.database.tournaments[self.tournament.id_num].rounds[round_id]
         self.current_round_id = round_id
 
         for players in matches:
@@ -86,13 +87,6 @@ class TournamentHandler:
             if current_round.matches[match].winner is not None:
                 self.current_match_num += 1
 
-    def is_tournament_full(self):
-
-        if len(self.tournament.players) == 8:
-            return True
-        else:
-            return False
-
     def is_round_finished(self, round_: Round):
         matches = round_.matches
 
@@ -102,17 +96,6 @@ class TournamentHandler:
                 return False
 
         return True
-
-    def list_all_matches(self):
-        match_list = []
-
-        for round_id in self.tournament.rounds:
-            for match_id in self.tournament.rounds[round_id].matches:
-                player_1 = self.tournament.rounds[round_id].matches[match_id].player_1
-                player_2 = self.tournament.rounds[round_id].matches[match_id].player_2
-                match_list.append((player_1.id_num, player_2.id_num))
-
-        return match_list
 
     def is_tournament_finished(self):
         if len(self.tournament.rounds) < self.tournament.number_of_rounds:
