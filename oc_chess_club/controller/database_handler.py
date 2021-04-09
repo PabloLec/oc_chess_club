@@ -69,7 +69,7 @@ class DatabaseHandler:
         time_control: str,
         description: str,
         players: list,
-        leaderboard: dict = {},
+        leaderboard: dict,
         id_num: int = 0,
         is_finished: bool = False,
     ):
@@ -82,9 +82,9 @@ class DatabaseHandler:
         for player in players:
             player_objects.append(self.database.players[player])
 
-        if leaderboard == {}:
+        if len(leaderboard) == 0:
             for player in players:
-                leaderboard[player] = 0
+                leaderboard[str(player)] = 0
 
         tournament = Tournament(
             name=name,
@@ -98,8 +98,10 @@ class DatabaseHandler:
             players=player_objects,
             leaderboard=leaderboard,
         )
-        self.database.tournaments[tournament.id_num] = tournament
+
         self.save_tournament(tournament=tournament)
+
+        return id_num
 
     def load_rounds(self):
         for round_ in self.rounds_table:
@@ -118,8 +120,6 @@ class DatabaseHandler:
 
         created_round = Round(round_number=round_number, tournament_id=tournament_id, id_num=id_num)
 
-        # self.database.rounds[created_round.id_num] = created_round
-        self.database.tournaments[created_round.tournament_id].rounds[id_num] = created_round
         self.save_round(round_=created_round)
 
         return id_num
@@ -146,8 +146,6 @@ class DatabaseHandler:
 
         match = Match(players=players, tournament_id=tournament_id, round_id=round_id, winner=winner, id_num=id_num)
 
-        # self.database.matches[match.id_num] = match
-        self.database.tournaments[match.tournament_id].rounds[round_id].matches[id_num] = match
         self.save_match(match=match)
 
     def find_next_id(self, table):
@@ -169,6 +167,8 @@ class DatabaseHandler:
             self.save_tournament(element)
 
     def save_tournament(self, tournament: Tournament):
+        self.database.tournaments[tournament.id_num] = tournament
+
         query = Query()
 
         players_id = []
@@ -193,6 +193,9 @@ class DatabaseHandler:
         )
 
     def save_round(self, round_: Round):
+
+        self.database.tournaments[round_.tournament_id].rounds[round_.id_num] = round_
+
         query = Query()
 
         self.rounds_table.upsert(
@@ -205,6 +208,9 @@ class DatabaseHandler:
         )
 
     def save_match(self, match: Match):
+
+        self.database.tournaments[match.tournament_id].rounds[match.round_id].matches[match.id_num] = match
+
         query = Query()
 
         self.matches_table.upsert(

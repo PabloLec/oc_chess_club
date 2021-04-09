@@ -10,6 +10,7 @@ from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
 class TournamentHandler:
     def __init__(self, tournament_id: int):
         self.tournament = _DATABASE_HANDLER.database.tournaments[tournament_id]
+
         self.current_round_num = 0
         self.current_round_id = 0
         self.current_match_num = 0

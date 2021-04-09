@@ -24,10 +24,10 @@ def load_tournament_menu(ctx: typer.Context):
 
 
 @_TOURNAMENT_APP.command("new")
-def load_new_tournament_menu():
+def new_tournament_menu():
     NewTournamentMenu()
 
 
 @_TOURNAMENT_APP.command("load")
-def load_new_tournament_menu():
+def load_existing_tournament_menu():
     LoadTournamentMenu()

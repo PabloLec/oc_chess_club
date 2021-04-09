@@ -2,6 +2,7 @@ import typer
 from datetime import datetime
 
 from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
+from oc_chess_club.views.game import GameMenu
 
 
 class NewTournamentMenu:
@@ -14,11 +15,13 @@ class NewTournamentMenu:
         self.time_control = ""
         self.description = ""
         self.players = []
+        self.created_tournament_id = None
 
         self.settings_prompt()
         self.add_players()
         self.confirm_settings()
         self.save_tournament()
+        self.start_tournament()
 
     def settings_prompt(self):
         typer.secho("Création d'un nouveau tournoi", fg=typer.colors.BLUE)
@@ -98,6 +101,15 @@ class NewTournamentMenu:
             return False
 
     def confirm_settings(self):
+        self.list_settings()
+        self.list_participating_players()
+
+        confirm = typer.confirm("\nSouhaitez vous confirmer la création de ce tournoi ?")
+        if not confirm:
+            typer.secho("Annulation. Le tournoi n'a pas été créé.", fg=typer.colors.RED)
+            raise typer.Exit
+
+    def list_settings(self):
         typer.secho("\nParamètres du tournoi:", fg=typer.colors.BLUE)
 
         parameter = typer.style("Nom: ", bold=True)
@@ -112,12 +124,6 @@ class NewTournamentMenu:
         typer.echo(parameter + self.time_control)
         parameter = typer.style("Description: ", bold=True)
         typer.echo(parameter + self.description)
-        self.list_participating_players()
-
-        confirm = typer.confirm("\nSouhaitez vous confirmer la création de ce tournoi ?")
-        if not confirm:
-            typer.secho("Annulation. Le tournoi n'est pas créé.", fg=typer.colors.RED)
-            raise typer.Exit
 
     def list_participating_players(self):
         typer.secho("\n Liste des joueurs: ", bold=True)
@@ -129,7 +135,7 @@ class NewTournamentMenu:
 
     def save_tournament(self):
 
-        _DATABASE_HANDLER.create_tournament(
+        self.created_tournament_id = _DATABASE_HANDLER.create_tournament(
             name=self.tournament_name,
             location=self.location,
             date=self.date,
@@ -137,4 +143,13 @@ class NewTournamentMenu:
             time_control=self.time_control,
             description=self.description,
             players=self.players,
+            leaderboard={},
         )
+
+        typer.secho("Le tournoi a été créé.", fg=typer.colors.GREEN)
+
+    def start_tournament(self):
+        confirm = typer.confirm("\nSouhaitez vous commencer le tournoi ?")
+
+        if confirm:
+            GameMenu(tournament_id=self.created_tournament_id)

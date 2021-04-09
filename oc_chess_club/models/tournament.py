@@ -38,6 +38,8 @@ class Tournament:
         stdout_content += "   - Number of rounds: {num}\n".format(num=self.number_of_rounds)
         stdout_content += "   - Time Control: {time}\n".format(time=self.time_control)
         stdout_content += "   - Description: {description}\n".format(description=self.description)
+        stdout_content += "   - Players: {players}\n".format(players=self.players)
+        stdout_content += "   - Leaderboard: {leaderboard}\n".format(leaderboard=self.leaderboard)
 
         stdout_content += " - - Started rounds - -\n"
 
