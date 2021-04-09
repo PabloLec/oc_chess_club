@@ -55,6 +55,7 @@ class DatabaseHandler:
                 id_num=tournament["id"],
                 is_finished=tournament["Is Finished"],
                 players=tournament["Players"],
+                leaderboard=tournament["Leaderboard"],
             )
 
     def create_tournament(
@@ -66,6 +67,7 @@ class DatabaseHandler:
         time_control: str,
         description: str,
         players: list,
+        leaderboard: dict = {},
         id_num: int = 0,
         is_finished: bool = False,
     ):
@@ -78,6 +80,10 @@ class DatabaseHandler:
         for player in players:
             player_objects.append(self.database.players[player])
 
+        if leaderboard == {}:
+            for player in players:
+                leaderboard[player] = 0
+
         tournament = Tournament(
             name=name,
             location=location,
@@ -88,6 +94,7 @@ class DatabaseHandler:
             id_num=id_num,
             is_finished=is_finished,
             players=player_objects,
+            leaderboard=leaderboard,
         )
         self.database.tournaments[tournament.id_num] = tournament
         self.save_tournament(tournament=tournament)
@@ -119,19 +126,23 @@ class DatabaseHandler:
         for match in self.matches_table:
 
             player_1 = self.database.players[match["Player 1"]]
-            player_2 = self.database.players[match["Player_2"]]
+            player_2 = self.database.players[match["Player 2"]]
 
             players = (player_1, player_2)
 
             self.create_match(
-                players=players, tournament_id=match["Tournament id"], round_id=match["Round id"], id_num=match["id"]
+                players=players,
+                tournament_id=match["Tournament id"],
+                round_id=match["Round id"],
+                winner=match["Winner"],
+                id_num=match["id"],
             )
 
-    def create_match(self, players: tuple, tournament_id: int, round_id: int, id_num: int = 0):
+    def create_match(self, players: tuple, tournament_id: int, round_id: int, winner: int, id_num: int = 0):
         if id_num == 0:
             id_num = self.find_next_id(self.matches_table)
 
-        match = Match(players=players, tournament_id=tournament_id, round_id=round_id, id_num=id_num)
+        match = Match(players=players, tournament_id=tournament_id, round_id=round_id, winner=winner, id_num=id_num)
 
         # self.database.matches[match.id_num] = match
         self.database.tournaments[match.tournament_id].rounds[round_id].matches[id_num] = match
@@ -172,6 +183,7 @@ class DatabaseHandler:
                 "Time Control": tournament.time_control,
                 "Description": tournament.description,
                 "Players": players_id,
+                "Leaderboard": tournament.leaderboard,
                 "Is Finished": tournament.is_finished,
                 "id": int(tournament.id_num),
             },
@@ -196,7 +208,7 @@ class DatabaseHandler:
         self.matches_table.upsert(
             {
                 "Player 1": match.player_1.id_num,
-                "Player_2": match.player_2.id_num,
+                "Player 2": match.player_2.id_num,
                 "Winner": match.winner,
                 "Tournament id": int(match.tournament_id),
                 "Round id": int(match.round_id),
@@ -204,6 +216,11 @@ class DatabaseHandler:
             },
             query.id == int(match.id_num),
         )
+
+    def update_leaderboard(self, tournament_id: int, player_id: int, points_earned: float):
+        tournament = self.database.tournaments[tournament_id]
+        tournament.leaderboard[str(player_id)] += points_earned
+        self.save_tournament(tournament=tournament)
 
     def find_unfinished_tournaments(self):
         query = Query()

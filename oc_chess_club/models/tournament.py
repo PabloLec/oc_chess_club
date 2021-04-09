@@ -14,6 +14,7 @@ class Tournament:
         id_num: int,
         is_finished: bool,
         players: list,
+        leaderboard: dict,
     ):
 
         self.name = name
@@ -25,9 +26,9 @@ class Tournament:
         self.id_num = id_num
         self.is_finished = is_finished
         self.players = players
+        self.leaderboard = leaderboard
 
         self.rounds = {}
-        self.leaderboard = {}
 
     def __str__(self):
         stdout_content = " - Tournament name: {name}\n".format(name=self.name)
@@ -48,6 +49,3 @@ class Tournament:
     def add_player(self, player: Player):
 
         self.players.append(player)
-
-    def add_round(self, round_object: Round):
-        self.rounds.append(round_object)

@@ -7,7 +7,7 @@ from oc_chess_club.models.match import Match
 class GameMenu:
     def __init__(self, tournament_id):
         self.tournament_handler = TournamentHandler(tournament_id=tournament_id)
-        self.display_next_round()
+        self.play()
 
     def display_tournament_progression(self):
         self.tournament_handler.update_tournament_progression()
@@ -35,7 +35,12 @@ class GameMenu:
 
         typer.echo(decorator + tournament_num + separator + round_num + separator + match_num + decorator)
 
+    def play(self):
+        while self.tournament_handler.match_generator() is not None:
+            self.display_next_match(self.tournament_handler.match_generator())
+
     def display_next_round(self):
+        # A SUPPR ?
         self.tournament_handler.find_next_round()
         while self.tournament_handler.find_next_match() is not None:
             self.display_next_match(self.tournament_handler.find_next_match())
