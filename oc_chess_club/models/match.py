@@ -18,5 +18,6 @@ class Match:
             elo_2=self.player_2.elo,
         )
         stdout_content += "    Winner : {winner}\n".format(winner=self.winner)
+        stdout_content += "    id : {id}\n".format(id=self.id_num)
 
         return stdout_content

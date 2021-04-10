@@ -9,6 +9,16 @@ class GameMenu:
         self.tournament_handler = TournamentHandler(tournament_id=tournament_id)
         self.play()
 
+    def play(self):
+        while self.tournament_handler.match_generator() is not None:
+            self.display_next_match(self.tournament_handler.match_generator())
+
+    def display_next_match(self, match: Match):
+        self.display_tournament_progression()
+        self.introduce_match(match=match)
+        winner = self.ask_for_winner()
+        self.tournament_handler.save_winner(match=match, winner=winner)
+
     def display_tournament_progression(self):
         self.tournament_handler.update_tournament_progression()
         decorator = typer.style(
@@ -34,16 +44,6 @@ class GameMenu:
         )
 
         typer.echo("\n" + decorator + tournament_num + separator + round_num + separator + match_num + decorator)
-
-    def play(self):
-        while self.tournament_handler.match_generator() is not None:
-            self.display_next_match(self.tournament_handler.match_generator())
-
-    def display_next_match(self, match: Match):
-        self.display_tournament_progression()
-        self.introduce_match(match=match)
-        winner = self.ask_for_winner()
-        self.tournament_handler.save_winner(match=match, winner=winner)
 
     def introduce_match(self, match: Match):
         player_1_title = typer.style(

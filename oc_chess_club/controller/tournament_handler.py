@@ -8,50 +8,63 @@ from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
 
 
 class TournamentHandler:
+    """Handles a tournament's generation and progression.
+
+    Attributes:
+        tournament (Tournament): Corresponding tournament object.
+        generator (TournamentGenerator): Object to generate matchmaking.
+        current_round_num (int): Number of the round currently played.
+        current_round_id (int): Unique id of the round currently played.
+        current_match_num (int): Number of the match currently played.
+        current_match_id (int): Unique id of the match currently played.
+    """
+
     def __init__(self, tournament_id: int):
+        """Constructor for TournamentHandler.
+
+        Args:
+            tournament_id (int): Unique id of the tournament to be resumed.
+        """
+
         self.tournament = _DATABASE_HANDLER.database.tournaments[tournament_id]
+        self.generator = TournamentGenerator(players=self.tournament.players)
 
         self.current_round_num = 0
         self.current_round_id = 0
         self.current_match_num = 0
+        self.current_match_id = 0
 
-        self.generator = TournamentGenerator(players=self.tournament.players)
         self.resume_tournament()
 
     def resume_tournament(self):
+        """Creates the first round if needed and requests a first progression update."""
+
         if len(self.tournament.rounds) == 0:
             self.create_round()
 
-        self.find_next_round()
-        self.find_next_match()
         self.update_tournament_progression()
 
     def match_generator(self):
-        next_match = self.find_next_match()
-        if next_match is not None:
-            return next_match
-        elif not self.is_tournament_finished():
+        """Returns a new match until tournament completion.
+
+        Returns:
+            Match: Next match to be played.
+        """
+
+        self.update_tournament_progression()
+
+        current_round = self.tournament.rounds[self.current_round_id]
+
+        if self.is_round_finished(round_=current_round):
             self.create_round()
-            return self.find_next_match()
-        else:
-            return None
+            self.update_tournament_progression()
+            current_round = self.tournament.rounds[self.current_round_id]
 
-    def find_next_round(self):
-        # Search if a round is not yet finished to resume it
-        for round_id in self.tournament.rounds:
-            round_object = self.tournament.rounds[round_id]
-            if not self.is_round_finished(round_=round_object):
-                self.current_round_id = round_object.id_num
-                self.current_round_num = round_object.round_number
-                return round_object
-            else:
-                if round_object.round_number > self.current_round_num:
-                    self.current_round_num = round_object.round_number
-                    self.current_round_id = round_object.id_num
-
-        return self.tournament.rounds[self.current_round_id]
+        return current_round.matches[self.current_match_id]
 
     def create_round(self):
+        """Creates a new round and its matches based on current tournament progression."""
+
         if len(self.tournament.rounds) == 0:
             matches = self.generator.generate_first_round()
         else:
@@ -71,24 +84,53 @@ class TournamentHandler:
                 players=players, tournament_id=self.tournament.id_num, round_id=round_id, winner=None
             )
 
-    def find_next_match(self):
-        matches = self.tournament.rounds[self.current_round_id].matches
-        for match_id in matches:
-            match_object = self.tournament.rounds[self.current_round_id].matches[match_id]
-            if match_object.winner is None:
-                return match_object
-        return None
-
     def update_tournament_progression(self):
-        self.current_round_num = self.tournament.rounds[self.current_round_id].round_number
+        """Requests an update on tournament's rounds and matches progession."""
 
-        self.current_match_num = 1
+        self.update_current_round()
+        self.update_current_match()
+
+    def update_current_round(self):
+        """Updates current round number and unique id based on tournament's rounds completion."""
+
+        for round_id in self.tournament.rounds:
+            round_object = self.tournament.rounds[round_id]
+            if not self.is_round_finished(round_=round_object):
+                self.current_round_id = round_object.id_num
+                self.current_round_num = round_object.round_number
+            else:
+                if round_object.round_number > self.current_round_num:
+                    self.current_round_num = round_object.round_number
+                    self.current_round_id = round_object.id_num
+
+    def update_current_match(self):
+        """Updates current match number and unique id based on round's matches completion."""
+
+        self.current_match_num = 0
         current_round = self.tournament.rounds[self.current_round_id]
+
+        # Search if a match is not yet finished
         for match in current_round.matches:
-            if current_round.matches[match].winner is not None:
-                self.current_match_num += 1
+            self.current_match_num += 1
+            if current_round.matches[match].winner is None:
+                self.current_match_id = current_round.matches[match].id_num
+                return
+
+        # If all round's matches are finished, take the first match as none
+        # of them will be played.
+        first_match_id = list(current_round.matches.keys())[0]
+        self.current_match_id = first_match_id
 
     def is_round_finished(self, round_: Round):
+        """Verifies if a round is finished by iterating through its matches' winners.
+
+        Args:
+            round_ (Round): Round object to be verified.
+
+        Returns:
+            bool: Match is finished.
+        """
+
         matches = round_.matches
 
         for match_id in matches:
@@ -99,6 +141,12 @@ class TournamentHandler:
         return True
 
     def is_tournament_finished(self):
+        """Verifies if a tournament is finished by iterating through its rounds.
+
+        Returns:
+            bool: Tournament is finished.
+        """
+
         if len(self.tournament.rounds) < self.tournament.number_of_rounds:
             return False
 
@@ -112,6 +160,13 @@ class TournamentHandler:
         return True
 
     def save_winner(self, match: Match, winner: str):
+        """Takes the winner input by the user and saves it to the database.
+
+        Args:
+            match (Match): Match to be considered.
+            winner (str): Input of the user.
+        """
+
         if winner == "1":
             winner = 1
             _DATABASE_HANDLER.update_leaderboard(
