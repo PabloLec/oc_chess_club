@@ -49,7 +49,7 @@ class NewTournamentMenu:
         while len(self.location) == 0:
             self.location = typer.prompt("Lieu")
 
-        while not self.date_is_valid():
+        while not _HELPER.date_is_valid(date=self.date):
             self.date = typer.prompt("Date (JJ/MM/AAAA)")
 
         while not self.number_of_rounds.isnumeric():
@@ -73,21 +73,6 @@ class NewTournamentMenu:
 
             if _HELPER.player_exists(selected_id=selection, already_taken_ids=self.players):
                 self.players.append(int(selection))
-
-    def date_is_valid(self):
-        """Verifies if the date entered by the user is valid using datetime library.
-
-        Returns:
-            bool: The date exists.
-        """
-
-        try:
-            datetime.strptime(self.date, "%d/%m/%Y")
-            return True
-        except ValueError:
-            if len(self.date) > 0:
-                typer.secho("Date incorrecte", fg=typer.colors.RED)
-            return False
 
     def time_control_is_valid(self):
         """Verifies if the type of time control entered by the user is valid.

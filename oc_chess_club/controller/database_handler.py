@@ -63,7 +63,7 @@ class DatabaseHandler:
         last_name: str,
         dob: str,
         gender: str,
-        elo: str,
+        elo: int,
         id_num: int = 0,
         no_db_save: bool = False,
     ):
@@ -74,7 +74,7 @@ class DatabaseHandler:
             last_name (str): Player's last name.
             dob (str): Player's date of birth.
             gender (str): Player's gender.
-            elo (str): Player's ELO ranking.
+            elo (int): Player's ELO ranking.
             id_num (int, optional): Player's id. Defaults to 0.
             no_db_save (bool, optional): If the object only needs to be saved in memory, not in db. Defaults to False.
 
@@ -112,7 +112,7 @@ class DatabaseHandler:
                 "Last Name": player.last_name,
                 "DOB": player.dob,
                 "Gender": player.gender,
-                "ELO": player.elo,
+                "ELO": int(player.elo),
                 "id": int(player.id_num),
             },
             query.id == int(player.id_num),

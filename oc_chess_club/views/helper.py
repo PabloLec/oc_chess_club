@@ -1,5 +1,8 @@
 import typer
 
+from typing import Any
+from datetime import datetime
+
 from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
 
 
@@ -53,3 +56,100 @@ def player_exists(selected_id: str, already_taken_ids: list = []):
     typer.secho(f"Pas de joueur avec le numéro {selected_id}", fg=typer.colors.RED)
 
     return False
+
+
+def edit_prompt(field_title: str, value: Any):
+    display_current_value(field_title=field_title, value=value)
+
+    if ask_for_edit():
+        value = ""
+
+        if "date" in field_title.lower():
+            while not date_is_valid(date=value):
+                value = enter_new_value(field_title=field_title)
+        elif "genre" in field_title.lower():
+            while not gender_is_valid(gender=value):
+                value = enter_new_value(field_title=field_title)
+        elif "elo" in field_title.lower():
+            while not value.isnumeric():
+                value = enter_new_value(field_title=field_title)
+        else:
+            while len(value) == 0:
+                value = enter_new_value(field_title=field_title)
+
+    return value
+
+
+def display_current_value(field_title: str, value: Any):
+    """Displays the current value of a field.
+
+    Args:
+        field_title (str): Title to display.
+        value (Any): Value to display.
+    """
+
+    parameter = typer.style(f"\n{field_title}: ", bold=True)
+    typer.echo(parameter + str(value))
+
+
+def ask_for_edit():
+    """Asks the user for information edit.
+
+    Returns:
+        bool: User want to edit this field.
+    """
+
+    confirm = typer.confirm("Modifier cette information?")
+
+    return confirm
+
+
+def enter_new_value(field_title: str):
+    """Displays a prompt for a new value.
+
+    Args:
+        field_title (str): Title to display.
+
+    Returns:
+        str: New value given by the user.
+    """
+
+    new_value = typer.prompt(f"Entrez une nouvelle valeur pour '{field_title}'")
+
+    return new_value
+
+
+def date_is_valid(date: str):
+    """Verifies if the date entered by the user is valid using datetime library.
+
+    Returns:
+        bool: The date exists.
+    """
+
+    try:
+        datetime.strptime(date, "%d/%m/%Y")
+        return True
+    except ValueError:
+        if len(date) > 0:
+            typer.secho("Date incorrecte", fg=typer.colors.RED)
+        return False
+
+
+def gender_is_valid(gender: str):
+    """Verifies if the gender entered by the user is valid.
+
+    Returns:
+        bool: The gender is valid.
+    """
+
+    if len(gender) == 0:
+        return False
+    elif gender.lower() == "h":
+        gender = "H"
+        return True
+    elif gender.lower() == "f":
+        gender = "F"
+        return True
+    else:
+        typer.secho("Genre incorrect. Entrez H ou F.", fg=typer.colors.RED)
+        return False

@@ -1,8 +1,5 @@
 import typer
 
-from typing import Any
-from datetime import datetime
-
 from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
 import oc_chess_club.views.helper as _HELPER
 
@@ -43,125 +40,42 @@ class EditPlayerMenu:
     def select_first_name(self):
         """Handles player's first name edit."""
 
-        self.display_current_value(field_title="Prénom", value=self.selected_player.first_name)
-
-        if self.ask_for_edit():
-            self.selected_player.first_name = ""
-            while len(self.selected_player.first_name) == 0:
-                self.selected_player.first_name = self.enter_new_value(field_title="Prénom")
+        new_value = _HELPER.edit_prompt(field_title="Prénom", value=self.selected_player.first_name)
+        if new_value != self.selected_player.first_name:
+            self.modification_made = True
+            self.selected_player.first_name = new_value
 
     def select_last_name(self):
         """Handles player's last name edit."""
 
-        self.display_current_value(field_title="Nom de famille", value=self.selected_player.last_name)
-
-        if self.ask_for_edit():
-            self.selected_player.last_name = ""
-            while len(self.selected_player.last_name) == 0:
-                self.selected_player.last_name = self.enter_new_value(field_title="Nom de famille")
+        new_value = _HELPER.edit_prompt(field_title="Nom de famille", value=self.selected_player.last_name)
+        if new_value != self.selected_player.last_name:
+            self.modification_made = True
+            self.selected_player.last_name = new_value
 
     def select_dob(self):
         """Handles player's date of birth edit."""
 
-        self.display_current_value(field_title="Date de naissance", value=self.selected_player.dob)
-
-        if self.ask_for_edit():
-            self.selected_player.dob = ""
-            while not self.dob_is_valid():
-                self.selected_player.dob = self.enter_new_value(field_title="Date de naissance")
+        new_value = _HELPER.edit_prompt(field_title="Date de naissance", value=self.selected_player.dob)
+        if new_value != self.selected_player.dob:
+            self.modification_made = True
+            self.selected_player.dob = new_value
 
     def select_gender(self):
         """Handles player's gender edit."""
 
-        self.display_current_value(field_title="Genre", value=self.selected_player.gender)
-
-        if self.ask_for_edit():
-            self.selected_player.gender = ""
-            while not self.gender_is_valid():
-                self.selected_player.gender = self.enter_new_value(field_title="Genre")
+        new_value = _HELPER.edit_prompt(field_title="Genre", value=self.selected_player.gender)
+        if new_value != self.selected_player.gender:
+            self.modification_made = True
+            self.selected_player.gender = new_value
 
     def select_elo(self):
         """Handles player's ELo ranking edit."""
 
-        self.display_current_value(field_title="ELO", value=str(self.selected_player.elo))
-
-        if self.ask_for_edit():
-            self.selected_player.elo = ""
-            while not self.selected_player.elo.isnumeric():
-                self.selected_player.elo = self.enter_new_value(field_title="ELO")
-
-    def display_current_value(self, field_title: str, value: Any):
-        """Displays the current value of a player's information.
-
-        Args:
-            field_title (str): Title to display.
-            value (Any): Value to display.
-        """
-
-        parameter = typer.style(f"\n{field_title}: ", bold=True)
-        typer.echo(parameter + value)
-
-    def ask_for_edit(self):
-        """Asks the user for information edit.
-
-        Returns:
-            bool: User want to edit this field.
-        """
-
-        confirm = typer.confirm("Modifier cette information?")
-
-        if confirm:
+        new_value = _HELPER.edit_prompt(field_title="ELO", value=str(self.selected_player.elo))
+        if new_value != str(self.selected_player.elo):
             self.modification_made = True
-
-        return confirm
-
-    def enter_new_value(self, field_title: str):
-        """Displays a prompt for a new value.
-
-        Args:
-            field_title (str): Title to display.
-
-        Returns:
-            str: New value given by the user.
-        """
-
-        new_value = typer.prompt(f"Entrez une nouvelle valeur pour '{field_title}'")
-
-        return new_value
-
-    def dob_is_valid(self):
-        """Verifies if the date entered by the user is valid using datetime library.
-
-        Returns:
-            bool: The date exists.
-        """
-
-        try:
-            datetime.strptime(self.selected_player.dob, "%d/%m/%Y")
-            return True
-        except ValueError:
-            if len(self.selected_player.dob) > 0:
-                typer.secho("Date incorrecte", fg=typer.colors.RED)
-            return False
-
-    def gender_is_valid(self):
-        """Verifies if the gender entered by the user is valid.
-
-        Returns:
-            bool: The gender is valid.
-        """
-
-        if len(self.selected_player.gender) == 0:
-            return False
-        elif self.selected_player.gender.lower() == "h":
-            self.selected_player.gender = "H"
-            return True
-        elif self.selected_player.gender.lower() == "f":
-            self.selected_player.gender = "F"
-            return True
-        else:
-            typer.secho("Genre incorrect. Entrez H ou F.", fg=typer.colors.RED)
-            return False
+            self.selected_player.elo = new_value
 
     def confirm_settings(self):
         """Prompts the user to confirm the settings previously entered.

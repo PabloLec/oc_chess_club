@@ -2,6 +2,7 @@ import typer
 from datetime import datetime
 
 from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
+import oc_chess_club.views.helper as _HELPER
 
 
 class NewPlayerMenu:
@@ -40,48 +41,14 @@ class NewPlayerMenu:
         while len(self.last_name) == 0:
             self.last_name = typer.prompt("Nom de famille du joueur")
 
-        while not self.dob_is_valid():
+        while not _HELPER.date_is_valid(date=self.dob):
             self.dob = typer.prompt("Date de naissance (JJ/MM/AAAA)")
 
-        while not self.gender_is_valid():
+        while not _HELPER.gender_is_valid(gender=self.gender):
             self.gender = typer.prompt("Genre (H/F)")
 
         while not self.elo.isnumeric():
             self.elo = typer.prompt("ELO")
-
-    def dob_is_valid(self):
-        """Verifies if the date entered by the user is valid using datetime library.
-
-        Returns:
-            bool: The date exists.
-        """
-
-        try:
-            datetime.strptime(self.dob, "%d/%m/%Y")
-            return True
-        except ValueError:
-            if len(self.dob) > 0:
-                typer.secho("Date incorrecte", fg=typer.colors.RED)
-            return False
-
-    def gender_is_valid(self):
-        """Verifies if the gender entered by the user is valid.
-
-        Returns:
-            bool: The gender is valid.
-        """
-
-        if len(self.gender) == 0:
-            return False
-        elif self.gender.lower() == "h":
-            self.gender = "H"
-            return True
-        elif self.gender.lower() == "f":
-            self.gender = "F"
-            return True
-        else:
-            typer.secho("Genre incorrect. Entrez H ou F.", fg=typer.colors.RED)
-            return False
 
     def confirm_settings(self):
         """Prompts the user to confirm the settings previously entered.
@@ -121,7 +88,7 @@ class NewPlayerMenu:
             last_name=self.last_name,
             dob=self.dob,
             gender=self.gender,
-            elo=self.elo,
+            elo=int(self.elo),
         )
 
         typer.secho(f"Le joueur a été créé avec le numéro {created_player_id}.", fg=typer.colors.GREEN)

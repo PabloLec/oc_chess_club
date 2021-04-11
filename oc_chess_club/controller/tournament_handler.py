@@ -35,7 +35,6 @@ class TournamentHandler:
         self.current_match_id = 0
 
         self.resume_tournament()
-        print(self.tournament.rounds)
 
     def load_rounds_and_matches(self):
         """Uses database handler to load tournament's rounds and matches objects into memory."""
