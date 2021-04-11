@@ -3,6 +3,22 @@ from oc_chess_club.models.player import Player
 
 
 class Tournament:
+    """Model for tournament. All tournaments have rounds associated with them, these rounds have matches associated with them.
+
+    Attributes:
+        name (str): Tournament's name.
+        location (str): Tournament's physical location.
+        date (str): Tournament's date.
+        number_of_rounds (int): Number of rounds to be played.
+        time_control (str): Type of time control chosen.
+        description (str): Tournament's description.
+        id_num (int): Tournament's unique id.
+        is_finished (bool): Is the tournament finished ?
+        players (list[Player]): List of participating players.
+        leaderboard (dict): Tournament's leaderboard.
+        rounds (dict): All rounds associated with this tournament.
+    """
+
     def __init__(
         self,
         name: str,
@@ -16,6 +32,20 @@ class Tournament:
         players: list,
         leaderboard: dict,
     ):
+        """Constructor for Tournament.
+
+        Args:
+            name (str): Tournament's name.
+            location (str): Tournament's physical location.
+            date (str): Tournament's date.
+            number_of_rounds (int): Number of rounds to be played.
+            time_control (str): Type of time control chosen.
+            description (str): Tournament's description.
+            id_num (int): Tournament's unique id.
+            is_finished (bool): Is the tournament finished ?
+            players (list[Player]): List of participating players.
+            leaderboard (dict): Tournament's leaderboard.
+        """
 
         self.name = name
         self.location = location
@@ -47,7 +77,3 @@ class Tournament:
             stdout_content += started_round.__str__()
 
         return stdout_content
-
-    def add_player(self, player: Player):
-
-        self.players.append(player)

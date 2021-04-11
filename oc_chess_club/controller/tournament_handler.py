@@ -116,8 +116,8 @@ class TournamentHandler:
                 self.current_match_id = current_round.matches[match].id_num
                 return
 
-        # If all round's matches are finished, take the first match as none
-        # of them will be played.
+        # If all round's matches are finished, arbitrarily take the first match
+        # as none of them will be played.
         first_match_id = list(current_round.matches.keys())[0]
         self.current_match_id = first_match_id
 

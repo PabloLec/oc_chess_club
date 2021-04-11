@@ -1,5 +1,26 @@
 class Match:
+    """Model for match. All matches are associated with a round which is also associated with a tournament.
+
+    Attributes:
+        tournament_id (int): Unique id of the parent tournament.
+        round_id (int): Unique id of the parent round.
+        winner (int): Winner of the match. 1 for Player 1, 2 for Player 2, 0 for a draw and None if TBD.
+        id_num (int):  Unique id of this match.
+        player_1 (Player): Arbitrary first player.
+        player_2 (Player): Arbitrary second player.
+    """
+
     def __init__(self, players: tuple, tournament_id: int, round_id: int, winner: int, id_num: int):
+        """Constructor for Match.
+
+        Args:
+            players (tuple[Player]): The two participating players.
+            tournament_id (int):  Unique id of the parent tournament.
+            round_id (int): Unique id of the parent round.
+            winner (int): Winner of the match. 1 for Player 1, 2 for Player 2, 0 for a draw and None if TBD.
+            id_num (int): Unique id of this match.
+        """
+
         self.tournament_id = tournament_id
         self.round_id = round_id
         self.winner = winner

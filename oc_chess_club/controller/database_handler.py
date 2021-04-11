@@ -9,7 +9,7 @@ from oc_chess_club.controller.database_helper import DatabaseHelper
 
 
 class DatabaseHandler:
-    """Handles all operations related to the database including loading, creating and saving the different elements.
+    """Handles all operations related to the database including CRUD for the different db elements.
 
     Attributes:
         database (Database): Object encapsulating the database in TinyDB format and usable tournament related objects.
@@ -33,7 +33,7 @@ class DatabaseHandler:
         self.load_database()
 
     def load_database(self):
-        """Instantiates the different tables as object attributes and loads their content by creating corresponding objects."""
+        """Instantiates the different tables in attributes and loads their content by creating corresponding objects."""
 
         self.players_table = self.database.db.table("players")
         self.tournaments_table = self.database.db.table("tournaments")
@@ -82,6 +82,10 @@ class DatabaseHandler:
         Args:
             player (Player): Player object to be saved.
         """
+        # TO DO
+        pass
+
+    def delete_player(self, player: Player):
         # TO DO
         pass
 
@@ -136,11 +140,13 @@ class DatabaseHandler:
         if id_num == 0:
             id_num = self.find_next_id(self.tournaments_table)
 
+        # Create required list of Player objects from players ids.
         player_objects = []
 
         for player in players:
             player_objects.append(self.database.players[player])
 
+        # Create an empty leaderboard if it doesn't exist yet.
         if len(leaderboard) == 0:
             for player in players:
                 leaderboard[str(player)] = 0
@@ -193,6 +199,10 @@ class DatabaseHandler:
             },
             query.id == int(tournament.id_num),
         )
+
+    def delete_tournament(self, tournament: Tournament):
+        # TO DO
+        pass
 
     def load_rounds(self):
         """Uses TinyDB "Rounds" table to create Player objects."""
@@ -248,6 +258,10 @@ class DatabaseHandler:
             query.id == int(round_.id_num),
         )
 
+    def delete_round(self, round_: Round):
+        # TO DO
+        pass
+
     def load_matches(self):
         """Uses TinyDB "Matches" table to create Player objects."""
 
@@ -273,6 +287,7 @@ class DatabaseHandler:
             players (tuple): Tuple of the two facing players.
             tournament_id (int): Match's tournament id.
             round_id (int): Match's round id..
+
             winner (int): Match's winner. Either 1 (first player), 2 (second player) or 0 (draw).
             id_num (int, optional): Match's id. Defaults to 0.
         """
@@ -306,6 +321,10 @@ class DatabaseHandler:
             },
             query.id == int(match.id_num),
         )
+
+    def delete_match(self, match: Match):
+        # TO DO
+        pass
 
     def find_next_id(self, table: table.Table):
         """Searches through a TinyDB table for the next biggest id number.

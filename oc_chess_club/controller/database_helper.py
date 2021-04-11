@@ -14,7 +14,7 @@ class DatabaseHelper:
         """Lists all matches of a tournament.
 
         Args:
-            tournament (Tournament): Tounament objects.
+            tournament (Tournament): Tournament objects to be considered.
 
         Returns:
             list[tuple[Player]]: List of all matches' player pairing.

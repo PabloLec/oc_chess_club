@@ -6,7 +6,20 @@ from oc_chess_club.views.game import GameMenu
 
 
 class NewTournamentMenu:
+    """View for new tournament creation.
+
+    Attributes:
+        tournament_name (str): Name of the tournament.
+        location (str): Location of the tournament.
+        date (str): Date of the tournament.
+        number_of_rounds (str): Number of rounds to be played.
+        time_control (str): Type of time control.
+        description (str): Description of the tournament.
+        created_tournament_id (int): Unique id of the created tournament.
+    """
+
     def __init__(self):
+        """Constructor for NewTournamentMenu."""
 
         self.tournament_name = ""
         self.location = ""
@@ -24,6 +37,8 @@ class NewTournamentMenu:
         self.start_tournament()
 
     def settings_prompt(self):
+        """Prompts the user to input the different tournament settings."""
+
         typer.secho("Création d'un nouveau tournoi", fg=typer.colors.BLUE)
         typer.echo("Entrez les informations du tournoi\n")
 
@@ -46,6 +61,7 @@ class NewTournamentMenu:
             self.description = typer.prompt("Description")
 
     def add_players(self):
+        """Prompts the user to select the participating players."""
 
         typer.secho("\nEntrez le numéro d'un joueur à ajouter\n", fg=typer.colors.BLUE)
 
@@ -60,6 +76,16 @@ class NewTournamentMenu:
                 self.players.append(int(selection))
 
     def player_exists(self, available_players: list, selected_id: str):
+        """Verifies if the player selected by the user is available/exists.
+
+        Args:
+            available_players (list): Players the user can choose from.
+            selected_id (str): Player chosen by the user.
+
+        Returns:
+            bool: The user is selectable.
+        """
+
         if not selected_id.isnumeric():
             typer.secho("Entrez le numéro du joueur apparaissant devant son nom", fg=typer.colors.RED)
             return False
@@ -77,6 +103,12 @@ class NewTournamentMenu:
         return False
 
     def date_is_valid(self):
+        """Verifies if the date entered by the user is valid using datetime library.
+
+        Returns:
+            bool: The date exists.
+        """
+
         try:
             datetime.strptime(self.date, "%d/%m/%Y")
             return True
@@ -86,6 +118,12 @@ class NewTournamentMenu:
             return False
 
     def time_control_is_valid(self):
+        """Verifies if the type of time control entered by the user is valid.
+
+        Returns:
+            bool: Time control is valid.
+        """
+
         if self.time_control.lower() == "bullet":
             self.time_control = "Bullet"
             return True
@@ -101,6 +139,12 @@ class NewTournamentMenu:
             return False
 
     def confirm_settings(self):
+        """Prompts the user to confirm the settings previously entered.
+
+        Raises:
+            typer.Exit: Exits if the user cancels the creation.
+        """
+
         self.list_settings()
         self.list_participating_players()
 
@@ -110,6 +154,8 @@ class NewTournamentMenu:
             raise typer.Exit
 
     def list_settings(self):
+        """Displays all previously entered tournament settings."""
+
         typer.secho("\nParamètres du tournoi:", fg=typer.colors.BLUE)
 
         parameter = typer.style("Nom: ", bold=True)
@@ -126,6 +172,8 @@ class NewTournamentMenu:
         typer.echo(parameter + self.description)
 
     def list_participating_players(self):
+        """Displays selected participating players by their name."""
+
         typer.secho("\n Liste des joueurs: ", bold=True)
         for player in self.players:
             name = _DATABASE_HANDLER.helper.player_name_from_id(
@@ -134,6 +182,7 @@ class NewTournamentMenu:
             typer.echo(f" - {name}")
 
     def save_tournament(self):
+        """Uses database handler to save created tournament."""
 
         self.created_tournament_id = _DATABASE_HANDLER.create_tournament(
             name=self.tournament_name,
@@ -149,6 +198,8 @@ class NewTournamentMenu:
         typer.secho("Le tournoi a été créé.", fg=typer.colors.GREEN)
 
     def start_tournament(self):
+        """Starts created tournament if the user wants to."""
+
         confirm = typer.confirm("\nSouhaitez vous commencer le tournoi ?")
 
         if confirm:

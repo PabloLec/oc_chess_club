@@ -5,21 +5,43 @@ from oc_chess_club.models.match import Match
 
 
 class GameMenu:
+    """View displayed during a game.
+
+    Attributes:
+        tournament_handler (TournamentHandler): Object handling tournament genration, progression and saving.
+    """
+
     def __init__(self, tournament_id: int):
+        """Constructor for GameMenu. Initiates the match generation.
+
+        Args:
+            tournament_id (int): Unique id of the tournament to be played.
+        """
+
         self.tournament_handler = TournamentHandler(tournament_id=tournament_id)
         self.play()
 
     def play(self):
+        """Uses the match generating method of the tournament handler to display a match until tournament's ending."""
+
         while self.tournament_handler.match_generator() is not None:
             self.display_next_match(self.tournament_handler.match_generator())
 
     def display_next_match(self, match: Match):
+        """Initiates relevant info displays and prompts for a given Match.
+
+        Args:
+            match (Match): Match object to be displayed.
+        """
+
         self.display_tournament_progression()
         self.introduce_match(match=match)
         winner = self.ask_for_winner()
         self.tournament_handler.save_winner(match=match, winner=winner)
 
     def display_tournament_progression(self):
+        """Displays current tournament, round and match numbers."""
+
         self.tournament_handler.update_tournament_progression()
         decorator = typer.style(
             " - - ",
@@ -46,6 +68,12 @@ class GameMenu:
         typer.echo("\n" + decorator + tournament_num + separator + round_num + separator + match_num + decorator)
 
     def introduce_match(self, match: Match):
+        """Displays current match's players names and ELO ranking.
+
+        Args:
+            match (Match): Match to be played.
+        """
+
         player_1_title = typer.style(
             "Joueur 1: ",
             bold=True,
@@ -89,7 +117,14 @@ class GameMenu:
         typer.echo(player_1_full_presentation + versus + player_2_full_presentation)
 
     def ask_for_winner(self):
+        """Prompts the user to enter a winner.
+
+        Returns:
+            str: Winner of the match. ("1" for Player 1, "2" for Player 2, "nul" for a draw.)
+        """
+
         winner = ""
         while winner.lower() not in ["1", "2", "nul"]:
             winner = typer.prompt("Entrez le gagnant (1, 2, ou nul)")
+
         return winner.lower()

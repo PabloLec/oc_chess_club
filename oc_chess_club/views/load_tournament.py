@@ -5,13 +5,22 @@ from oc_chess_club.views.game import GameMenu
 
 
 class LoadTournamentMenu:
+    """View displayed for tournament loading.
+
+    Attributes:
+        available_tournaments (list): Unfinished tournaments available for loading.
+    """
+
     def __init__(self):
+        """Constructor for LoadTournamentMenu."""
+
         self.available_tournaments = []
 
         self.display_unfinished_tournaments()
         self.user_selection()
 
     def display_unfinished_tournaments(self):
+        """Uses database handler to find and display unfinished tournament for the user to choose from."""
 
         unfinished_tournaments = _DATABASE_HANDLER.find_unfinished_tournaments()
 
@@ -25,6 +34,8 @@ class LoadTournamentMenu:
             typer.echo(parameter + tournament["Date"] + "\n")
 
     def user_selection(self):
+        """Prompts the user to select a tournament to be loaded."""
+
         selection = typer.prompt("Entrez un numéro de tournoi")
 
         while not selection.isnumeric() or int(selection) not in self.available_tournaments:
@@ -35,4 +46,10 @@ class LoadTournamentMenu:
         self.start_tournament(int(selection))
 
     def start_tournament(self, tournament_id):
+        """Opens the Game Menu for selected tournament.
+
+        Args:
+            tournament_id (int): Unique id of the tournament to be loaded.
+        """
+
         GameMenu(tournament_id)
