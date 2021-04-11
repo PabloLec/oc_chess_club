@@ -4,6 +4,7 @@ from typing import Any
 from datetime import datetime
 
 from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
+import oc_chess_club.views.helper as _HELPER
 
 
 class EditPlayerMenu:
@@ -17,10 +18,9 @@ class EditPlayerMenu:
     def __init__(self):
         """Constructor for EditPlayerMenu."""
 
-        self.selected_player = None
+        self.selected_player = _HELPER.select_player()
         self.modification_made = False
 
-        self.select_player()
         self.select_edit()
 
         if self.modification_made:
@@ -28,44 +28,6 @@ class EditPlayerMenu:
             self.save_player()
         else:
             typer.secho("\nAucune modification effectuée.\n", fg=typer.colors.GREEN)
-
-    def select_player(self):
-        """Prompts the user to select a player in database."""
-
-        typer.secho("Liste des joueurs existants:\n", fg=typer.colors.BLUE)
-
-        all_players = _DATABASE_HANDLER.helper.get_players_by_id()
-
-        for player in all_players:
-            player_id = typer.style(str(player.id_num), bold=True)
-            typer.echo(f"{player_id}. {player.first_name} {player.last_name}")
-
-        selection = typer.prompt(f"Sélectionnez un joueur")
-
-        if self.player_exists(selected_id=selection):
-            self.selected_player = _DATABASE_HANDLER.helper.player_object_from_id_str(player_id=selection)
-
-    def player_exists(self, selected_id: str):
-        """Verifies if the player selected by the user exists.
-
-        Args:
-            available_players (list): Players the user can choose from.
-            selected_id (str): Player chosen by the user.
-
-        Returns:
-            bool: The user is selectable.
-        """
-
-        if not selected_id.isnumeric():
-            typer.secho("Entrez le numéro du joueur apparaissant devant son nom", fg=typer.colors.RED)
-            return False
-
-        if _DATABASE_HANDLER.helper.is_player_id_in_database(player_id=int(selected_id)):
-            return True
-
-        typer.secho(f"Pas de joueur avec le numéro {selected_id}", fg=typer.colors.RED)
-
-        return False
 
     def select_edit(self):
         """Enumerates all player's informations and asks for edit."""

@@ -2,6 +2,7 @@ import typer
 from datetime import datetime
 
 from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
+import oc_chess_club.views.helper as _HELPER
 from oc_chess_club.views.game import GameMenu
 
 
@@ -65,42 +66,13 @@ class NewTournamentMenu:
 
         typer.secho("\nEntrez le numéro d'un joueur à ajouter\n", fg=typer.colors.BLUE)
 
-        available_players = _DATABASE_HANDLER.helper.get_players_by_id()
-
-        for player in available_players:
-            player_id = typer.style(str(player.id_num), bold=True)
-            typer.echo(f"{player_id}. {player.first_name} {player.last_name}")
+        _HELPER.list_all_players()
 
         while len(self.players) < 8:
             selection = typer.prompt(f"Joueur ({str(len(self.players))}/8)")
 
-            if self.player_exists(selected_id=selection):
+            if _HELPER.player_exists(selected_id=selection, already_taken_ids=self.players):
                 self.players.append(int(selection))
-
-    def player_exists(self, selected_id: str):
-        """Verifies if the player selected by the user is available/exists.
-
-        Args:
-            selected_id (str): Player chosen by the user.
-
-        Returns:
-            bool: The user is selectable.
-        """
-
-        if not selected_id.isnumeric():
-            typer.secho("Entrez le numéro du joueur apparaissant devant son nom", fg=typer.colors.RED)
-            return False
-
-        if int(selected_id) in self.players:
-            typer.secho(f"Le joueur numéro {selected_id} a déjà été ajouté", fg=typer.colors.RED)
-            return False
-
-        if _DATABASE_HANDLER.helper.is_player_id_in_database(player_id=int(selected_id)):
-            return True
-
-        typer.secho(f"Pas de joueur avec le numéro {selected_id}", fg=typer.colors.RED)
-
-        return False
 
     def date_is_valid(self):
         """Verifies if the date entered by the user is valid using datetime library.

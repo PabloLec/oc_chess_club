@@ -1,6 +1,8 @@
 import typer
 
 from oc_chess_club.views.new_player import NewPlayerMenu
+from oc_chess_club.views.edit_player import EditPlayerMenu
+from oc_chess_club.views.delete_player import DeletePlayerMenu
 
 
 class PlayerMenu:
@@ -35,7 +37,9 @@ class PlayerMenu:
         if selection == "1":
             self.create_new_player()
         elif selection == "2":
-            self.load_tournament()
+            self.edit_player()
+        elif selection == "3":
+            self.delete_player()
         else:
             self.user_selection()
 
@@ -44,7 +48,12 @@ class PlayerMenu:
 
         NewPlayerMenu()
 
-    def modify_player(self):
-        """Opens the player modification menu."""
+    def edit_player(self):
+        """Opens the player editing menu."""
 
-        LoadTournamentMenu()
+        EditPlayerMenu()
+
+    def delete_player(self):
+        """Opens the player deletion menu."""
+
+        DeletePlayerMenu()

@@ -7,6 +7,7 @@ from oc_chess_club.views.load_tournament import LoadTournamentMenu
 from oc_chess_club.views.player_menu import PlayerMenu
 from oc_chess_club.views.new_player import NewPlayerMenu
 from oc_chess_club.views.edit_player import EditPlayerMenu
+from oc_chess_club.views.delete_player import DeletePlayerMenu
 
 _MAIN_TYPER_APP = typer.Typer()
 _TOURNAMENT_APP = typer.Typer()
@@ -52,3 +53,8 @@ def new_player_menu():
 @_PLAYER_APP.command("edit")
 def edit_player_menu():
     EditPlayerMenu()
+
+
+@_PLAYER_APP.command("delete")
+def delete_player_menu():
+    DeletePlayerMenu()
