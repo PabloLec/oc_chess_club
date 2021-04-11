@@ -22,16 +22,16 @@ class LoadTournamentMenu:
     def display_unfinished_tournaments(self):
         """Uses database handler to find and display unfinished tournament for the user to choose from."""
 
-        unfinished_tournaments = _DATABASE_HANDLER.find_unfinished_tournaments()
+        unfinished_tournaments = _DATABASE_HANDLER.helper.get_unfinished_tournaments()
 
         for tournament in unfinished_tournaments:
-            self.available_tournaments.append(tournament["id"])
+            self.available_tournaments.append(tournament.id_num)
 
-            typer.secho(f" - Tournoi n°{tournament['id']} -", fg=typer.colors.CYAN)
+            typer.secho(f" - Tournoi n°{tournament.id_num} -", fg=typer.colors.CYAN)
             parameter = typer.style("Nom: ", bold=True)
-            typer.echo(parameter + tournament["Name"])
+            typer.echo(parameter + tournament.name)
             parameter = typer.style("Date: ", bold=True)
-            typer.echo(parameter + tournament["Date"] + "\n")
+            typer.echo(parameter + tournament.date + "\n")
 
     def user_selection(self):
         """Prompts the user to select a tournament to be loaded."""

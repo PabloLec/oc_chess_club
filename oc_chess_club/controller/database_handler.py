@@ -24,7 +24,7 @@ class DatabaseHandler:
         """Constructor for DatabaseHandler Class. Initiates database loading."""
 
         self.database = Database("/home/pablo/openclassrooms/oc_chess_club/oc_chess_club/bdd_test.json")
-        self.helper = DatabaseHelper()
+        self.helper = DatabaseHelper(database=self.database)
 
         self.players_table = None
         self.tournaments_table = None
@@ -54,9 +54,19 @@ class DatabaseHandler:
                 gender=player["Gender"],
                 elo=player["ELO"],
                 id_num=player["id"],
+                no_db_save=True,
             )
 
-    def create_player(self, first_name: str, last_name: str, dob: str, gender: str, elo: str, id_num: int = 0):
+    def create_player(
+        self,
+        first_name: str,
+        last_name: str,
+        dob: str,
+        gender: str,
+        elo: str,
+        id_num: int = 0,
+        no_db_save: bool = False,
+    ):
         """Creates a Player object and saves it into Database attributes.
 
         Args:
@@ -66,22 +76,47 @@ class DatabaseHandler:
             gender (str): Player's gender.
             elo (str): Player's ELO ranking.
             id_num (int, optional): Player's id. Defaults to 0.
+            no_db_save (bool, optional): If the object only needs to be saved in memory, not in db. Defaults to False.
+
+        Returns:
+            int: Created player's id.
         """
 
         if id_num == 0:
             id_num = self.find_next_id(self.players_table)
 
         player = Player(first_name, last_name, dob, gender, elo, id_num)
-        self.database.players[player.id_num] = player
 
-    def save_player(self, player: Player):
+        self.save_player(player=player, no_db_save=no_db_save)
+
+        return id_num
+
+    def save_player(self, player: Player, no_db_save: bool = False):
         """Saves a Player object to TinyDB.
 
         Args:
             player (Player): Player object to be saved.
+            no_db_save (bool, optional): If the object only needs to be saved in memory, not in db. Defaults to False.
         """
-        # TO DO
-        pass
+
+        self.database.players[player.id_num] = player
+
+        if no_db_save:
+            return
+
+        query = Query()
+
+        self.players_table.upsert(
+            {
+                "First Name": player.first_name,
+                "Last Name": player.last_name,
+                "DOB": player.dob,
+                "Gender": player.gender,
+                "ELO": player.elo,
+                "id": int(player.id_num),
+            },
+            query.id == int(player.id_num),
+        )
 
     def delete_player(self, player: Player):
         # TO DO
@@ -170,7 +205,7 @@ class DatabaseHandler:
         return id_num
 
     def save_tournament(self, tournament: Tournament, no_db_save: bool = False):
-        """Saves a Tournament object to TinyDB.
+        """Saves a Tournament object to memory and TinyDB.
 
         Args:
             tournament (Tournament): Tournament object to be saved.
@@ -250,7 +285,7 @@ class DatabaseHandler:
         return id_num
 
     def save_round(self, round_: Round, no_db_save: bool = False):
-        """Saves a Round object to TinyDB.
+        """Saves a Round object to memory and TinyDB.
 
         Args:
             round_ (Round): Round object to be saved. Underscore added because of reserved keyword.
@@ -331,7 +366,7 @@ class DatabaseHandler:
         self.save_match(match=match, no_db_save=no_db_save)
 
     def save_match(self, match: Match, no_db_save: bool = False):
-        """Saves a Match object to TinyDB.
+        """Saves a Match object to memory and TinyDB.
 
         Args:
             match (Match): Match object to be saved.

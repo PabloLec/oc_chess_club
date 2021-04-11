@@ -110,8 +110,8 @@ class TournamentGenerator:
                 id_1 = sorted_players[0]
                 id_2 = sorted_players[opponent]
 
-                player_1 = _DATABASE_HANDLER.helper.player_object_from_id_str(players=self.players, player_id=id_1)
-                player_2 = _DATABASE_HANDLER.helper.player_object_from_id_str(players=self.players, player_id=id_2)
+                player_1 = _DATABASE_HANDLER.helper.player_object_from_id_str(player_id=id_1)
+                player_2 = _DATABASE_HANDLER.helper.player_object_from_id_str(player_id=id_2)
 
                 if not self.players_have_already_met(matches=matches, id_1=id_1, id_2=id_2):
                     matches.append((player_1, player_2))

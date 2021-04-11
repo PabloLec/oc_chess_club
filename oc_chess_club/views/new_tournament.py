@@ -65,21 +65,22 @@ class NewTournamentMenu:
 
         typer.secho("\nEntrez le numéro d'un joueur à ajouter\n", fg=typer.colors.BLUE)
 
-        available_players = _DATABASE_HANDLER.helper.sort_players_by_id(players=_DATABASE_HANDLER.database.players)
+        available_players = _DATABASE_HANDLER.helper.get_players_by_id()
+
         for player in available_players:
             player_id = typer.style(str(player.id_num), bold=True)
             typer.echo(f"{player_id}. {player.first_name} {player.last_name}")
 
         while len(self.players) < 8:
             selection = typer.prompt(f"Joueur ({str(len(self.players))}/8)")
-            if self.player_exists(available_players=available_players, selected_id=selection):
+
+            if self.player_exists(selected_id=selection):
                 self.players.append(int(selection))
 
-    def player_exists(self, available_players: list, selected_id: str):
+    def player_exists(self, selected_id: str):
         """Verifies if the player selected by the user is available/exists.
 
         Args:
-            available_players (list): Players the user can choose from.
             selected_id (str): Player chosen by the user.
 
         Returns:
@@ -94,9 +95,8 @@ class NewTournamentMenu:
             typer.secho(f"Le joueur numéro {selected_id} a déjà été ajouté", fg=typer.colors.RED)
             return False
 
-        for player in available_players:
-            if int(selected_id) == player.id_num:
-                return True
+        if _DATABASE_HANDLER.helper.is_player_id_in_database(player_id=int(selected_id)):
+            return True
 
         typer.secho(f"Pas de joueur avec le numéro {selected_id}", fg=typer.colors.RED)
 
@@ -198,7 +198,7 @@ class NewTournamentMenu:
         typer.secho("Le tournoi a été créé.", fg=typer.colors.GREEN)
 
     def start_tournament(self):
-        """Starts created tournament if the user wants to."""
+        """Starts created tournament if the user select so."""
 
         confirm = typer.confirm("\nSouhaitez vous commencer le tournoi ?")
 
