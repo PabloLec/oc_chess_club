@@ -35,9 +35,18 @@ class TournamentHandler:
         self.current_match_id = 0
 
         self.resume_tournament()
+        print(self.tournament.rounds)
+
+    def load_rounds_and_matches(self):
+        """Uses database handler to load tournament's rounds and matches objects into memory."""
+
+        _DATABASE_HANDLER.load_rounds(tournament_id=self.tournament.id_num)
+        _DATABASE_HANDLER.load_matches(tournament_id=self.tournament.id_num)
 
     def resume_tournament(self):
         """Creates the first round if needed and requests a first progression update."""
+
+        self.load_rounds_and_matches()
 
         if len(self.tournament.rounds) == 0:
             self.create_round()
@@ -56,6 +65,9 @@ class TournamentHandler:
         current_round = self.tournament.rounds[self.current_round_id]
 
         if self.is_round_finished(round_=current_round):
+            if self.is_tournament_finished():
+                return None
+
             self.create_round()
             self.update_tournament_progression()
             current_round = self.tournament.rounds[self.current_round_id]

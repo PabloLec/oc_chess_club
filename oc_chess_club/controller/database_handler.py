@@ -42,8 +42,6 @@ class DatabaseHandler:
 
         self.load_players()
         self.load_tournaments()
-        self.load_rounds()
-        self.load_matches()
 
     def load_players(self):
         """Uses TinyDB "Players" table to create Player objects."""
@@ -104,6 +102,7 @@ class DatabaseHandler:
                 is_finished=tournament["Is Finished"],
                 players=tournament["Players"],
                 leaderboard=tournament["Leaderboard"],
+                no_db_save=True,
             )
 
     def create_tournament(
@@ -118,6 +117,7 @@ class DatabaseHandler:
         leaderboard: dict,
         id_num: int = 0,
         is_finished: bool = False,
+        no_db_save: bool = False,
     ):
         """Creates a Tournament object and saves it into Database attributes.
 
@@ -131,7 +131,8 @@ class DatabaseHandler:
             players (list[int]): Participating players ids.
             leaderboard (dict): Tournament's leaderboard.
             id_num (int, optional): Tournament's id. Defaults to 0.
-            is_finished (bool, optional): Is tournament finished.. Defaults to False.
+            is_finished (bool, optional): Is tournament finished. Defaults to False.
+            no_db_save (bool, optional): If the object only needs to be saved in memory, not in db. Defaults to False.
 
         Returns:
             int: Created tournament's id.
@@ -164,18 +165,22 @@ class DatabaseHandler:
             leaderboard=leaderboard,
         )
 
-        self.save_tournament(tournament=tournament)
+        self.save_tournament(tournament=tournament, no_db_save=no_db_save)
 
         return id_num
 
-    def save_tournament(self, tournament: Tournament):
+    def save_tournament(self, tournament: Tournament, no_db_save: bool = False):
         """Saves a Tournament object to TinyDB.
 
         Args:
             tournament (Tournament): Tournament object to be saved.
+            no_db_save (bool, optional): If the object only needs to be saved in memory, not in db. Defaults to False.
         """
 
         self.database.tournaments[tournament.id_num] = tournament
+
+        if no_db_save:
+            return
 
         query = Query()
 
@@ -204,26 +209,32 @@ class DatabaseHandler:
         # TO DO
         pass
 
-    def load_rounds(self):
-        """Uses TinyDB "Rounds" table to create Player objects."""
+    def load_rounds(self, tournament_id: int):
+        """Uses TinyDB "Rounds" table to create Round objects for one particular tournament.
+
+        Args:
+            tournament_id (int): Tournament to be considered.
+        """
 
         for round_ in self.rounds_table:
+            if round_["Tournament id"] != tournament_id:
+                continue
+
             self.create_round(
-                round_number=round_["Round number"], tournament_id=round_["Tournament id"], id_num=round_["id"]
+                round_number=round_["Round number"],
+                tournament_id=round_["Tournament id"],
+                id_num=round_["id"],
+                no_db_save=True,
             )
 
-    def create_round(
-        self,
-        round_number: int,
-        tournament_id: int,
-        id_num: int = 0,
-    ):
+    def create_round(self, round_number: int, tournament_id: int, id_num: int = 0, no_db_save: bool = False):
         """Creates a Round object and saves it into Database attributes.
 
         Args:
             round_number (int): Ordered round number.
             tournament_id (int): Round's tournament id.
             id_num (int, optional): Round id. Defaults to 0.
+            no_db_save (bool, optional): If the object only needs to be saved in memory, not in db. Defaults to False.
 
         Returns:
             int: Created round id.
@@ -234,18 +245,22 @@ class DatabaseHandler:
 
         created_round = Round(round_number=round_number, tournament_id=tournament_id, id_num=id_num)
 
-        self.save_round(round_=created_round)
+        self.save_round(round_=created_round, no_db_save=no_db_save)
 
         return id_num
 
-    def save_round(self, round_: Round):
+    def save_round(self, round_: Round, no_db_save: bool = False):
         """Saves a Round object to TinyDB.
 
         Args:
             round_ (Round): Round object to be saved. Underscore added because of reserved keyword.
+            no_db_save (bool, optional): If the object only needs to be saved in memory, not in db. Defaults to False.
         """
 
         self.database.tournaments[round_.tournament_id].rounds[round_.id_num] = round_
+
+        if no_db_save:
+            return
 
         query = Query()
 
@@ -262,10 +277,16 @@ class DatabaseHandler:
         # TO DO
         pass
 
-    def load_matches(self):
-        """Uses TinyDB "Matches" table to create Player objects."""
+    def load_matches(self, tournament_id: int):
+        """Uses TinyDB "Matches" table to create Match objects for one particular tournament.
+
+        Args:
+            tournament_id (int): Tournament to be considered.
+        """
 
         for match in self.matches_table:
+            if match["Tournament id"] != tournament_id:
+                continue
 
             player_1 = self.database.players[match["Player 1"]]
             player_2 = self.database.players[match["Player 2"]]
@@ -278,9 +299,12 @@ class DatabaseHandler:
                 round_id=match["Round id"],
                 winner=match["Winner"],
                 id_num=match["id"],
+                no_db_save=True,
             )
 
-    def create_match(self, players: tuple, tournament_id: int, round_id: int, winner: int, id_num: int = 0):
+    def create_match(
+        self, players: tuple, tournament_id: int, round_id: int, winner: int, id_num: int = 0, no_db_save: bool = False
+    ):
         """Creates a Match object and saves it into Database attributes.
 
         Args:
@@ -290,23 +314,34 @@ class DatabaseHandler:
 
             winner (int): Match's winner. Either 1 (first player), 2 (second player) or 0 (draw).
             id_num (int, optional): Match's id. Defaults to 0.
+            no_db_save (bool, optional): If the object only needs to be saved in memory, not in db. Defaults to False.
         """
 
         if id_num == 0:
             id_num = self.find_next_id(self.matches_table)
 
-        match = Match(players=players, tournament_id=tournament_id, round_id=round_id, winner=winner, id_num=id_num)
+        match = Match(
+            players=players,
+            tournament_id=tournament_id,
+            round_id=round_id,
+            winner=winner,
+            id_num=id_num,
+        )
 
-        self.save_match(match=match)
+        self.save_match(match=match, no_db_save=no_db_save)
 
-    def save_match(self, match: Match):
+    def save_match(self, match: Match, no_db_save: bool = False):
         """Saves a Match object to TinyDB.
 
         Args:
             match (Match): Match object to be saved.
+            no_db_save (bool, optional): If the object only needs to be saved in memory, not in db. Defaults to False.
         """
 
         self.database.tournaments[match.tournament_id].rounds[match.round_id].matches[match.id_num] = match
+
+        if no_db_save:
+            return
 
         query = Query()
 
