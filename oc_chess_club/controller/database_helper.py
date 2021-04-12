@@ -40,6 +40,45 @@ class DatabaseHelper:
 
         return match_list
 
+    def is_tournament_db_empty(self):
+        """Verifies if there is no tournament in database.
+
+        Returns:
+            bool: No tournament in database.
+        """
+
+        if len(self.database.tournaments) == 0:
+            return True
+        else:
+            return False
+
+    def is_player_db_empty(self):
+        """Verifies if there is no player in database.
+
+        Returns:
+            bool: No player in database.
+        """
+
+        if len(self.database.players) == 0:
+            return True
+        else:
+            return False
+
+    def is_tournament_id_in_database(self, tournament_id: int):
+        """Verifies if a given tournament id exists in database.
+
+        Args:
+            tournament_id (int): Tournament id to verify.
+
+        Returns:
+            bool: Tournament id exists in database.
+        """
+
+        if tournament_id in self.database.tournaments:
+            return True
+        else:
+            return False
+
     def is_player_id_in_database(self, player_id: int):
         """Verifies if a given player id exists in database.
 
@@ -51,30 +90,61 @@ class DatabaseHelper:
         """
 
         if player_id in self.database.players:
-            return True
+            if self.database.players[player_id].is_deleted:
+                return False
+            else:
+                return True
         else:
             return False
 
     def get_players_by_id(self):
-        """Takes a dict of players, typically from a round attribute, and sort them by id.
-
-        Args:
-            players (dict): Players to be sorted.
+        """Lists all database players sorted by id.
 
         Returns:
-            list:  List og players ordered by id.
+            list:  List of all players ordered by id.
         """
 
         ordered_ids = sorted(self.database.players, key=lambda x: x)
 
         ordered_players = []
         for id_num in ordered_ids:
+            if self.database.players[id_num].is_deleted:
+                continue
             ordered_players.append(self.database.players[id_num])
 
         return ordered_players
 
+    def get_tournaments_by_id(self):
+        """Lists all database tournaments sorted by id.
+
+        Returns:
+            list:  List of all tournaments ordered by id.
+        """
+
+        ordered_ids = sorted(self.database.tournaments, key=lambda x: x)
+
+        ordered_tournaments = []
+        for id_num in ordered_ids:
+            ordered_tournaments.append(self.database.tournaments[id_num])
+
+        return ordered_tournaments
+
+    def tournament_object_from_id_str(self, tournament_id: str):
+        """Searches through all of tournaments to find requested tournament.
+
+        Args:
+            tournament_id (str): Id of tournament to be searched.
+
+        Returns:
+            Tournament: Requested Tournament object.
+        """
+
+        for tournament in self.database.tournaments:
+            if str(tournament) == tournament_id:
+                return self.database.tournaments[tournament]
+
     def player_object_from_id_str(self, player_id: str):
-        """Searches through a list of players to find requested player.
+        """Searches through all players to find requested player.
 
         Args:
             player_id (str): Id of player to be searched.
@@ -142,6 +212,8 @@ class DatabaseHelper:
         players_list = []
 
         for player_id in self.database.players:
+            if self.database.players[id_num].is_deleted:
+                continue
             players_list.append(self.database.players[player_id])
 
         return players_list

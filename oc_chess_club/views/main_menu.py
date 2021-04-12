@@ -1,6 +1,7 @@
 import typer
 
-from oc_chess_club.views.tournament_menu import TournamentMenu
+from oc_chess_club.views.tournament_views import TournamentMenu
+from oc_chess_club.views.player_views import PlayerMenu
 
 
 class MainMenu:
@@ -8,6 +9,9 @@ class MainMenu:
 
     def __init__(self):
         """Constructor for MainMenu."""
+
+        typer.echo("\n")
+        typer.secho("MENU PRINCIPAL", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True)
 
         self.print_menu()
         self.user_selection()
@@ -21,18 +25,20 @@ class MainMenu:
         number = typer.style("2. ", bold=True)
         typer.echo(number + "Gérer les joueurs")
 
+        number = typer.style("\n0. ", bold=True)
+        typer.echo(number + "Quitter")
+
     def user_selection(self):
         """Prompts the user to select an option."""
 
-        selection = typer.prompt("Entrez votre sélection: ")
+        selection = typer.prompt("\nEntrez votre sélection: ")
         typer.echo("\n")
 
-        if selection == "1":
-            self.open_tournament_menu()
+        if selection == "0":
+            typer.Exit()
+        elif selection == "1":
+            TournamentMenu()
+        elif selection == "2":
+            PlayerMenu()
         else:
             self.user_selection()
-
-    def open_tournament_menu(self):
-        """Opens the tournament menu."""
-
-        TournamentMenu()

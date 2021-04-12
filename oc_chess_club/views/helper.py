@@ -3,11 +3,26 @@ import typer
 from typing import Any
 from datetime import datetime
 
-from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
+from oc_chess_club.controller.database_handler import DatabaseHandler
+import oc_chess_club.views.main_menu as _MAIN_MENU
+import oc_chess_club.views.player_views as _PLAYER_VIEWS
+import oc_chess_club.views.tournament_views as _TOURNAMENT_VIEWS
+
+
+def go_back(current_view: str):
+    if current_view in ["TournamentMenu", "PlayerMenu"]:
+        _MAIN_MENU.MainMenu()
+    elif current_view in ["NewTournamentMenu", "LoadTournamentMenu", "EditTournamentMenu", "DeleteTournamentMenu"]:
+        _TOURNAMENT_VIEWS.TournamentMenu()
+    elif current_view in ["NewPlayerMenu", "EditPlayerMenu", "DeletePlayerMenu"]:
+        _PLAYER_VIEWS.PlayerMenu()
 
 
 def select_player():
     """Prompts the user to select a player in database."""
+
+    if DatabaseHandler().helper.is_player_db_empty():
+        return None
 
     list_all_players()
 
@@ -15,17 +30,77 @@ def select_player():
     while not player_exists(selected_id=selection):
         selection = typer.prompt(f"Sélectionnez un joueur")
 
-    return _DATABASE_HANDLER.helper.player_object_from_id_str(player_id=selection)
+    return DatabaseHandler().helper.player_object_from_id_str(player_id=selection)
+
+
+def select_tournament():
+    """Prompts the user to select a tournament in database."""
+
+    if DatabaseHandler().helper.is_tournament_db_empty():
+        return None
+
+    list_all_tournaments()
+
+    selection = ""
+    while not tournament_exists(selected_id=selection):
+        selection = typer.prompt(f"Sélectionnez un tournoi")
+
+    return DatabaseHandler().helper.tournament_object_from_id_str(tournament_id=selection)
+
+
+def list_all_tournaments():
+    """Lists all existing tournaments."""
+
+    if DatabaseHandler().helper.is_tournament_db_empty():
+        typer.secho("Aucun tournoi créé.", fg=typer.colors.RED)
+        return
+
+    typer.secho("Liste des tournois existants:\n", fg=typer.colors.BLUE)
+
+    all_tournaments = DatabaseHandler().helper.get_tournaments_by_id()
+
+    for tournament in all_tournaments:
+        tournament_id = typer.style(str(tournament.id_num), bold=True)
+        if tournament.is_finished:
+            is_finished = typer.style(" -> Terminé", fg=typer.colors.YELLOW)
+        else:
+            is_finished = ""
+        typer.echo(f"{tournament.id_num}. {tournament.name} - {tournament.date}" + is_finished)
 
 
 def list_all_players():
     typer.secho("Liste des joueurs existants:\n", fg=typer.colors.BLUE)
 
-    all_players = _DATABASE_HANDLER.helper.get_players_by_id()
+    all_players = DatabaseHandler().helper.get_players_by_id()
 
     for player in all_players:
         player_id = typer.style(str(player.id_num), bold=True)
         typer.echo(f"{player_id}. {player.first_name} {player.last_name}")
+
+
+def tournament_exists(selected_id: str):
+    """Verifies if the tournament selected by the user exists.
+
+    Args:
+        selected_id (str): Tournament chosen by the user.
+
+    Returns:
+        bool: The tournament is selectable.
+    """
+
+    if len(selected_id) == 0:
+        return False
+
+    if not selected_id.isnumeric():
+        typer.secho("Entrez le numéro du tournoi apparaissant devant son nom", fg=typer.colors.RED)
+        return False
+
+    if DatabaseHandler().helper.is_tournament_id_in_database(tournament_id=int(selected_id)):
+        return True
+
+    typer.secho(f"Pas de tournoi avec le numéro {selected_id}", fg=typer.colors.RED)
+
+    return False
 
 
 def player_exists(selected_id: str, already_taken_ids: list = []):
@@ -50,7 +125,7 @@ def player_exists(selected_id: str, already_taken_ids: list = []):
         typer.secho(f"Le joueur numéro {selected_id} a déjà été ajouté", fg=typer.colors.RED)
         return False
 
-    if _DATABASE_HANDLER.helper.is_player_id_in_database(player_id=int(selected_id)):
+    if DatabaseHandler().helper.is_player_id_in_database(player_id=int(selected_id)):
         return True
 
     typer.secho(f"Pas de joueur avec le numéro {selected_id}", fg=typer.colors.RED)
@@ -61,21 +136,23 @@ def player_exists(selected_id: str, already_taken_ids: list = []):
 def edit_prompt(field_title: str, value: Any):
     display_current_value(field_title=field_title, value=value)
 
-    if ask_for_edit():
-        value = ""
+    if not ask_for_edit():
+        return value
 
-        if "date" in field_title.lower():
-            while not date_is_valid(date=value):
-                value = enter_new_value(field_title=field_title)
-        elif "genre" in field_title.lower():
-            while not gender_is_valid(gender=value):
-                value = enter_new_value(field_title=field_title)
-        elif "elo" in field_title.lower():
-            while not value.isnumeric():
-                value = enter_new_value(field_title=field_title)
-        else:
-            while len(value) == 0:
-                value = enter_new_value(field_title=field_title)
+    value = ""
+
+    if "date" in field_title.lower():
+        while not date_is_valid(date=value):
+            value = enter_new_value(field_title=field_title)
+    elif "genre" in field_title.lower():
+        while not gender_is_valid(gender=value):
+            value = enter_new_value(field_title=field_title)
+    elif "elo" in field_title.lower():
+        while not value.isnumeric():
+            value = enter_new_value(field_title=field_title)
+    else:
+        while len(value) == 0:
+            value = enter_new_value(field_title=field_title)
 
     return value
 

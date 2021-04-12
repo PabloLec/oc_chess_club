@@ -1,13 +1,8 @@
 import typer
 
 from oc_chess_club.views.main_menu import MainMenu
-from oc_chess_club.views.tournament_menu import TournamentMenu
-from oc_chess_club.views.new_tournament import NewTournamentMenu
-from oc_chess_club.views.load_tournament import LoadTournamentMenu
-from oc_chess_club.views.player_menu import PlayerMenu
-from oc_chess_club.views.new_player import NewPlayerMenu
-from oc_chess_club.views.edit_player import EditPlayerMenu
-from oc_chess_club.views.delete_player import DeletePlayerMenu
+import oc_chess_club.views.tournament_views as _TOURNAMENT_VIEWS
+import oc_chess_club.views.player_views as _PLAYER_VIEWS
 
 _MAIN_TYPER_APP = typer.Typer()
 _TOURNAMENT_APP = typer.Typer()
@@ -24,37 +19,47 @@ def load_main_menu(ctx: typer.Context):
 
 
 @_TOURNAMENT_APP.callback(invoke_without_command=True)
-def load_tournament_menu(ctx: typer.Context):
+def tournament_menu(ctx: typer.Context):
     if ctx.invoked_subcommand is None:
-        TournamentMenu()
+        _TOURNAMENT_VIEWS.TournamentMenu()
 
 
 @_TOURNAMENT_APP.command("new")
 def new_tournament_menu():
-    NewTournamentMenu()
+    _TOURNAMENT_VIEWS.NewTournamentMenu()
 
 
 @_TOURNAMENT_APP.command("load")
 def load_existing_tournament_menu():
-    LoadTournamentMenu()
+    _TOURNAMENT_VIEWS.LoadTournamentMenu()
+
+
+@_TOURNAMENT_APP.command("edit")
+def edit_tournament_menu():
+    _TOURNAMENT_VIEWS.EditTournamentMenu()
+
+
+@_TOURNAMENT_APP.command("delete")
+def delete_tournament_menu():
+    _TOURNAMENT_VIEWS.DeleteTournamentMenu()
 
 
 @_PLAYER_APP.callback(invoke_without_command=True)
 def load_player_menu(ctx: typer.Context):
     if ctx.invoked_subcommand is None:
-        PlayerMenu()
+        _PLAYER_VIEWS.PlayerMenu()
 
 
 @_PLAYER_APP.command("new")
 def new_player_menu():
-    NewPlayerMenu()
+    _PLAYER_VIEWS.NewPlayerMenu()
 
 
 @_PLAYER_APP.command("edit")
 def edit_player_menu():
-    EditPlayerMenu()
+    _PLAYER_VIEWS.EditPlayerMenu()
 
 
 @_PLAYER_APP.command("delete")
 def delete_player_menu():
-    DeletePlayerMenu()
+    _PLAYER_VIEWSDeletePlayerMenu()

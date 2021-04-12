@@ -8,7 +8,22 @@ from oc_chess_club.models.match import Match
 from oc_chess_club.controller.database_helper import DatabaseHelper
 
 
-class DatabaseHandler:
+class SingletonMeta(type):
+    """Meta for singleton application. As DataHandler will be used by different modules there is
+    no need to load the database multiple time.
+    Singleton was kept simple and is currently not thread safe.
+    """
+
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+
+class DatabaseHandler(metaclass=SingletonMeta):
     """Handles all operations related to the database including CRUD for the different db elements.
 
     Attributes:
@@ -54,6 +69,7 @@ class DatabaseHandler:
                 gender=player["Gender"],
                 elo=player["ELO"],
                 id_num=player["id"],
+                is_deleted=player["Is Deleted"],
                 no_db_save=True,
             )
 
@@ -65,6 +81,7 @@ class DatabaseHandler:
         gender: str,
         elo: int,
         id_num: int = 0,
+        is_deleted: bool = False,
         no_db_save: bool = False,
     ):
         """Creates a Player object and saves it into Database attributes.
@@ -76,6 +93,7 @@ class DatabaseHandler:
             gender (str): Player's gender.
             elo (int): Player's ELO ranking.
             id_num (int, optional): Player's id. Defaults to 0.
+            is_deleted (bool, optional): Is player deleted. Defaults to False.
             no_db_save (bool, optional): If the object only needs to be saved in memory, not in db. Defaults to False.
 
         Returns:
@@ -85,7 +103,7 @@ class DatabaseHandler:
         if id_num == 0:
             id_num = self.find_next_id(self.players_table)
 
-        player = Player(first_name, last_name, dob, gender, elo, id_num)
+        player = Player(first_name, last_name, dob, gender, elo, id_num, is_deleted)
 
         self.save_player(player=player, no_db_save=no_db_save)
 
@@ -114,13 +132,21 @@ class DatabaseHandler:
                 "Gender": player.gender,
                 "ELO": int(player.elo),
                 "id": int(player.id_num),
+                "Is Deleted": player.is_deleted,
             },
             query.id == int(player.id_num),
         )
 
     def delete_player(self, player: Player):
-        # TO DO
-        pass
+        """Delete a player by setting a flag. User must persist in database for tournament history.
+
+        Args:
+            player (Player): Player to be deleted.
+        """
+
+        player.is_deleted = True
+
+        self.save_player(player=player)
 
     def load_tournaments(self):
         """Uses TinyDB "Tournaments" table to create Player objects."""
@@ -241,8 +267,23 @@ class DatabaseHandler:
         )
 
     def delete_tournament(self, tournament: Tournament):
-        # TO DO
-        pass
+        """Deletes a tournament in database.
+
+        Args:
+            tournament (Tournament): Tournament to be deleted
+        """
+
+        if len(tournament.rounds) == 0:
+            self.load_rounds(tournament_id=tournament.id_num)
+            self.load_matches(tournament_id=tournament.id_num)
+
+        for round_ in tournament.rounds:
+            self.delete_round(round_=tournament.rounds[round_])
+
+        query = Query()
+        self.tournaments_table.remove(query.id == int(tournament.id_num))
+
+        del self.database.tournaments[int(tournament.id_num)]
 
     def load_rounds(self, tournament_id: int):
         """Uses TinyDB "Rounds" table to create Round objects for one particular tournament.
@@ -309,8 +350,19 @@ class DatabaseHandler:
         )
 
     def delete_round(self, round_: Round):
-        # TO DO
-        pass
+        """Deletes a round in database.
+
+        Args:
+            round_ (Round): Round to be deleted.
+        """
+
+        for match in round_.matches:
+            self.delete_match(match=round_.matches[match])
+
+        query = Query()
+        self.rounds_table.remove(query.id == int(round_.id_num))
+
+        del self.database.rounds[round_.id_num]
 
     def load_matches(self, tournament_id: int):
         """Uses TinyDB "Matches" table to create Match objects for one particular tournament.
@@ -393,8 +445,15 @@ class DatabaseHandler:
         )
 
     def delete_match(self, match: Match):
-        # TO DO
-        pass
+        """Deletes a match in database.
+
+        Args:
+            match (Match): Match to be deleted.
+        """
+
+        query = Query()
+        self.matches_table.remove(query.id == int(match.id_num))
+        del self.database.matches[match.id_num]
 
     def find_next_id(self, table: table.Table):
         """Searches through a TinyDB table for the next biggest id number.
