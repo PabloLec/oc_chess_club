@@ -97,6 +97,54 @@ class DatabaseHelper:
         else:
             return False
 
+    def get_players_by_name(self, players_sample: dict = None):
+        """Lists all players in sample by name.
+
+        Args:
+            players_sample (dict, optional): Sample to search in. Defaults to None.
+
+        Returns:
+            list:  List of all players ordered by ELO name.
+        """
+
+        if players_sample is None:
+            players_sample = self.database.players
+
+        print(players_sample)
+
+        ordered_ids = sorted(players_sample, key=lambda x: players_sample[x].last_name)
+
+        ordered_players = []
+        for id_num in ordered_ids:
+            if self.database.players[id_num].is_deleted:
+                continue
+            ordered_players.append(self.database.players[id_num])
+
+        return ordered_players
+
+    def get_players_by_elo(self, players_sample: dict = None):
+        """Lists all players in sample by ELO ranking.
+
+        Args:
+            players_sample (dict, optional): Sample to search in. Defaults to None.
+
+        Returns:
+            list:  List of all players ordered by ELO ranking.
+        """
+
+        if players_sample is None:
+            players_sample = self.database.players
+
+        ordered_ids = sorted(players_sample, key=lambda x: players_sample[x].elo, reverse=True)
+
+        ordered_players = []
+        for id_num in ordered_ids:
+            if self.database.players[id_num].is_deleted:
+                continue
+            ordered_players.append(self.database.players[id_num])
+
+        return ordered_players
+
     def get_players_by_id(self):
         """Lists all database players sorted by id.
 
@@ -157,20 +205,19 @@ class DatabaseHelper:
             if str(player) == player_id:
                 return self.database.players[player]
 
-    def player_name_from_id(self, players: dict, player_id: int):
-        """Searches through a dict of players to find requested player's name.
+    def player_name_from_id(self, player_id: int):
+        """Searches through all players to find requested player's name.
 
         Args:
-            players (dict): Dict of players to search in.
             player_id (int): Id of player to be searched.
 
         Returns:
             str: Player's first and last name.
         """
 
-        for player in players:
-            if players[player].id_num == player_id:
-                name = f"{players[player].first_name} {players[player].last_name}"
+        for player in self.database.players:
+            if self.database.players[player].id_num == player_id:
+                name = f"{self.database.players[player].first_name} {self.database.players[player].last_name}"
                 return name
 
     def get_all_tournament_objects(self):
@@ -217,3 +264,33 @@ class DatabaseHelper:
             players_list.append(self.database.players[player_id])
 
         return players_list
+
+    def get_players_names(self, players_sample: list):
+        """Return a list of players names from a list of Player objects.
+
+        Args:
+            players_sample (dict): Sample to search in.
+
+        Returns:
+            list: List of players name.
+        """
+
+        return [self.player_name_from_id(player_id=x) for x in players_sample]
+
+    def get_formated_leaderboard(self, leaderboard: dict):
+        """Formats a Leaderboard dict to a list of players names and scores, sorted by points.
+
+        Args:
+            leaderboard (dict): Leaderboard to be formated.
+
+        Returns:
+            list: List of players names and scores.
+        """
+
+        ordered_leaderboard = [(k, v) for k, v in sorted(leaderboard.items(), key=lambda item: item[1], reverse=True)]
+        formated_leaderboard = []
+
+        for player in ordered_leaderboard:
+            formated_leaderboard.append((self.player_name_from_id(player_id=int(player[0])), player[1]))
+
+        return formated_leaderboard

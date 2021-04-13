@@ -262,10 +262,10 @@ class NewTournamentMenu:
         """Displays selected participating players by their name."""
 
         typer.secho("\n Liste des joueurs: ", bold=True)
-        for player in self.players:
-            name = DatabaseHandler().helper.player_name_from_id(
-                players=DatabaseHandler().database.players, player_id=player
-            )
+
+        players_name = DatabaseHandler().helper.get_players_names(players_sample=self.players)
+
+        for name in players_name:
             typer.echo(f" - {name}")
 
     def save_tournament(self):

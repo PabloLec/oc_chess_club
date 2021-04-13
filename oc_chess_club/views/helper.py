@@ -7,15 +7,18 @@ from oc_chess_club.controller.database_handler import DatabaseHandler
 import oc_chess_club.views.main_menu as _MAIN_MENU
 import oc_chess_club.views.player_views as _PLAYER_VIEWS
 import oc_chess_club.views.tournament_views as _TOURNAMENT_VIEWS
+import oc_chess_club.views.report_views as _REPORT_VIEWS
 
 
 def go_back(current_view: str):
-    if current_view in ["TournamentMenu", "PlayerMenu"]:
+    if current_view in ["TournamentMenu", "PlayerMenu", "ReportMenu"]:
         _MAIN_MENU.MainMenu()
     elif current_view in ["NewTournamentMenu", "LoadTournamentMenu", "EditTournamentMenu", "DeleteTournamentMenu"]:
         _TOURNAMENT_VIEWS.TournamentMenu()
     elif current_view in ["NewPlayerMenu", "EditPlayerMenu", "DeletePlayerMenu"]:
         _PLAYER_VIEWS.PlayerMenu()
+    elif current_view in ["PlayerReportMenu", "TournamentReportMenu"]:
+        _REPORT_VIEWS.ReportMenu()
 
 
 def select_player():
@@ -230,3 +233,65 @@ def gender_is_valid(gender: str):
     else:
         typer.secho("Genre incorrect. Entrez H ou F.", fg=typer.colors.RED)
         return False
+
+
+def print_report(data: dict):
+
+    for element in data:
+        for key in element:
+            field_name = key + ": "
+            value = typer.style(str(element[key]), bold=True)
+            typer.echo(field_name + value)
+        typer.echo("\n")
+
+
+def report_export_prompt():
+    if not ask_for_report_export():
+        return None
+
+    return select_export_format()
+
+
+def ask_for_report_export():
+    typer.secho("Souhaitez vous exporter ce rapport ?\n", fg=typer.colors.BLUE)
+
+    number = typer.style("1. ", bold=True)
+    typer.echo(number + "Oui")
+
+    number = typer.style("2. ", bold=True)
+    typer.echo(number + "Non")
+
+    selection = ""
+
+    while selection not in ["1", "2"]:
+        selection = typer.prompt("Entrez votre sélection: ")
+
+    if selection == "1":
+        return True
+    elif selection == "2":
+        return False
+
+
+def select_export_format():
+    typer.secho("\nChoisissez un format d'export:\n", fg=typer.colors.BLUE)
+
+    number = typer.style("1. ", bold=True)
+    typer.echo(number + "Texte")
+
+    number = typer.style("2. ", bold=True)
+    typer.echo(number + "CSV")
+
+    number = typer.style("\n0. ", bold=True)
+    typer.echo(number + "Retour")
+
+    selection = ""
+
+    while selection not in ["1", "2", "0"]:
+        selection = typer.prompt("Entrez votre sélection: ")
+
+    if selection == "0":
+        return None
+    if selection == "1":
+        return "txt"
+    elif selection == "2":
+        return "csv"

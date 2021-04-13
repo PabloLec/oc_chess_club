@@ -103,7 +103,7 @@ class DatabaseHandler(metaclass=SingletonMeta):
         if id_num == 0:
             id_num = self.find_next_id(self.players_table)
 
-        player = Player(first_name, last_name, dob, gender, elo, id_num, is_deleted)
+        player = Player(first_name, last_name, dob, gender.upper(), elo, id_num, is_deleted)
 
         self.save_player(player=player, no_db_save=no_db_save)
 
@@ -273,9 +273,8 @@ class DatabaseHandler(metaclass=SingletonMeta):
             tournament (Tournament): Tournament to be deleted
         """
 
-        if len(tournament.rounds) == 0:
-            self.load_rounds(tournament_id=tournament.id_num)
-            self.load_matches(tournament_id=tournament.id_num)
+        self.load_rounds(tournament_id=tournament.id_num)
+        self.load_matches(tournament_id=tournament.id_num)
 
         for round_ in tournament.rounds:
             self.delete_round(round_=tournament.rounds[round_])

@@ -219,7 +219,7 @@ class EditPlayerMenu:
             return True
         elif self.selected_player.gender != self.original_player_copy.gender:
             return True
-        elif self.selected_player.elo != self.original_player_copy.elo:
+        elif int(self.selected_player.elo) != self.original_player_copy.elo:
             return True
         else:
             return False
