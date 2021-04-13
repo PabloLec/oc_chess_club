@@ -1,3 +1,5 @@
+from typing import Optional
+
 import typer
 
 from oc_chess_club.controller.config_loader import _CONFIG
@@ -54,18 +56,27 @@ def new_tournament_menu():
 
 
 @_TOURNAMENT_APP.command("load")
-def load_existing_tournament_menu():
-    _TOURNAMENT_VIEWS.LoadTournamentMenu()
+def load_existing_tournament_menu(tournament_id: Optional[str] = typer.Argument(None)):
+    if tournament_id.isnumeric() and tournament_id is not None:
+        _TOURNAMENT_VIEWS.LoadTournamentMenu(tournament_id=int(tournament_id))
+    else:
+        _TOURNAMENT_VIEWS.LoadTournamentMenu()
 
 
 @_TOURNAMENT_APP.command("edit")
-def edit_tournament_menu():
-    _TOURNAMENT_VIEWS.EditTournamentMenu()
+def edit_tournament_menu(tournament_id: Optional[str] = typer.Argument(None)):
+    if tournament_id.isnumeric() and tournament_id is not None:
+        _TOURNAMENT_VIEWS.EditTournamentMenu(tournament_id=int(tournament_id))
+    else:
+        _TOURNAMENT_VIEWS.EditTournamentMenu()
 
 
 @_TOURNAMENT_APP.command("delete")
-def delete_tournament_menu():
-    _TOURNAMENT_VIEWS.DeleteTournamentMenu()
+def delete_tournament_menu(tournament_id: Optional[str] = typer.Argument(None)):
+    if tournament_id.isnumeric() and tournament_id is not None:
+        _TOURNAMENT_VIEWS.DeleteTournamentMenu(tournament_id=int(tournament_id))
+    else:
+        _TOURNAMENT_VIEWS.DeleteTournamentMenu()
 
 
 @_PLAYER_APP.callback(invoke_without_command=True)
