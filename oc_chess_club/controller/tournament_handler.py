@@ -4,7 +4,7 @@ from oc_chess_club.models.match import Match
 from oc_chess_club.models.player import Player
 
 from oc_chess_club.controller.tournament_generator import TournamentGenerator
-from oc_chess_club.controller.database_handler import _DATABASE_HANDLER
+from oc_chess_club.controller.database_handler import DatabaseHandler
 
 
 class TournamentHandler:
@@ -26,7 +26,7 @@ class TournamentHandler:
             tournament_id (int): Unique id of the tournament to be resumed.
         """
 
-        self.tournament = _DATABASE_HANDLER.database.tournaments[tournament_id]
+        self.tournament = DatabaseHandler().database.tournaments[tournament_id]
         self.generator = TournamentGenerator(players=self.tournament.players)
 
         self.current_round_num = 0
@@ -39,8 +39,8 @@ class TournamentHandler:
     def load_rounds_and_matches(self):
         """Uses database handler to load tournament's rounds and matches objects into memory."""
 
-        _DATABASE_HANDLER.load_rounds(tournament_id=self.tournament.id_num)
-        _DATABASE_HANDLER.load_matches(tournament_id=self.tournament.id_num)
+        DatabaseHandler().load_rounds(tournament_id=self.tournament.id_num)
+        DatabaseHandler().load_matches(tournament_id=self.tournament.id_num)
 
     def resume_tournament(self):
         """Creates the first round if needed and requests a first progression update."""
@@ -79,19 +79,19 @@ class TournamentHandler:
         if len(self.tournament.rounds) == 0:
             matches = self.generator.generate_first_round()
         else:
-            all_matches_list = _DATABASE_HANDLER.helper.list_all_matches(tournament=self.tournament)
+            all_matches_list = DatabaseHandler().helper.get_all_matches(tournament=self.tournament)
             matches = self.generator.generate_other_round(
                 matches=all_matches_list, leaderboard=self.tournament.leaderboard
             )
 
-        round_id = _DATABASE_HANDLER.create_round(
+        round_id = DatabaseHandler().create_round(
             round_number=len(self.tournament.rounds) + 1, tournament_id=self.tournament.id_num
         )
 
         self.current_round_id = round_id
 
         for players in matches:
-            _DATABASE_HANDLER.create_match(
+            DatabaseHandler().create_match(
                 players=players, tournament_id=self.tournament.id_num, round_id=round_id, winner=None
             )
 
@@ -166,8 +166,8 @@ class TournamentHandler:
             if not self.is_round_finished(round_=round_object):
                 return False
 
-        _DATABASE_HANDLER.database.tournaments[self.tournament.id_num].is_finished = True
-        _DATABASE_HANDLER.save_tournament(tournament=_DATABASE_HANDLER.database.tournaments[self.tournament.id_num])
+        DatabaseHandler().database.tournaments[self.tournament.id_num].is_finished = True
+        DatabaseHandler().save_tournament(tournament=DatabaseHandler().database.tournaments[self.tournament.id_num])
         return True
 
     def save_winner(self, match: Match, winner: str):
@@ -180,22 +180,22 @@ class TournamentHandler:
 
         if winner == "1":
             winner = 1
-            _DATABASE_HANDLER.update_leaderboard(
+            DatabaseHandler().update_leaderboard(
                 tournament_id=match.tournament_id, player_id=match.player_1.id_num, points_earned=1
             )
         elif winner == "2":
             winner = 2
-            _DATABASE_HANDLER.update_leaderboard(
+            DatabaseHandler().update_leaderboard(
                 tournament_id=match.tournament_id, player_id=match.player_2.id_num, points_earned=1
             )
         elif winner == "nul":
             winner = 0
-            _DATABASE_HANDLER.update_leaderboard(
+            DatabaseHandler().update_leaderboard(
                 tournament_id=match.tournament_id, player_id=match.player_1.id_num, points_earned=0.5
             )
-            _DATABASE_HANDLER.update_leaderboard(
+            DatabaseHandler().update_leaderboard(
                 tournament_id=match.tournament_id, player_id=match.player_2.id_num, points_earned=0.5
             )
 
         self.tournament.rounds[self.current_round_id].matches[match.id_num].winner = winner
-        _DATABASE_HANDLER.save_match(self.tournament.rounds[self.current_round_id].matches[match.id_num])
+        DatabaseHandler().save_match(self.tournament.rounds[self.current_round_id].matches[match.id_num])

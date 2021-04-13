@@ -1,6 +1,6 @@
 import typer
 
-
+from oc_chess_club.controller.config_loader import _CONFIG
 from oc_chess_club.controller.database_handler import DatabaseHandler
 from oc_chess_club.controller.report_handler import ReportHandler
 import oc_chess_club.views.helper as _HELPER
@@ -14,10 +14,21 @@ class ReportMenu:
     def __init__(self):
         """Constructor for TournamentMenu."""
 
+        if not _CONFIG.report_save_path_exists():
+            typer.secho(
+                "\nLe chemin de sauvegarde des rapports n'existe pas, vous ne pouvez donc pas en générer.",
+                fg=typer.colors.RED,
+                blink=True,
+            )
+            typer.secho("Vérifiez votre fichier config.yaml.\n", fg=typer.colors.RED, blink=True)
+            _HELPER.go_back(current_view=self.__class__.__name__)
+
         typer.secho("MENU DES RAPPORTS", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True)
 
         self.print_menu()
         self.user_selection()
+
+        _HELPER.go_back(current_view=self.__class__.__name__)
 
     def print_menu(self):
         """Displays the different menu options."""
@@ -56,6 +67,11 @@ class PlayerReportMenu:
         typer.secho(
             "RAPPORT DES JOUEURS", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
         )
+
+        if DatabaseHandler().helper.is_player_db_empty():
+            typer.secho("\nAucun joueur créé.\n", fg=typer.colors.RED)
+            _HELPER.go_back(current_view=self.__class__.__name__)
+            return
 
         self.report_handler = ReportHandler()
 
@@ -113,6 +129,11 @@ class TournamentReportMenu:
             "RAPPORT DES TOURNOIS", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
         )
 
+        if DatabaseHandler().helper.is_tournament_db_empty():
+            typer.secho("\nAucun tournoi créé.\n", fg=typer.colors.RED)
+            _HELPER.go_back(current_view=self.__class__.__name__)
+            return
+
         self.report_handler = ReportHandler()
 
         self.print_menu()
@@ -146,17 +167,31 @@ class TournamentReportMenu:
         if selection == "0":
             typer.echo("\n\n")
             _HELPER.go_back(current_view=self.__class__.__name__)
+            return
+
         elif selection == "1":
             typer.echo("\n\n")
             self.report_handler.all_tournaments()
+
         elif selection == "2":
             self.tournament_players_sub_menu()
+
         elif selection == "3":
             selected_tournament = _HELPER.select_tournament()
+            if len(selected_tournament.rounds) == 0:
+                typer.secho("\nLe tournoi ne comporte aucun round.\n", fg=typer.colors.RED)
+                _HELPER.go_back(current_view=self.__class__.__name__)
+                return
             self.report_handler.tournament_rounds(tournament=selected_tournament)
+
         elif selection == "4":
             selected_tournament = _HELPER.select_tournament()
+            if len(selected_tournament.rounds) == 0:
+                typer.secho("\nLe tournoi ne comporte aucun match.\n", fg=typer.colors.RED)
+                _HELPER.go_back(current_view=self.__class__.__name__)
+                return
             self.report_handler.tournament_matches(tournament=selected_tournament)
+
         else:
             self.user_selection()
             return

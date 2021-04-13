@@ -1,5 +1,6 @@
 from tinydb import TinyDB, Query, table
 
+from oc_chess_club.controller.config_loader import _CONFIG
 from oc_chess_club.models.database import Database
 from oc_chess_club.models.player import Player
 from oc_chess_club.models.tournament import Tournament
@@ -38,7 +39,7 @@ class DatabaseHandler(metaclass=SingletonMeta):
     def __init__(self):
         """Constructor for DatabaseHandler Class. Initiates database loading."""
 
-        self.database = Database("/home/pablo/openclassrooms/oc_chess_club/oc_chess_club/bdd_test.json")
+        self.database = Database(_CONFIG.config["database_file"])
         self.helper = DatabaseHelper(database=self.database)
 
         self.players_table = None

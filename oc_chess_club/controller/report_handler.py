@@ -1,6 +1,9 @@
+import csv
+
 from datetime import datetime
 from pathlib import Path
 
+from oc_chess_club.controller.config_loader import _CONFIG
 from oc_chess_club.controller.database_handler import DatabaseHandler
 from oc_chess_club.models.tournament import Tournament
 
@@ -17,7 +20,7 @@ class ReportHandler:
         """Constructor for ReportHandler."""
 
         self.data = []
-        self.export_location = "/tmp/"
+        self.export_location = _CONFIG.config["report_save_path"]
 
     def all_players_by_name(self):
         """Extracts data for all players ordered by name."""
@@ -148,8 +151,8 @@ class ReportHandler:
 
             for match in tournament.rounds[round_].matches:
                 match = tournament.rounds[round_].matches[match]
-                player_1 = DatabaseHandler().helper.player_name_from_id(match.player_1.id_num)
-                player_2 = DatabaseHandler().helper.player_name_from_id(match.player_2.id_num)
+                player_1 = DatabaseHandler().helper.get_player_name_from_id(match.player_1.id_num)
+                player_2 = DatabaseHandler().helper.get_player_name_from_id(match.player_2.id_num)
                 matches.append(f"{player_1} vs {player_2}")
 
             self.data.append(
@@ -214,11 +217,13 @@ class ReportHandler:
 
         if file_format == "txt":
             self.export_txt(save_path=save_path)
+        elif file_format == "csv":
+            self.export_csv(save_path=save_path)
 
         return str(save_path)
 
     def export_txt(self, save_path: Path):
-        """Exports data to txt format.
+        """Exports data to text format.
 
         Args:
             save_path (Path): Local path for file.
@@ -229,3 +234,18 @@ class ReportHandler:
                 for key in element:
                     output_file.write(f"{key}: {element[key]}\n")
                 output_file.write("\n")
+
+    def export_csv(self, save_path: Path):
+        """Exports data to csv format.
+
+        Args:
+            save_path (Path): Local path for file.
+        """
+
+        with open(save_path, "w") as output_file:
+            field_names = list(self.data[0].keys())
+            writer = csv.DictWriter(output_file, fieldnames=field_names)
+            writer.writeheader()
+
+            for element in self.data:
+                writer.writerow(element)

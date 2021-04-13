@@ -1,7 +1,10 @@
 import typer
 
+import oc_chess_club.views.helper as _HELPER
+
 from oc_chess_club.controller.tournament_handler import TournamentHandler
 from oc_chess_club.models.match import Match
+from oc_chess_club.controller.database_handler import DatabaseHandler
 
 
 class GameMenu:
@@ -21,11 +24,15 @@ class GameMenu:
         self.tournament_handler = TournamentHandler(tournament_id=tournament_id)
         self.play()
 
+        _HELPER.go_back(current_view=self.__class__.__name__)
+
     def play(self):
         """Uses the match generating method of the tournament handler to display a match until tournament's ending."""
 
         while self.tournament_handler.match_generator() is not None:
             self.display_next_match(self.tournament_handler.match_generator())
+
+        self.ending_splash()
 
     def display_next_match(self, match: Match):
         """Initiates relevant info displays and prompts for a given Match.
@@ -128,3 +135,26 @@ class GameMenu:
             winner = typer.prompt("Entrez le gagnant (1, 2, ou nul)")
 
         return winner.lower()
+
+    def ending_splash(self):
+        """Displays final leaderboard."""
+
+        typer.echo("\n")
+        typer.secho("TOURNOI TERMINÉ", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, blink=True)
+        typer.secho("\nClassement final:\n", bold=True)
+
+        leaderboard = DatabaseHandler().helper.get_formated_leaderboard(
+            leaderboard=self.tournament_handler.tournament.leaderboard
+        )
+
+        i = 1
+        for player in leaderboard:
+            rank = typer.style(f"{i} -", bold=True)
+            player_name = player[0]
+            points = str(player[1])
+
+            typer.echo(f"{rank} {player_name} ({points} points)")
+
+            i += 1
+
+        typer.echo("\n")

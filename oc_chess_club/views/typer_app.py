@@ -1,5 +1,6 @@
 import typer
 
+from oc_chess_club.controller.config_loader import _CONFIG
 from oc_chess_club.views.main_menu import MainMenu
 import oc_chess_club.views.tournament_views as _TOURNAMENT_VIEWS
 import oc_chess_club.views.player_views as _PLAYER_VIEWS
@@ -15,8 +16,28 @@ _MAIN_TYPER_APP.add_typer(_PLAYER_APP, name="player")
 _MAIN_TYPER_APP.add_typer(_REPORT_APP, name="report")
 
 
+def verify_config():
+    if not _CONFIG.database_exists():
+        typer.secho("\nLe fichier pour la base de données n'existe pas.", fg=typer.colors.RED, blink=True)
+        typer.secho(
+            "Si vous utilisez le programme pour la première fois, le fichier sera créé.",
+            fg=typer.colors.RED,
+            blink=True,
+        )
+        typer.secho("Sinon, vérifiez votre fichier config.yaml.\n", fg=typer.colors.RED, blink=True)
+    elif not _CONFIG.report_save_path_exists():
+        typer.secho(
+            "\nLe chemin de sauvegarde des rapports n'existe pas, vous ne pourrez donc pas en générer.",
+            fg=typer.colors.RED,
+            blink=True,
+        )
+        typer.secho("Vérifiez votre fichier config.yaml.\n", fg=typer.colors.RED, blink=True)
+
+
 @_MAIN_TYPER_APP.callback(invoke_without_command=True)
 def load_main_menu(ctx: typer.Context):
+    verify_config()
+
     if ctx.invoked_subcommand is None:
         MainMenu()
 

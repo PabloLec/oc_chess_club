@@ -11,7 +11,7 @@ import oc_chess_club.views.report_views as _REPORT_VIEWS
 
 
 def go_back(current_view: str):
-    if current_view in ["TournamentMenu", "PlayerMenu", "ReportMenu"]:
+    if current_view in ["TournamentMenu", "PlayerMenu", "ReportMenu", "GameMenu"]:
         _MAIN_MENU.MainMenu()
     elif current_view in ["NewTournamentMenu", "LoadTournamentMenu", "EditTournamentMenu", "DeleteTournamentMenu"]:
         _TOURNAMENT_VIEWS.TournamentMenu()
@@ -33,7 +33,7 @@ def select_player():
     while not player_exists(selected_id=selection):
         selection = typer.prompt(f"Sélectionnez un joueur")
 
-    return DatabaseHandler().helper.player_object_from_id_str(player_id=selection)
+    return DatabaseHandler().helper.get_player_object_from_id_str(player_id=selection)
 
 
 def select_tournament():
@@ -48,7 +48,7 @@ def select_tournament():
     while not tournament_exists(selected_id=selection):
         selection = typer.prompt(f"Sélectionnez un tournoi")
 
-    return DatabaseHandler().helper.tournament_object_from_id_str(tournament_id=selection)
+    return DatabaseHandler().helper.get_tournament_object_from_id_str(tournament_id=selection)
 
 
 def list_all_tournaments():

@@ -20,26 +20,6 @@ class DatabaseHelper:
 
         self.database = database
 
-    def list_all_matches(self, tournament: Tournament):
-        """Lists all matches of a tournament.
-
-        Args:
-            tournament (Tournament): Tournament objects to be considered.
-
-        Returns:
-            list[tuple[Player]]: List of all matches' player pairing.
-        """
-
-        match_list = []
-
-        for round_id in tournament.rounds:
-            for match_id in tournament.rounds[round_id].matches:
-                player_1 = tournament.rounds[round_id].matches[match_id].player_1
-                player_2 = tournament.rounds[round_id].matches[match_id].player_2
-                match_list.append((player_1.id_num, player_2.id_num))
-
-        return match_list
-
     def is_tournament_db_empty(self):
         """Verifies if there is no tournament in database.
 
@@ -96,6 +76,26 @@ class DatabaseHelper:
                 return True
         else:
             return False
+
+    def get_all_matches(self, tournament: Tournament):
+        """Lists all matches of a tournament.
+
+        Args:
+            tournament (Tournament): Tournament objects to be considered.
+
+        Returns:
+            list[tuple[Player]]: List of all matches' player pairing.
+        """
+
+        match_list = []
+
+        for round_id in tournament.rounds:
+            for match_id in tournament.rounds[round_id].matches:
+                player_1 = tournament.rounds[round_id].matches[match_id].player_1
+                player_2 = tournament.rounds[round_id].matches[match_id].player_2
+                match_list.append((player_1.id_num, player_2.id_num))
+
+        return match_list
 
     def get_players_by_name(self, players_sample: dict = None):
         """Lists all players in sample by name.
@@ -177,7 +177,7 @@ class DatabaseHelper:
 
         return ordered_tournaments
 
-    def tournament_object_from_id_str(self, tournament_id: str):
+    def get_tournament_object_from_id_str(self, tournament_id: str):
         """Searches through all of tournaments to find requested tournament.
 
         Args:
@@ -191,7 +191,7 @@ class DatabaseHelper:
             if str(tournament) == tournament_id:
                 return self.database.tournaments[tournament]
 
-    def player_object_from_id_str(self, player_id: str):
+    def get_player_object_from_id_str(self, player_id: str):
         """Searches through all players to find requested player.
 
         Args:
@@ -205,7 +205,7 @@ class DatabaseHelper:
             if str(player) == player_id:
                 return self.database.players[player]
 
-    def player_name_from_id(self, player_id: int):
+    def get_player_name_from_id(self, player_id: int):
         """Searches through all players to find requested player's name.
 
         Args:
@@ -275,7 +275,7 @@ class DatabaseHelper:
             list: List of players name.
         """
 
-        return [self.player_name_from_id(player_id=x) for x in players_sample]
+        return [self.get_player_name_from_id(player_id=x) for x in players_sample]
 
     def get_formated_leaderboard(self, leaderboard: dict):
         """Formats a Leaderboard dict to a list of players names and scores, sorted by points.
@@ -291,6 +291,6 @@ class DatabaseHelper:
         formated_leaderboard = []
 
         for player in ordered_leaderboard:
-            formated_leaderboard.append((self.player_name_from_id(player_id=int(player[0])), player[1]))
+            formated_leaderboard.append((self.get_player_name_from_id(player_id=int(player[0])), player[1]))
 
         return formated_leaderboard
