@@ -274,10 +274,85 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="tutorial/" class="md-nav__link">
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
         Tutoriel
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Tutoriel" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Tutoriel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="start/" class="md-nav__link">
+        Démarrage
       </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="game/" class="md-nav__link">
+        Jouer
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tournaments/" class="md-nav__link">
+        Gérer les tournois
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="players/" class="md-nav__link">
+        Gérer les joueurs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="reports/" class="md-nav__link">
+        Rapports
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -687,15 +762,21 @@
 <li>Divers rapports peuvent être générés et exportés.</li>
 </ul>
 <h2 id="prerequis"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 3c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2m.2 1.5 1.06 1.05L5.27 9.5 2.74 6.95 3.81 5.9l1.47 1.49M4 13c-1.11 0-2 .89-2 2v4c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-4c0-1.11-.89-2-2-2m-4 2h4v4H4m8-14h10v2H12m0 12v-2h10v2m-10-8h10v2H12z"/></svg></span> Prérequis<a class="headerlink" href="#prerequis" title="Permanent link">&para;</a></h2>
-<p>L'installation via pip installera pour vous les dépendances situées dans <code>requirements.txt</code>.</p>
+<p>L'installation via pip installera pour vous les dépendances situées dans <code>requirements.txt</code> .</p>
 <p>Les deux dépendances principales sont <code>tinydb</code> pour la gestion de la base de données au format JSON et <code>typer</code> pour la gestion de la partie CLI de l'application.<br />
 Ce dernier, basé sur <code>click</code> va permettre un fonctionnement cross-OS. Votre système d'exploitation et votre terminal ne devraient pas poser de problème de compatibilité.</p>
 <p><img alt="⚠" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/26a0.svg" title=":warning:" /> <strong>Votre version de Python doit être &gt;= 3.9</strong>.<br />
-Notamment du fait de l'utilisation native de type hints de génériques sans passer par la librairie <code>typing</code>. Fonctionnalité introduite dans le <a href="https://www.python.org/dev/peps/pep-0585/">PEP 585</a>.</p>
+Notamment du fait de l'utilisation native de type hints de génériques sans passer par la librairie <code>typing</code> . Fonctionnalité introduite dans le <a href="https://www.python.org/dev/peps/pep-0585/">PEP 585</a>.</p>
 <h2 id="installation"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2H4m3 18v2h2v-2H7m4 0v2h2v-2h-2m4 0v2h2v-2h-2z"/></svg></span> Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<p>EXEPMLE d4INSTALLATION VIA PIP SUR TERMY</p>
+<div class="termy">
+
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>python3 _m pip install oc_chess_club
+</code></pre></div>
+
+</div>
+
 <h2 id="utilisation"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m13.13 22.19-1.63-3.83c1.57-.58 3.04-1.36 4.4-2.27l-2.77 6.1M5.64 12.5l-3.83-1.63 6.1-2.77C7 9.46 6.22 10.93 5.64 12.5M21.61 2.39S16.66.269 11 5.93c-2.19 2.19-3.5 4.6-4.35 6.71-.28.75-.09 1.57.46 2.13l2.13 2.12c.55.56 1.37.74 2.12.46A19.1 19.1 0 0 0 18.07 13c5.66-5.66 3.54-10.61 3.54-10.61m-7.07 7.07c-.78-.78-.78-2.05 0-2.83s2.05-.78 2.83 0c.77.78.78 2.05 0 2.83-.78.78-2.05.78-2.83 0m-5.66 7.07-1.41-1.41 1.41 1.41M6.24 22l3.64-3.64c-.34-.09-.67-.24-.97-.45L4.83 22h1.41M2 22h1.41l4.77-4.76-1.42-1.41L2 20.59V22m0-2.83 4.09-4.08c-.21-.3-.36-.62-.45-.97L2 17.76v1.41z"/></svg></span> Utilisation<a class="headerlink" href="#utilisation" title="Permanent link">&para;</a></h2>
-<p>Rendez-vous dans le <a href="tutorial/">tutoriel</a> pour apprendre à utiliser le programme.</p>
+<p>Rendez-vous dans le <a href="start/">tutoriel</a> pour apprendre à utiliser le programme.</p>
                 
               
               
@@ -715,13 +796,13 @@ Notamment du fait de l'utilisation native de type hints de génériques sans pas
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
       
-        <a href="tutorial/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="start/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Suivant
               </span>
-              Tutoriel
+              Démarrage
             </div>
           </div>
           <div class="md-footer__button md-icon">

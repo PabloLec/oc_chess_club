@@ -219,10 +219,85 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../../tutorial/" class="md-nav__link">
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
         Tutoriel
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Tutoriel" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Tutoriel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../start/" class="md-nav__link">
+        Démarrage
       </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../game/" class="md-nav__link">
+        Jouer
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tournaments/" class="md-nav__link">
+        Gérer les tournois
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../players/" class="md-nav__link">
+        Gérer les joueurs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reports/" class="md-nav__link">
+        Rapports
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -453,6 +528,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#views.player_views.DeletePlayerMenu.cli_argument_handler" class="md-nav__link">
+    cli_argument_handler()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#views.player_views.DeletePlayerMenu.confirm_selection" class="md-nav__link">
     confirm_selection()
   </a>
@@ -482,6 +564,13 @@
           <li class="md-nav__item">
   <a href="#views.player_views.EditPlayerMenu.__init__" class="md-nav__link">
     __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#views.player_views.EditPlayerMenu.cli_argument_handler" class="md-nav__link">
+    cli_argument_handler()
   </a>
   
 </li>
@@ -808,6 +897,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#views.player_views.DeletePlayerMenu.cli_argument_handler" class="md-nav__link">
+    cli_argument_handler()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#views.player_views.DeletePlayerMenu.confirm_selection" class="md-nav__link">
     confirm_selection()
   </a>
@@ -837,6 +933,13 @@
           <li class="md-nav__item">
   <a href="#views.player_views.EditPlayerMenu.__init__" class="md-nav__link">
     __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#views.player_views.EditPlayerMenu.cli_argument_handler" class="md-nav__link">
+    cli_argument_handler()
   </a>
   
 </li>
@@ -1048,7 +1151,7 @@
 
 
 <h3 id="views.player_views.DeletePlayerMenu.__init__" class="doc doc-heading">
-<code class="codehilite language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -1060,14 +1163,37 @@
 
       <p>Constructor for DeletePlayerMenu.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>player_id</code></td>
+        <td><code>int</code></td>
+        <td><p>Optional player id to be loaded. Defaults to None.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>views/player_views.py</code></summary>
-          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Constructor for DeletePlayerMenu.&quot;&quot;&quot;</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Constructor for DeletePlayerMenu.</span>
 
-    <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_title</span><span class="p">(</span><span class="s2">&quot;suppression d&#39;un joueur&#39;&quot;</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        player_id (int, optional): Optional player id to be loaded. Defaults to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="bp">self</span><span class="o">.</span><span class="n">selected_player</span> <span class="o">=</span> <span class="n">_HELPER</span><span class="o">.</span><span class="n">select_player</span><span class="p">()</span>
+    <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_title</span><span class="p">(</span><span class="s2">&quot;suppression d&#39;un joueur&quot;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">cli_argument_handler</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="n">player_id</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_player</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;aucun joueur créé.&quot;</span><span class="p">)</span>
@@ -1077,6 +1203,65 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">confirm_selection</span><span class="p">()</span>
 
     <span class="n">_HELPER</span><span class="o">.</span><span class="n">go_back</span><span class="p">(</span><span class="n">current_view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="views.player_views.DeletePlayerMenu.cli_argument_handler" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">cli_argument_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">)</span></code>
+
+
+<a href="#views.player_views.DeletePlayerMenu.cli_argument_handler" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Handles eventual player id passed at instantiation.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>player_id</code></td>
+        <td><code>str</code></td>
+        <td><p>Optional player id to be loaded.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/player_views.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">cli_argument_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Handles eventual player id passed at instantiation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        player_id (str): Optional player id to be loaded.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">player_exists</span> <span class="o">=</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">is_player_id_in_database</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="n">player_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">player_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">player_exists</span><span class="p">:</span>
+        <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;le joueur n°</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s2"> n&#39;est pas disponible.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">player_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">player_exists</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_player</span> <span class="o">=</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">get_player_object_from_id_str</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">player_id</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_player</span> <span class="o">=</span> <span class="n">_HELPER</span><span class="o">.</span><span class="n">select_player</span><span class="p">()</span>
 </code></pre></div>
         </details>
     </div>
@@ -1105,7 +1290,7 @@
     <span class="sd">&quot;&quot;&quot;Prompts the user to confirm user deletion.&quot;&quot;&quot;</span>
 
     <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_warning</span><span class="p">(</span>
-        <span class="s2">&quot;vous allez supprimer définitivement </span><span class="si">{first_name}</span><span class="s2"> </span><span class="si">{last_name}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="s2">&quot;vous allez supprimer définitivement &#39;</span><span class="si">{first_name}</span><span class="s2"> </span><span class="si">{last_name}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">first_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_player</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">selected_player</span><span class="o">.</span><span class="n">last_name</span>
         <span class="p">)</span>
     <span class="p">)</span>
@@ -1217,7 +1402,7 @@
 
 
 <h3 id="views.player_views.EditPlayerMenu.__init__" class="doc doc-heading">
-<code class="codehilite language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+<code class="codehilite language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -1229,14 +1414,37 @@
 
       <p>Constructor for EditPlayerMenu.</p>
 
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>player_id</code></td>
+        <td><code>int</code></td>
+        <td><p>Optional player id to be loaded. Defaults to None.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>views/player_views.py</code></summary>
-          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Constructor for EditPlayerMenu.&quot;&quot;&quot;</span>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Constructor for EditPlayerMenu.</span>
 
-    <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_success</span><span class="p">(</span><span class="s2">&quot;modification d&#39;un joueur&quot;</span><span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        player_id (int, optional): Optional player id to be loaded. Defaults to None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="bp">self</span><span class="o">.</span><span class="n">selected_player</span> <span class="o">=</span> <span class="n">_HELPER</span><span class="o">.</span><span class="n">select_player</span><span class="p">()</span>
+    <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_title</span><span class="p">(</span><span class="s2">&quot;modification d&#39;un joueur&quot;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">cli_argument_handler</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="n">player_id</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_player</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;aucun joueur créé.&quot;</span><span class="p">)</span>
@@ -1254,6 +1462,65 @@
         <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_success</span><span class="p">(</span><span class="s2">&quot;aucune modification effectuée.&quot;</span><span class="p">)</span>
 
     <span class="n">_HELPER</span><span class="o">.</span><span class="n">go_back</span><span class="p">(</span><span class="n">current_view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="views.player_views.EditPlayerMenu.cli_argument_handler" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">cli_argument_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">)</span></code>
+
+
+<a href="#views.player_views.EditPlayerMenu.cli_argument_handler" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Handles eventual player id passed at instantiation.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>player_id</code></td>
+        <td><code>str</code></td>
+        <td><p>Optional player id to be loaded.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/player_views.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">cli_argument_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Handles eventual player id passed at instantiation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        player_id (str): Optional player id to be loaded.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">player_exists</span> <span class="o">=</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">is_player_id_in_database</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="n">player_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">player_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">player_exists</span><span class="p">:</span>
+        <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;le joueur n°</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s2"> n&#39;est pas disponible.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">player_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">player_exists</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_player</span> <span class="o">=</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">get_player_object_from_id_str</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">player_id</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_player</span> <span class="o">=</span> <span class="n">_HELPER</span><span class="o">.</span><span class="n">select_player</span><span class="p">()</span>
 </code></pre></div>
         </details>
     </div>
