@@ -3,6 +3,7 @@ import typer
 from typing import Any
 from datetime import datetime
 
+from oc_chess_club.controller.config_loader import _CONFIG
 from oc_chess_club.controller.database_handler import DatabaseHandler
 import oc_chess_club.views.main_menu as _MAIN_MENU
 import oc_chess_club.views.player_views as _PLAYER_VIEWS
@@ -10,7 +11,37 @@ import oc_chess_club.views.tournament_views as _TOURNAMENT_VIEWS
 import oc_chess_club.views.report_views as _REPORT_VIEWS
 
 
+def print_welcome_splash():
+    """Prints ASCII presentation."""
+
+    welcome_splash_lines = [
+        ["    __", ""],
+        ["   /  \\", "                      _                         _       _"],
+        ["   \\__/", "                     | |                       | |     | |"],
+        ["  /____\\", "     ___   ___   ___| |__   ___  ___ ___   ___| |_   _| |__"],
+        ["   |  |", "     / _ \\ / __| / __| '_ \\ / _ \\/ __/ __| / __| | | | | '_ \\"],
+        ["   |__|", "    | (_) | (__ | (__| | | |  __/\\__ \\__ \\| (__| | |_| | |_) |"],
+        ["  (====)", "    \\___/ \\___| \\___|_| |_|\\___||___/___/ \\___|_|\\__,_|_.__/"],
+        ["  }===={", "            ______                    ______ "],
+        [" (______)", "          |______|                  |______|"],
+    ]
+
+    for pawn, title in welcome_splash_lines:
+        pawn_part = typer.style(pawn, fg=typer.colors.BRIGHT_WHITE, bold=True)
+        title_part = typer.style(title, fg=typer.colors.BRIGHT_MAGENTA)
+
+        typer.echo(pawn_part + title_part)
+
+    typer.echo("\n")
+
+
 def go_back(current_view: str):
+    """Go to previous menu based on current view.
+
+    Args:
+        current_view (str): Current view name based on class __name__.
+    """
+
     if current_view in ["TournamentMenu", "PlayerMenu", "ReportMenu", "GameMenu"]:
         _MAIN_MENU.MainMenu()
     elif current_view in ["NewTournamentMenu", "LoadTournamentMenu", "EditTournamentMenu", "DeleteTournamentMenu"]:
@@ -19,6 +50,131 @@ def go_back(current_view: str):
         _PLAYER_VIEWS.PlayerMenu()
     elif current_view in ["PlayerReportMenu", "TournamentReportMenu"]:
         _REPORT_VIEWS.ReportMenu()
+
+
+def print_title(message: str):
+    """Prints a formated title.
+
+    Args:
+        message (str): Message content.
+    """
+
+    typer.secho(f"- {message.upper()} -", fg=typer.colors.BRIGHT_CYAN, bg=typer.colors.BRIGHT_BLACK, bold=True)
+
+
+def print_success(message: str):
+    """Prints a formated success message.
+
+    Args:
+        message (str): Message content.
+    """
+
+    typer.secho(f"> {message.capitalize()}", fg=typer.colors.BRIGHT_GREEN, bg=typer.colors.BRIGHT_BLACK, bold=True)
+
+
+def print_info(message: str):
+    """Prints a formated info message.
+
+    Args:
+        message (str): Message content.
+    """
+
+    test_info = typer.secho(
+        f"- {message.capitalize()}", fg=typer.colors.BRIGHT_MAGENTA, bg=typer.colors.BRIGHT_BLACK, bold=True
+    )
+
+
+def print_error(message: str):
+    """Prints a formated error message.
+
+    Args:
+        message (str): Message content.
+    """
+
+    test_info = typer.secho(
+        f"! {message.capitalize()}", fg=typer.colors.BRIGHT_RED, bg=typer.colors.BRIGHT_BLACK, bold=True
+    )
+
+
+def print_warning(message: str):
+    """Prints a formated warning message.
+
+    Args:
+        message (str): Message content.
+    """
+
+    typer.secho(f"{message.upper()}", fg=typer.colors.RED, blink=True, bold=True)
+    typer.echo("\n")
+
+
+def prompt_config_modification():
+    """Prompts the user to change the configuration."""
+
+    confirm = typer.confirm("Souhaitez vous modifier la configuration actuelle ?")
+
+    if not confirm:
+        recheck_config()
+        return
+
+    typer.secho(f'Base de données actuelle: {_CONFIG.config["database_file"]}', bold=True)
+    confirm = typer.confirm("Modifier ?")
+    if confirm:
+        modify_database_file()
+
+    typer.secho(f'Emplacement de sauvegarde des rapports actuel: {_CONFIG.config["report_save_path"]}', bold=True)
+    confirm = typer.confirm("Modifier ?")
+    if confirm:
+        modify_report_save_path()
+
+    _CONFIG.save_settings()
+    recheck_config()
+
+
+def recheck_config():
+    """Checks the configuration validity and prints adequate error messages."""
+
+    database_path_dont_exists = not _CONFIG.database_path_exists()
+    database_dont_exists = not _CONFIG.database_exists()
+    report_save_path_dont_exists = not _CONFIG.report_save_path_exists()
+
+    if not any([database_path_dont_exists, database_dont_exists, report_save_path_dont_exists]):
+        print_success("La configuration ne comporte aucune erreur.")
+        return
+
+    print_warning("Votre configuration comporte toujours les erreurs suivantes:")
+    if database_path_dont_exists:
+        print_error("L'emplacement de la base de données est invalide.")
+    if database_dont_exists:
+        print_error("Le fichier de base de données n'existe pas. Il sera donc créé.")
+    if report_save_path_dont_exists:
+        print_error("L'emplacement de sauvegarde des rapports est invalide.")
+
+
+def modify_database_file():
+    """Prompts the user to select a database file path."""
+
+    _CONFIG.config["database_file"] = typer.prompt("Entrez un nouvel emplacement")
+
+    if not _CONFIG.database_path_exists:
+        print_error("L'emplacement saisi est incorrect. Vérifiez que le dossier existe.")
+        modify_database_file()
+    elif not _CONFIG.database_is_json():
+        print_error("Votre fichier doit avoir comme extension '.json'.")
+        modify_database_file()
+    elif not _CONFIG.database_exists:
+        print_error("Le fichier de base de données n'existe pas encore, un nouveau sera donc créé.")
+    else:
+        print_success("Un fichier de base de données existant a été trouvé.")
+
+
+def modify_report_save_path():
+    """Prompts the user to select a report save path."""
+
+    _CONFIG.config["report_save_path"] = typer.prompt("Entrez un nouvel emplacement")
+
+    if not _CONFIG.report_save_path_exists():
+        print_error("L'emplacement saisi est incorrect. Vérifiez que le dossier existe.")
+        modify_report_save_path()
 
 
 def select_player():
@@ -58,7 +214,7 @@ def list_all_tournaments():
         typer.secho("Aucun tournoi créé.", fg=typer.colors.RED)
         return
 
-    typer.secho("Liste des tournois existants:\n", fg=typer.colors.BLUE)
+    print_info("liste des tournois existants:")
 
     all_tournaments = DatabaseHandler().helper.get_tournaments_by_id()
 
@@ -72,11 +228,16 @@ def list_all_tournaments():
 
 
 def list_all_players():
-    typer.secho("Liste des joueurs existants:\n", fg=typer.colors.BLUE)
+    """Lists all existing players."""
+
+    print_info("liste des joueurs existants:")
 
     all_players = DatabaseHandler().helper.get_players_by_id()
 
     for player in all_players:
+        if player.is_deleted:
+            continue
+
         player_id = typer.style(str(player.id_num), bold=True)
         typer.echo(f"{player_id}. {player.first_name} {player.last_name}")
 
@@ -95,13 +256,13 @@ def tournament_exists(selected_id: str):
         return False
 
     if not selected_id.isnumeric():
-        typer.secho("Entrez le numéro du tournoi apparaissant devant son nom", fg=typer.colors.RED)
+        print_error("entrez le numéro du tournoi apparaissant devant son nom")
         return False
 
     if DatabaseHandler().helper.is_tournament_id_in_database(tournament_id=int(selected_id)):
         return True
 
-    typer.secho(f"Pas de tournoi avec le numéro {selected_id}", fg=typer.colors.RED)
+    print_error(f"pas de tournoi avec le numéro {selected_id}")
 
     return False
 
@@ -121,17 +282,19 @@ def player_exists(selected_id: str, already_taken_ids: list = []):
         return False
 
     if not selected_id.isnumeric():
-        typer.secho("Entrez le numéro du joueur apparaissant devant son nom", fg=typer.colors.RED)
+        print_error("entrez le numéro du joueur apparaissant devant son nom")
         return False
 
     if int(selected_id) in already_taken_ids:
-        typer.secho(f"Le joueur numéro {selected_id} a déjà été ajouté", fg=typer.colors.RED)
+        print_error(f"le joueur numéro {selected_id} a déjà été ajouté")
         return False
 
     if DatabaseHandler().helper.is_player_id_in_database(player_id=int(selected_id)):
+        if DatabaseHandler().helper.get_player_object_from_id_str(player_id=selected_id).is_deleted:
+            return False
         return True
 
-    typer.secho(f"Pas de joueur avec le numéro {selected_id}", fg=typer.colors.RED)
+    print_error(f"pas de joueur avec le numéro {selected_id}")
 
     return False
 
@@ -211,7 +374,7 @@ def date_is_valid(date: str):
         return True
     except ValueError:
         if len(date) > 0:
-            typer.secho("Date incorrecte", fg=typer.colors.RED)
+            print_error("date incorrecte.")
         return False
 
 
@@ -231,11 +394,16 @@ def gender_is_valid(gender: str):
         gender = "F"
         return True
     else:
-        typer.secho("Genre incorrect. Entrez H ou F.", fg=typer.colors.RED)
+        print_error("genre incorrect. Entrez H ou F.")
         return False
 
 
 def print_report(data: dict):
+    """Prints a generated report in console.
+
+    Args:
+        data (dict): Report data dict.
+    """
 
     for element in data:
         for key in element:
@@ -246,6 +414,12 @@ def print_report(data: dict):
 
 
 def report_export_prompt():
+    """Prompts the user to export the generated report.
+
+    Returns:
+        str: Selected export format.
+    """
+
     if not ask_for_report_export():
         return None
 
@@ -253,7 +427,13 @@ def report_export_prompt():
 
 
 def ask_for_report_export():
-    typer.secho("Souhaitez vous exporter ce rapport ?\n", fg=typer.colors.BLUE)
+    """Prompts the user to select export settings.
+
+    Returns:
+        bool: User wants to export the report.
+    """
+
+    print_info("souhaitez vous exporter ce rapport ?")
 
     number = typer.style("1. ", bold=True)
     typer.echo(number + "Oui")
@@ -273,7 +453,13 @@ def ask_for_report_export():
 
 
 def select_export_format():
-    typer.secho("\nChoisissez un format d'export:\n", fg=typer.colors.BLUE)
+    """Prompts the user to select export format.
+
+    Returns:
+        str: Selected export format.
+    """
+
+    print_info("choisissez un format d'export:")
 
     number = typer.style("1. ", bold=True)
     typer.echo(number + "Texte")

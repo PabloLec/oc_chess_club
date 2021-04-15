@@ -75,9 +75,7 @@ class NewPlayerMenu:
     def __init__(self):
         """Constructor for NewPlayerMenu."""
 
-        typer.secho(
-            "CREATION D'UN JOUEUR", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
-        )
+        _HELPER.print_title("création d'un joueur")
 
         self.first_name = ""
         self.last_name = ""
@@ -94,7 +92,7 @@ class NewPlayerMenu:
     def settings_prompt(self):
         """Prompts the user to input the different player settings."""
 
-        typer.echo("Entrez les informations du joueur\n")
+        _HELPER.print_info("entrez les informations du joueur")
 
         while len(self.first_name) == 0:
             self.first_name = typer.prompt("Prénom du joueur")
@@ -122,13 +120,13 @@ class NewPlayerMenu:
 
         confirm = typer.confirm("\nSouhaitez vous confirmer la création de ce joueur ?")
         if not confirm:
-            typer.secho("Annulation. Le joueur n'a pas été créé.", fg=typer.colors.RED)
+            _HELPER.print_error("annulation. Le joueur n'a pas été créé.")
             raise typer.Exit
 
     def list_settings(self):
         """Displays all previously entered player settings."""
 
-        typer.secho("\nInformations du joueur:", fg=typer.colors.BLUE)
+        _HELPER.print_info("informations du joueur:")
 
         parameter = typer.style("Prénom: ", bold=True)
         typer.echo(parameter + self.first_name)
@@ -152,7 +150,7 @@ class NewPlayerMenu:
             elo=int(self.elo),
         )
 
-        typer.secho(f"Le joueur a été créé avec le numéro {created_player_id}.", fg=typer.colors.GREEN)
+        _HELPER.print_success(f"le joueur a été créé avec le numéro {created_player_id}.")
 
 
 class EditPlayerMenu:
@@ -166,14 +164,12 @@ class EditPlayerMenu:
     def __init__(self):
         """Constructor for EditPlayerMenu."""
 
-        typer.secho(
-            "MODIFICATION D'UN JOUEUR", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
-        )
+        _HELPER.print_success("modification d'un joueur")
 
         self.selected_player = _HELPER.select_player()
 
         if self.selected_player is None:
-            typer.secho(f"Aucun joueur créé.\n", fg=typer.colors.RED)
+            _HELPER.print_error("aucun joueur créé.")
             _HELPER.go_back(current_view=self.__class__.__name__)
             return
 
@@ -185,14 +181,14 @@ class EditPlayerMenu:
             self.confirm_settings()
             self.save_player()
         else:
-            typer.secho("\nAucune modification effectuée.\n", fg=typer.colors.GREEN)
+            _HELPER.print_success("aucune modification effectuée.")
 
         _HELPER.go_back(current_view=self.__class__.__name__)
 
     def select_edit(self):
         """Enumerates all player's settings and asks for edit."""
 
-        typer.secho("\nInformations actuelles du joueur:\n", fg=typer.colors.BLUE)
+        _HELPER.print_info("informations actuelles du joueur:")
 
         self.selected_player.first_name = _HELPER.edit_prompt(
             field_title="Prénom", value=self.selected_player.first_name
@@ -235,13 +231,13 @@ class EditPlayerMenu:
 
         confirm = typer.confirm("\nSouhaitez vous confirmer la modification de ce joueur ?")
         if not confirm:
-            typer.secho("Annulation. Le joueur n'a pas été modifié.", fg=typer.colors.RED)
+            _HELPER.print_error("annulation. Le joueur n'a pas été modifié.")
             raise typer.Exit
 
     def list_settings(self):
         """Displays all previously entered player settings."""
 
-        typer.secho("\nNouvelles informations du joueur:", fg=typer.colors.BLUE)
+        _HELPER.print_info("nouvelles informations du joueur:")
 
         parameter = typer.style("Prénom: ", bold=True)
         typer.echo(parameter + self.selected_player.first_name)
@@ -266,7 +262,7 @@ class EditPlayerMenu:
             id_num=self.selected_player.id_num,
         )
 
-        typer.secho(f"Le joueur n°{str(self.selected_player.id_num)} a été modifié.", fg=typer.colors.GREEN)
+        _HELPER.print_success(f"le joueur n°{str(self.selected_player.id_num)} a été modifié.")
 
 
 class DeletePlayerMenu:
@@ -279,14 +275,12 @@ class DeletePlayerMenu:
     def __init__(self):
         """Constructor for DeletePlayerMenu."""
 
-        typer.secho(
-            "SUPPRESSION D'UN JOUEUR", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
-        )
+        _HELPER.print_title("suppression d'un joueur'")
 
         self.selected_player = _HELPER.select_player()
 
         if self.selected_player is None:
-            typer.secho(f"Aucun joueur créé.\n", fg=typer.colors.RED)
+            _HELPER.print_error("aucun joueur créé.")
             _HELPER.go_back(current_view=self.__class__.__name__)
             return
 
@@ -297,11 +291,10 @@ class DeletePlayerMenu:
     def confirm_selection(self):
         """Prompts the user to confirm user deletion."""
 
-        typer.secho(
-            "\nVous allez supprimer définitivement {first_name} {last_name}".format(
+        _HELPER.print_warning(
+            "vous allez supprimer définitivement {first_name} {last_name}".format(
                 first_name=self.selected_player.first_name, last_name=self.selected_player.last_name
-            ),
-            fg=typer.colors.RED,
+            )
         )
 
         confirm = typer.confirm("Confirmer la suppression ?")
@@ -309,7 +302,7 @@ class DeletePlayerMenu:
         if confirm:
             self.delete_player()
         else:
-            typer.secho("\n L'utilisateur n'a pas été supprimé", fg=typer.colors.GREEN)
+            _HELPER.print_success("l'utilisateur n'a pas été supprimé.")
 
     def delete_player(self):
         """Uses database handler to delete player."""

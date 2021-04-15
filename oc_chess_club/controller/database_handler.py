@@ -362,8 +362,6 @@ class DatabaseHandler(metaclass=SingletonMeta):
         query = Query()
         self.rounds_table.remove(query.id == int(round_.id_num))
 
-        del self.database.rounds[round_.id_num]
-
     def load_matches(self, tournament_id: int):
         """Uses TinyDB "Matches" table to create Match objects for one particular tournament.
 
@@ -453,7 +451,6 @@ class DatabaseHandler(metaclass=SingletonMeta):
 
         query = Query()
         self.matches_table.remove(query.id == int(match.id_num))
-        del self.database.matches[match.id_num]
 
     def find_next_id(self, table: table.Table):
         """Searches through a TinyDB table for the next biggest id number.
@@ -504,4 +501,4 @@ class DatabaseHandler(metaclass=SingletonMeta):
         return result
 
 
-_DATABASE_HANDLER = DatabaseHandler()
+# _DATABASE_HANDLER = DatabaseHandler()

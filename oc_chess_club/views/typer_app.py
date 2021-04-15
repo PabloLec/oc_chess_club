@@ -7,6 +7,7 @@ from oc_chess_club.views.main_menu import MainMenu
 import oc_chess_club.views.tournament_views as _TOURNAMENT_VIEWS
 import oc_chess_club.views.player_views as _PLAYER_VIEWS
 import oc_chess_club.views.report_views as _REPORT_VIEWS
+import oc_chess_club.views.helper as _HELPER
 
 _MAIN_TYPER_APP = typer.Typer()
 _TOURNAMENT_APP = typer.Typer()
@@ -19,21 +20,25 @@ _MAIN_TYPER_APP.add_typer(_REPORT_APP, name="report")
 
 
 def verify_config():
-    if not _CONFIG.database_exists():
-        typer.secho("\nLe fichier pour la base de données n'existe pas.", fg=typer.colors.RED, blink=True)
-        typer.secho(
-            "Si vous utilisez le programme pour la première fois, le fichier sera créé.",
-            fg=typer.colors.RED,
-            blink=True,
+    if not _CONFIG.database_path_exists():
+        _HELPER.print_warning(
+            message="Le chemin de sauvegarde pour la base de données n'est pas valide."
+            " Vérifiez votre fichier config.yaml."
         )
-        typer.secho("Sinon, vérifiez votre fichier config.yaml.\n", fg=typer.colors.RED, blink=True)
+        _HELPER.prompt_config_modification()
+    elif not _CONFIG.database_exists():
+        _HELPER.print_warning(
+            message="Le fichier pour la base de données n'existe pas.\n"
+            "Si vous utilisez le programme pour la première fois, le fichier sera créé.\n"
+            "Sinon, vérifiez votre fichier config.yaml."
+        )
+        _HELPER.prompt_config_modification()
     elif not _CONFIG.report_save_path_exists():
-        typer.secho(
-            "\nLe chemin de sauvegarde des rapports n'existe pas, vous ne pourrez donc pas en générer.",
-            fg=typer.colors.RED,
-            blink=True,
+        _HELPER.print_warning(
+            message="Le chemin de sauvegarde des rapports n'existe pas, vous ne pourrez donc pas en générer."
+            " Vérifiez votre fichier config.yaml."
         )
-        typer.secho("Vérifiez votre fichier config.yaml.\n", fg=typer.colors.RED, blink=True)
+        _HELPER.prompt_config_modification()
 
 
 @_MAIN_TYPER_APP.callback(invoke_without_command=True)
@@ -41,6 +46,7 @@ def load_main_menu(ctx: typer.Context):
     verify_config()
 
     if ctx.invoked_subcommand is None:
+        _HELPER.print_welcome_splash()
         MainMenu()
 
 

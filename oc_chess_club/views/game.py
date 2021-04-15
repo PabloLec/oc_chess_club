@@ -140,8 +140,8 @@ class GameMenu:
         """Displays final leaderboard."""
 
         typer.echo("\n")
-        typer.secho("TOURNOI TERMINÉ", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, blink=True)
-        typer.secho("\nClassement final:\n", bold=True)
+        _HELPER.print_success("TOURNOI TERMINÉ")
+        _HELPER.print_info("classement final:")
 
         leaderboard = DatabaseHandler().helper.get_formated_leaderboard(
             leaderboard=self.tournament_handler.tournament.leaderboard

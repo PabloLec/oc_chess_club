@@ -3,6 +3,7 @@ import typer
 from oc_chess_club.views.tournament_views import TournamentMenu
 from oc_chess_club.views.player_views import PlayerMenu
 from oc_chess_club.views.report_views import ReportMenu
+import oc_chess_club.views.helper as _HELPER
 
 
 class MainMenu:
@@ -11,8 +12,7 @@ class MainMenu:
     def __init__(self):
         """Constructor for MainMenu."""
 
-        typer.echo("\n")
-        typer.secho("MENU PRINCIPAL", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True)
+        _HELPER.print_title("menu principal")
 
         self.print_menu()
         self.user_selection()

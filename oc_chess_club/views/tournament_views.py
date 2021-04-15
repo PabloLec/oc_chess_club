@@ -14,7 +14,7 @@ class TournamentMenu:
     def __init__(self):
         """Constructor for TournamentMenu."""
 
-        typer.secho("MENU DES TOURNOIS", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True)
+        _HELPER.print_title("menu des tournois")
 
         self.print_menu()
         self.user_selection()
@@ -83,9 +83,7 @@ class LoadTournamentMenu:
             tournament_id (int, optional): Optional tournament id to be loaded. Defaults to None.
         """
 
-        typer.secho(
-            "CHARGEMENT D'UN TOURNOI", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
-        )
+        _HELPER.print_title("chargement d'un tournoi")
 
         self.available_tournaments = DatabaseHandler().helper.get_unfinished_tournaments()
 
@@ -94,7 +92,7 @@ class LoadTournamentMenu:
         self.display_unfinished_tournaments()
 
         if len(self.available_tournaments) == 0:
-            typer.secho(f"Aucun tournoi en cours.\n", fg=typer.colors.RED)
+            _HELPER.print_error("aucun tournoi en cours.")
             _HELPER.go_back(current_view=self.__class__.__name__)
             return
 
@@ -115,7 +113,9 @@ class LoadTournamentMenu:
         )
 
         if tournament_id is not None and not tournament_is_available:
-            typer.secho(f"\nLe tournoi n°{tournament_id} n'est pas disponible.\n", fg=typer.colors.RED, bold=True)
+            _HELPER.print_error(
+                f"le tournoi n°{tournament_id} n'est pas disponible.",
+            )
         elif tournament_id is not None and tournament_is_available:
             self.start_tournament(tournament_id=tournament_id)
             _HELPER.go_back(current_view=self.__class__.__name__)
@@ -136,7 +136,7 @@ class LoadTournamentMenu:
         selection = typer.prompt("Entrez un numéro de tournoi")
 
         while not selection.isnumeric() or int(selection) not in self.available_tournaments:
-            typer.secho(f"Pas de tournoi avec le numéro {selection}", fg=typer.colors.RED)
+            _HELPER.print_error(f"pas de tournoi avec le numéro {selection}")
             self.user_selection()
             return
 
@@ -168,9 +168,7 @@ class NewTournamentMenu:
     def __init__(self):
         """Constructor for NewTournamentMenu."""
 
-        typer.secho(
-            "CREATION D'UN TOURNOI", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
-        )
+        _HELPER.print_title("création d'un tournoi")
 
         self.tournament_name = ""
         self.location = ""
@@ -190,8 +188,7 @@ class NewTournamentMenu:
     def settings_prompt(self):
         """Prompts the user to input the different tournament settings."""
 
-        typer.secho("Création d'un nouveau tournoi", fg=typer.colors.BLUE)
-        typer.echo("Entrez les informations du tournoi\n")
+        _HELPER.print_info("entrez les informations du tournoi.")
 
         while len(self.tournament_name) == 0:
             self.tournament_name = typer.prompt("Nom du tournoi")
@@ -242,7 +239,7 @@ class NewTournamentMenu:
             return True
         else:
             if len(self.time_control) > 0:
-                typer.secho("Entrée incorrect. Entrez Bullet, Blitz ou Coup Rapide.", fg=typer.colors.RED)
+                _HELPER.print_error("entrée incorrect. Entrez Bullet, Blitz ou Coup Rapide.")
             return False
 
     def confirm_settings(self):
@@ -257,13 +254,13 @@ class NewTournamentMenu:
 
         confirm = typer.confirm("\nSouhaitez vous confirmer la création de ce tournoi ?")
         if not confirm:
-            typer.secho("Annulation. Le tournoi n'a pas été créé.", fg=typer.colors.RED)
+            typer.print_error("annulation. Le tournoi n'a pas été créé.")
             raise typer.Exit
 
     def list_settings(self):
         """Displays all previously entered tournament settings."""
 
-        typer.secho("\nParamètres du tournoi:", fg=typer.colors.BLUE)
+        _HELPER.print_info("paramètres du tournoi:")
 
         parameter = typer.style("Nom: ", bold=True)
         typer.echo(parameter + self.tournament_name)
@@ -281,7 +278,7 @@ class NewTournamentMenu:
     def list_participating_players(self):
         """Displays selected participating players by their name."""
 
-        typer.secho("\n Liste des joueurs: ", bold=True)
+        _HELPER.print_info("liste des joueurs: ")
 
         players_name = DatabaseHandler().helper.get_players_names(players_sample=self.players)
 
@@ -302,7 +299,7 @@ class NewTournamentMenu:
             leaderboard={},
         )
 
-        typer.secho("Le tournoi a été créé.", fg=typer.colors.GREEN)
+        _HELPER.print_success("le tournoi a été créé.")
 
     def start_tournament(self):
         """Starts created tournament if the user select so."""
@@ -330,14 +327,12 @@ class EditTournamentMenu:
             tournament_id (int, optional): Optional tournament id to be loaded. Defaults to None.
         """
 
-        typer.secho(
-            "MODIFICATION D'UN TOURNOI", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
-        )
+        _HELPER.print_title("modification d'un tournoi")
 
         self.cli_argument_handler(tournament_id=tournament_id)
 
         if self.selected_tournament is None:
-            typer.secho(f"Aucun tournoi créé.\n", fg=typer.colors.RED)
+            _HELPER.print_error("aucun tournoi créé.")
             _HELPER.go_back(current_view=self.__class__.__name__)
             return
 
@@ -349,7 +344,7 @@ class EditTournamentMenu:
             self.confirm_settings()
             self.save_tournament()
         else:
-            typer.secho("\nAucune modification effectuée.\n", fg=typer.colors.GREEN)
+            _HELPER.print_success("aucune modification effectuée.")
 
         _HELPER.go_back(current_view=self.__class__.__name__)
 
@@ -363,7 +358,7 @@ class EditTournamentMenu:
         tournament_exists = DatabaseHandler().helper.is_tournament_id_in_database(tournament_id=tournament_id)
 
         if tournament_id is not None and not tournament_exists:
-            typer.secho(f"\nLe tournoi n°{tournament_id} n'est pas disponible.\n", fg=typer.colors.RED, bold=True)
+            _HELPER.print_error(f"le tournoi n°{tournament_id} n'est pas disponible.")
 
         if tournament_id is not None and tournament_exists:
             self.selected_tournament = DatabaseHandler().helper.get_tournament_object_from_id_str(
@@ -375,7 +370,7 @@ class EditTournamentMenu:
     def select_edit(self):
         """Enumerates all tournament's settings and asks for edit."""
 
-        typer.secho("\nInformations actuelles du tournoi:\n", fg=typer.colors.BLUE)
+        _HELPER.print_info("informations actuelles du tournoi:")
 
         self.selected_tournament.name = _HELPER.edit_prompt(field_title="Nom", value=self.selected_tournament.name)
         self.selected_tournament.location = _HELPER.edit_prompt(
@@ -415,13 +410,13 @@ class EditTournamentMenu:
 
         confirm = typer.confirm("\nSouhaitez vous confirmer la modification de ce tournoi ?")
         if not confirm:
-            typer.secho("Annulation. Le tournoi n'a pas été modifié.", fg=typer.colors.RED)
+            _HELPER.print_error("annulation. Le tournoi n'a pas été modifié.")
             raise typer.Exit
 
     def list_settings(self):
         """Displays all previously entered tournament settings."""
 
-        typer.secho("\nNouvelles informations du tournoi:", fg=typer.colors.BLUE)
+        _HELPER.print_info("nouvelles informations du tournoi:")
 
         parameter = typer.style("Nom: ", bold=True)
         typer.echo(parameter + self.selected_tournament.name)
@@ -468,14 +463,12 @@ class DeleteTournamentMenu:
             tournament_id (int, optional): Optional tournament id to be loaded. Defaults to None.
         """
 
-        typer.secho(
-            "SUPPRESSION D'UN TOURNOI", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
-        )
+        _HELPER.print_title("suppression d'un tournoi")
 
         self.cli_argument_handler(tournament_id=tournament_id)
 
         if self.selected_tournament is None:
-            typer.secho(f"Aucun tournoi créé.\n", fg=typer.colors.RED)
+            _HELPER.print_error("aucun tournoi créé.")
             _HELPER.go_back(current_view=self.__class__.__name__)
             return
 
@@ -493,7 +486,7 @@ class DeleteTournamentMenu:
         tournament_exists = DatabaseHandler().helper.is_tournament_id_in_database(tournament_id=tournament_id)
 
         if tournament_id is not None and not tournament_exists:
-            typer.secho(f"\nLe tournoi n°{tournament_id} n'est pas disponible.\n", fg=typer.colors.RED, bold=True)
+            _HELPER.print_error(f"le tournoi n°{tournament_id} n'est pas disponible.")
 
         if tournament_id is not None and tournament_exists:
             self.selected_tournament = DatabaseHandler().helper.get_tournament_object_from_id_str(
@@ -505,10 +498,7 @@ class DeleteTournamentMenu:
     def confirm_selection(self):
         """Prompts the user to confirm tournament deletion."""
 
-        typer.secho(
-            f"\nVous allez supprimer définitivement le tournoi {self.selected_tournament.name}",
-            fg=typer.colors.RED,
-        )
+        _HELPER.print_warning(f"Vous allez supprimer définitivement le tournoi {self.selected_tournament.name}")
 
         confirm = typer.confirm("Confirmer la suppression ?")
 

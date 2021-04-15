@@ -15,15 +15,12 @@ class ReportMenu:
         """Constructor for TournamentMenu."""
 
         if not _CONFIG.report_save_path_exists():
-            typer.secho(
-                "\nLe chemin de sauvegarde des rapports n'existe pas, vous ne pouvez donc pas en générer.",
-                fg=typer.colors.RED,
-                blink=True,
+            _HELPER.print_error(
+                "Le chemin de sauvegarde des rapports n'existe pas, vous ne pouvez donc pas en générer."
             )
-            typer.secho("Vérifiez votre fichier config.yaml.\n", fg=typer.colors.RED, blink=True)
             _HELPER.go_back(current_view=self.__class__.__name__)
 
-        typer.secho("MENU DES RAPPORTS", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True)
+        _HELPER.print_title("menu des rapports")
 
         self.print_menu()
         self.user_selection()
@@ -64,12 +61,10 @@ class PlayerReportMenu:
     def __init__(self):
         """Constructor for PlayerReportMenu."""
 
-        typer.secho(
-            "RAPPORT DES JOUEURS", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
-        )
+        _HELPER.print_title("rapport des joueurs")
 
         if DatabaseHandler().helper.is_player_db_empty():
-            typer.secho("\nAucun joueur créé.\n", fg=typer.colors.RED)
+            _HELPER.print_error("aucun joueur créé.")
             _HELPER.go_back(current_view=self.__class__.__name__)
             return
 
@@ -116,7 +111,7 @@ class PlayerReportMenu:
         if export_format is not None:
             save_path = self.report_handler.init_export(export_format)
 
-        typer.secho(f"\nRapport enregistré sous: {save_path}\n", fg=typer.colors.GREEN)
+        _HELPER.print_success(f"rapport enregistré sous: {save_path}")
 
 
 class TournamentReportMenu:
@@ -125,12 +120,10 @@ class TournamentReportMenu:
     def __init__(self):
         """Constructor for TournamentReportMenu."""
 
-        typer.secho(
-            "RAPPORT DES TOURNOIS", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True
-        )
+        _HELPER.print_title("rapport des tournois")
 
         if DatabaseHandler().helper.is_tournament_db_empty():
-            typer.secho("\nAucun tournoi créé.\n", fg=typer.colors.RED)
+            _HELPER.print_error("aucun joueur créé.")
             _HELPER.go_back(current_view=self.__class__.__name__)
             return
 
@@ -179,7 +172,7 @@ class TournamentReportMenu:
         elif selection == "3":
             selected_tournament = _HELPER.select_tournament()
             if len(selected_tournament.rounds) == 0:
-                typer.secho("\nLe tournoi ne comporte aucun round.\n", fg=typer.colors.RED)
+                _HELPER.print_error("le tournoi ne comporte aucun round.")
                 _HELPER.go_back(current_view=self.__class__.__name__)
                 return
             self.report_handler.tournament_rounds(tournament=selected_tournament)
@@ -187,7 +180,7 @@ class TournamentReportMenu:
         elif selection == "4":
             selected_tournament = _HELPER.select_tournament()
             if len(selected_tournament.rounds) == 0:
-                typer.secho("\nLe tournoi ne comporte aucun match.\n", fg=typer.colors.RED)
+                _HELPER.print_error("le tournoi ne comporte aucun match.")
                 _HELPER.go_back(current_view=self.__class__.__name__)
                 return
             self.report_handler.tournament_matches(tournament=selected_tournament)
@@ -202,7 +195,7 @@ class TournamentReportMenu:
         if export_format is not None:
             save_path = self.report_handler.init_export(export_format)
 
-        typer.secho(f"\nRapport enregistré sous: {save_path}\n", fg=typer.colors.GREEN)
+        _HELPER.print_success(f"rapport enregistré sous: {save_path}")
 
     def tournament_players_sub_menu(self):
         """Sub-menu for tournament's players report."""

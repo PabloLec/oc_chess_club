@@ -1,0 +1,84 @@
+site_name: oc_chess_club
+repo_name: PabloLec/oc_chess_club
+repo_url: https://github.com/pablolec/oc_chess_club
+
+nav:
+- Présentation: index.md
+- Tutoriel: tutorial.md
+- Code Reference:
+    - Models:
+      - database.py: reference/models/database.md
+      - match.py: reference/models/match.md
+      - player.py: reference/models/player.md
+      - round.py: reference/models/round.md
+      - tournament.py: reference/models/tournament.md
+    - Views:
+      - game.py: reference/views/game.md
+      - helper.py: reference/views/helper.md
+      - main_menu.py: reference/views/main_menu.md
+      - player_views.py: reference/views/player_views.md
+      - report_views.py: reference/views/report_views.md
+      - tournament_views.py: reference/views/tournament_views.md
+      - typer_app.py: reference/views/typer_app.md
+    - Controller:
+      - config_loader.py: reference/controller/config_loader.md
+      - database_helper.py: reference/controller/database_helper.md
+      - database_handler.py: reference/controller/database_handler.md
+      - report_handler.py: reference/controller/report_handler.md
+      - tournament_generator.py: reference/controller/tournament_generator.md
+      - tournament_handler.py: reference/controller/tournament_handler.md
+    
+theme:
+    language: fr
+    name: 'material'
+    palette:
+        scheme: slate
+        primary: teal
+        accent: deep orange
+    icon:
+        repo: fontawesome/brands/github-alt
+        logo: fontawesome/solid/chess
+
+plugins:
+- search
+- gen-files:
+    scripts:
+    - docs/generate_doc_stubs.py
+- mkdocstrings:
+    handlers:
+      python:
+        setup_commands:
+        - import sys
+        - sys.path.append("docs")
+        - sys.path.append("oc_chess_club")
+        selection:
+          new_path_syntax: yes
+    watch:
+      - oc_chess_club
+
+markdown_extensions:
+    - toc:
+        permalink: true
+    - markdown.extensions.codehilite:
+        guess_lang: false
+    - admonition
+    - codehilite
+    - extra
+    - pymdownx.superfences:
+        custom_fences:
+            - name: mermaid
+              class: mermaid
+              format: !!python/name:pymdownx.superfences.fence_div_format
+    - pymdownx.tabbed
+    - pymdownx.emoji:
+        emoji_index: !!python/name:materialx.emoji.twemoji
+        emoji_generator: !!python/name:materialx.emoji.to_svg
+
+extra_css:
+    - 'css/termynal.css'
+    - 'css/custom.css'
+
+extra_javascript:
+    - 'https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js'
+    - 'js/termynal.js'
+    - 'js/custom.js'
