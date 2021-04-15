@@ -1,3 +1,4 @@
 import oc_chess_club
 
-oc_chess_club.main()
+if __name__ == "__main__":
+    oc_chess_club.main()

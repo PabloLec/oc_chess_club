@@ -1,0 +1,2490 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+    
+    
+      
+        <title>helper.py - oc_chess_club</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.9299cb39.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#009485">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/termynal.css">
+    
+      <link rel="stylesheet" href="../../../css/custom.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-orange">
+  
+    
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#views.helper" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="oc_chess_club" class="md-header__button md-logo" aria-label="oc_chess_club" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M74 208H64a16 16 0 0 0-16 16v16a16 16 0 0 0 16 16h15.94A535.78 535.78 0 0 1 64 384h128a535.78 535.78 0 0 1-15.94-128H192a16 16 0 0 0 16-16v-16a16 16 0 0 0-16-16h-10l33.89-90.38a16 16 0 0 0-15-21.62H144V64h24a8 8 0 0 0 8-8V40a8 8 0 0 0-8-8h-24V8a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v24H88a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v32H55.09a16 16 0 0 0-15 21.62zm173.16 251.58L224 448v-16a16 16 0 0 0-16-16H48a16 16 0 0 0-16 16v16L8.85 459.58A16 16 0 0 0 0 473.89V496a16 16 0 0 0 16 16h224a16 16 0 0 0 16-16v-22.11a16 16 0 0 0-8.84-14.31zm92.77-157.78-3.29 82.2h126.72l-3.29-82.21 24.6-20.79A32 32 0 0 0 496 256.54V198a6 6 0 0 0-6-6h-26.38a6 6 0 0 0-6 6v26h-24.71v-26a6 6 0 0 0-6-6H373.1a6 6 0 0 0-6 6v26h-24.71v-26a6 6 0 0 0-6-6H310a6 6 0 0 0-6 6v58.6a32 32 0 0 0 11.36 24.4zM384 304a16 16 0 0 1 32 0v32h-32zm119.16 155.58L480 448v-16a16 16 0 0 0-16-16H336a16 16 0 0 0-16 16v16l-23.15 11.58a16 16 0 0 0-8.85 14.31V496a16 16 0 0 0 16 16h192a16 16 0 0 0 16-16v-22.11a16 16 0 0 0-8.84-14.31z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            oc_chess_club
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              helper.py
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/pablolec/oc_chess_club/" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    PabloLec/oc_chess_club
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="oc_chess_club" class="md-nav__button md-logo" aria-label="oc_chess_club" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M74 208H64a16 16 0 0 0-16 16v16a16 16 0 0 0 16 16h15.94A535.78 535.78 0 0 1 64 384h128a535.78 535.78 0 0 1-15.94-128H192a16 16 0 0 0 16-16v-16a16 16 0 0 0-16-16h-10l33.89-90.38a16 16 0 0 0-15-21.62H144V64h24a8 8 0 0 0 8-8V40a8 8 0 0 0-8-8h-24V8a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v24H88a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v32H55.09a16 16 0 0 0-15 21.62zm173.16 251.58L224 448v-16a16 16 0 0 0-16-16H48a16 16 0 0 0-16 16v16L8.85 459.58A16 16 0 0 0 0 473.89V496a16 16 0 0 0 16 16h224a16 16 0 0 0 16-16v-22.11a16 16 0 0 0-8.84-14.31zm92.77-157.78-3.29 82.2h126.72l-3.29-82.21 24.6-20.79A32 32 0 0 0 496 256.54V198a6 6 0 0 0-6-6h-26.38a6 6 0 0 0-6 6v26h-24.71v-26a6 6 0 0 0-6-6H373.1a6 6 0 0 0-6 6v26h-24.71v-26a6 6 0 0 0-6-6H310a6 6 0 0 0-6 6v58.6a32 32 0 0 0 11.36 24.4zM384 304a16 16 0 0 1 32 0v32h-32zm119.16 155.58L480 448v-16a16 16 0 0 0-16-16H336a16 16 0 0 0-16 16v16l-23.15 11.58a16 16 0 0 0-8.85 14.31V496a16 16 0 0 0 16 16h192a16 16 0 0 0 16-16v-22.11a16 16 0 0 0-8.84-14.31z"/></svg>
+
+    </a>
+    oc_chess_club
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/pablolec/oc_chess_club/" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    PabloLec/oc_chess_club
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Présentation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorial/" class="md-nav__link">
+        Tutoriel
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Code Reference
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Code Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" type="checkbox" id="__nav_3_1" >
+      
+      <label class="md-nav__link" for="__nav_3_1">
+        Models
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Models" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          Models
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../models/database/" class="md-nav__link">
+        database.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../models/match/" class="md-nav__link">
+        match.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../models/player/" class="md-nav__link">
+        player.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../models/round/" class="md-nav__link">
+        round.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../models/tournament/" class="md-nav__link">
+        tournament.py
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" type="checkbox" id="__nav_3_2" checked>
+      
+      <label class="md-nav__link" for="__nav_3_2">
+        Views
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Views" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          Views
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game/" class="md-nav__link">
+        game.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          helper.py
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        helper.py
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper" class="md-nav__link">
+    views.helper
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.ask_for_edit" class="md-nav__link">
+    ask_for_edit()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.ask_for_report_export" class="md-nav__link">
+    ask_for_report_export()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.date_is_valid" class="md-nav__link">
+    date_is_valid()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.display_current_value" class="md-nav__link">
+    display_current_value()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.enter_new_value" class="md-nav__link">
+    enter_new_value()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.gender_is_valid" class="md-nav__link">
+    gender_is_valid()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.go_back" class="md-nav__link">
+    go_back()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.list_all_players" class="md-nav__link">
+    list_all_players()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.list_all_tournaments" class="md-nav__link">
+    list_all_tournaments()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.modify_database_file" class="md-nav__link">
+    modify_database_file()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.modify_report_save_path" class="md-nav__link">
+    modify_report_save_path()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.player_exists" class="md-nav__link">
+    player_exists()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_error" class="md-nav__link">
+    print_error()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_info" class="md-nav__link">
+    print_info()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_report" class="md-nav__link">
+    print_report()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_success" class="md-nav__link">
+    print_success()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_title" class="md-nav__link">
+    print_title()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_warning" class="md-nav__link">
+    print_warning()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_welcome_splash" class="md-nav__link">
+    print_welcome_splash()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.prompt_config_modification" class="md-nav__link">
+    prompt_config_modification()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.recheck_config" class="md-nav__link">
+    recheck_config()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.report_export_prompt" class="md-nav__link">
+    report_export_prompt()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.select_export_format" class="md-nav__link">
+    select_export_format()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.select_player" class="md-nav__link">
+    select_player()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.select_tournament" class="md-nav__link">
+    select_tournament()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.tournament_exists" class="md-nav__link">
+    tournament_exists()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../main_menu/" class="md-nav__link">
+        main_menu.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../player_views/" class="md-nav__link">
+        player_views.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../report_views/" class="md-nav__link">
+        report_views.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tournament_views/" class="md-nav__link">
+        tournament_views.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../typer_app/" class="md-nav__link">
+        typer_app.py
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" >
+      
+      <label class="md-nav__link" for="__nav_3_3">
+        Controller
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Controller" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Controller
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../controller/config_loader/" class="md-nav__link">
+        config_loader.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../controller/database_helper/" class="md-nav__link">
+        database_helper.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../controller/database_handler/" class="md-nav__link">
+        database_handler.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../controller/report_handler/" class="md-nav__link">
+        report_handler.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../controller/tournament_generator/" class="md-nav__link">
+        tournament_generator.py
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../controller/tournament_handler/" class="md-nav__link">
+        tournament_handler.py
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper" class="md-nav__link">
+    views.helper
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.ask_for_edit" class="md-nav__link">
+    ask_for_edit()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.ask_for_report_export" class="md-nav__link">
+    ask_for_report_export()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.date_is_valid" class="md-nav__link">
+    date_is_valid()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.display_current_value" class="md-nav__link">
+    display_current_value()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.enter_new_value" class="md-nav__link">
+    enter_new_value()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.gender_is_valid" class="md-nav__link">
+    gender_is_valid()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.go_back" class="md-nav__link">
+    go_back()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.list_all_players" class="md-nav__link">
+    list_all_players()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.list_all_tournaments" class="md-nav__link">
+    list_all_tournaments()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.modify_database_file" class="md-nav__link">
+    modify_database_file()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.modify_report_save_path" class="md-nav__link">
+    modify_report_save_path()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.player_exists" class="md-nav__link">
+    player_exists()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_error" class="md-nav__link">
+    print_error()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_info" class="md-nav__link">
+    print_info()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_report" class="md-nav__link">
+    print_report()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_success" class="md-nav__link">
+    print_success()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_title" class="md-nav__link">
+    print_title()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_warning" class="md-nav__link">
+    print_warning()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.print_welcome_splash" class="md-nav__link">
+    print_welcome_splash()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.prompt_config_modification" class="md-nav__link">
+    prompt_config_modification()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.recheck_config" class="md-nav__link">
+    recheck_config()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.report_export_prompt" class="md-nav__link">
+    report_export_prompt()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.select_export_format" class="md-nav__link">
+    select_export_format()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.select_player" class="md-nav__link">
+    select_player()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.select_tournament" class="md-nav__link">
+    select_tournament()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#views.helper.tournament_exists" class="md-nav__link">
+    tournament_exists()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/pablolec/oc_chess_club/edit/master/oc_chess_club/views/helper.py" title="Editer cette page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>helper.py</h1>
+                
+                <div class="doc doc-object doc-module">
+
+<a id="views.helper"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.ask_for_edit" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">ask_for_edit</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.ask_for_edit" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Asks the user for information edit.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bool</code></td>
+      <td><p>User want to edit this field.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">ask_for_edit</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Asks the user for information edit.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: User want to edit this field.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">confirm</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">confirm</span><span class="p">(</span><span class="s2">&quot;Modifier cette information?&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">confirm</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.ask_for_report_export" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">ask_for_report_export</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.ask_for_report_export" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prompts the user to select export settings.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bool</code></td>
+      <td><p>User wants to export the report.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">ask_for_report_export</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Prompts the user to select export settings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: User wants to export the report.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;souhaitez vous exporter ce rapport ?&quot;</span><span class="p">)</span>
+
+    <span class="n">number</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s2">&quot;1. &quot;</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="s2">&quot;Oui&quot;</span><span class="p">)</span>
+
+    <span class="n">number</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s2">&quot;2. &quot;</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="s2">&quot;Non&quot;</span><span class="p">)</span>
+
+    <span class="n">selection</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">while</span> <span class="n">selection</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">]:</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="s2">&quot;Entrez votre sélection: &quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">selection</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">selection</span> <span class="o">==</span> <span class="s2">&quot;2&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.date_is_valid" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">date_is_valid</span><span class="p">(</span><span class="n">date</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.date_is_valid" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Verifies if the date entered by the user is valid using datetime library.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bool</code></td>
+      <td><p>The date exists.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">date_is_valid</span><span class="p">(</span><span class="n">date</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verifies if the date entered by the user is valid using datetime library.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: The date exists.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;date incorrecte.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.display_current_value" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">display_current_value</span><span class="p">(</span><span class="n">field_title</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.display_current_value" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Displays the current value of a field.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>field_title</code></td>
+        <td><code>str</code></td>
+        <td><p>Title to display.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>Value to display.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">display_current_value</span><span class="p">(</span><span class="n">field_title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Displays the current value of a field.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        field_title (str): Title to display.</span>
+<span class="sd">        value (Any): Value to display.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">parameter</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">field_title</span><span class="si">}</span><span class="s2">: &quot;</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">parameter</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.enter_new_value" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">enter_new_value</span><span class="p">(</span><span class="n">field_title</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.enter_new_value" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Displays a prompt for a new value.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>field_title</code></td>
+        <td><code>str</code></td>
+        <td><p>Title to display.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td><p>New value given by the user.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">enter_new_value</span><span class="p">(</span><span class="n">field_title</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Displays a prompt for a new value.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        field_title (str): Title to display.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: New value given by the user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">new_value</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Entrez une nouvelle valeur pour &#39;</span><span class="si">{</span><span class="n">field_title</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_value</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.gender_is_valid" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">gender_is_valid</span><span class="p">(</span><span class="n">gender</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.gender_is_valid" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Verifies if the gender entered by the user is valid.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bool</code></td>
+      <td><p>The gender is valid.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">gender_is_valid</span><span class="p">(</span><span class="n">gender</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verifies if the gender entered by the user is valid.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: The gender is valid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gender</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="n">gender</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;h&quot;</span><span class="p">:</span>
+        <span class="n">gender</span> <span class="o">=</span> <span class="s2">&quot;H&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">gender</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;f&quot;</span><span class="p">:</span>
+        <span class="n">gender</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;genre incorrect. Entrez H ou F.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.go_back" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">go_back</span><span class="p">(</span><span class="n">current_view</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.go_back" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Go to previous menu based on current view.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>current_view</code></td>
+        <td><code>str</code></td>
+        <td><p>Current view name based on class <strong>name</strong>.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">go_back</span><span class="p">(</span><span class="n">current_view</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Go to previous menu based on current view.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        current_view (str): Current view name based on class __name__.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">current_view</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;TournamentMenu&quot;</span><span class="p">,</span> <span class="s2">&quot;PlayerMenu&quot;</span><span class="p">,</span> <span class="s2">&quot;ReportMenu&quot;</span><span class="p">,</span> <span class="s2">&quot;GameMenu&quot;</span><span class="p">]:</span>
+        <span class="n">_MAIN_MENU</span><span class="o">.</span><span class="n">MainMenu</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">current_view</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;NewTournamentMenu&quot;</span><span class="p">,</span> <span class="s2">&quot;LoadTournamentMenu&quot;</span><span class="p">,</span> <span class="s2">&quot;EditTournamentMenu&quot;</span><span class="p">,</span> <span class="s2">&quot;DeleteTournamentMenu&quot;</span><span class="p">]:</span>
+        <span class="n">_TOURNAMENT_VIEWS</span><span class="o">.</span><span class="n">TournamentMenu</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">current_view</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;NewPlayerMenu&quot;</span><span class="p">,</span> <span class="s2">&quot;EditPlayerMenu&quot;</span><span class="p">,</span> <span class="s2">&quot;DeletePlayerMenu&quot;</span><span class="p">]:</span>
+        <span class="n">_PLAYER_VIEWS</span><span class="o">.</span><span class="n">PlayerMenu</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">current_view</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;PlayerReportMenu&quot;</span><span class="p">,</span> <span class="s2">&quot;TournamentReportMenu&quot;</span><span class="p">]:</span>
+        <span class="n">_REPORT_VIEWS</span><span class="o">.</span><span class="n">ReportMenu</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.list_all_players" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">list_all_players</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.list_all_players" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Lists all existing players.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">list_all_players</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Lists all existing players.&quot;&quot;&quot;</span>
+
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;liste des joueurs existants:&quot;</span><span class="p">)</span>
+
+    <span class="n">all_players</span> <span class="o">=</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">get_players_by_id</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">all_players</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">player</span><span class="o">.</span><span class="n">is_deleted</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">player_id</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">id_num</span><span class="p">),</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">player</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.list_all_tournaments" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">list_all_tournaments</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.list_all_tournaments" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Lists all existing tournaments.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">list_all_tournaments</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Lists all existing tournaments.&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">is_tournament_db_empty</span><span class="p">():</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span><span class="s2">&quot;Aucun tournoi créé.&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">RED</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;liste des tournois existants:&quot;</span><span class="p">)</span>
+
+    <span class="n">all_tournaments</span> <span class="o">=</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">get_tournaments_by_id</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">tournament</span> <span class="ow">in</span> <span class="n">all_tournaments</span><span class="p">:</span>
+        <span class="n">tournament_id</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tournament</span><span class="o">.</span><span class="n">id_num</span><span class="p">),</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tournament</span><span class="o">.</span><span class="n">is_finished</span><span class="p">:</span>
+            <span class="n">is_finished</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s2">&quot; -&gt; Terminé&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">YELLOW</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">is_finished</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">tournament</span><span class="o">.</span><span class="n">id_num</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">tournament</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">tournament</span><span class="o">.</span><span class="n">date</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">is_finished</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.modify_database_file" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">modify_database_file</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.modify_database_file" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prompts the user to select a database file path.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">modify_database_file</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Prompts the user to select a database file path.&quot;&quot;&quot;</span>
+
+    <span class="n">_CONFIG</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;database_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="s2">&quot;Entrez un nouvel emplacement&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_CONFIG</span><span class="o">.</span><span class="n">database_path_exists</span><span class="p">:</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;L&#39;emplacement saisi est incorrect. Vérifiez que le dossier existe.&quot;</span><span class="p">)</span>
+        <span class="n">modify_database_file</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">_CONFIG</span><span class="o">.</span><span class="n">database_is_json</span><span class="p">():</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;Votre fichier doit avoir comme extension &#39;.json&#39;.&quot;</span><span class="p">)</span>
+        <span class="n">modify_database_file</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">_CONFIG</span><span class="o">.</span><span class="n">database_exists</span><span class="p">:</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;Le fichier de base de données n&#39;existe pas encore, un nouveau sera donc créé.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">print_success</span><span class="p">(</span><span class="s2">&quot;Un fichier de base de données existant a été trouvé.&quot;</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.modify_report_save_path" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">modify_report_save_path</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.modify_report_save_path" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prompts the user to select a report save path.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">modify_report_save_path</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Prompts the user to select a report save path.&quot;&quot;&quot;</span>
+
+    <span class="n">_CONFIG</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;report_save_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="s2">&quot;Entrez un nouvel emplacement&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_CONFIG</span><span class="o">.</span><span class="n">report_save_path_exists</span><span class="p">():</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;L&#39;emplacement saisi est incorrect. Vérifiez que le dossier existe.&quot;</span><span class="p">)</span>
+        <span class="n">modify_report_save_path</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.player_exists" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">player_exists</span><span class="p">(</span><span class="n">selected_id</span><span class="p">,</span> <span class="n">already_taken_ids</span><span class="o">=</span><span class="p">[])</span></code>
+
+
+<a href="#views.helper.player_exists" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Verifies if the player selected by the user exists.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>selected_id</code></td>
+        <td><code>str</code></td>
+        <td><p>Player chosen by the user.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>already_taken_ids</code></td>
+        <td><code>list</code></td>
+        <td><p>List of ids the user cannot choose from. Defaults to [].</p></td>
+        <td><code>[]</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bool</code></td>
+      <td><p>The user is selectable.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">player_exists</span><span class="p">(</span><span class="n">selected_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">already_taken_ids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]):</span>
+    <span class="sd">&quot;&quot;&quot;Verifies if the player selected by the user exists.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        selected_id (str): Player chosen by the user.</span>
+<span class="sd">        already_taken_ids (list, optional): List of ids the user cannot choose from. Defaults to [].</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: The user is selectable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_id</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">selected_id</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;entrez le numéro du joueur apparaissant devant son nom&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">selected_id</span><span class="p">)</span> <span class="ow">in</span> <span class="n">already_taken_ids</span><span class="p">:</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;le joueur numéro </span><span class="si">{</span><span class="n">selected_id</span><span class="si">}</span><span class="s2"> a déjà été ajouté&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">is_player_id_in_database</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">selected_id</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">get_player_object_from_id_str</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="n">selected_id</span><span class="p">)</span><span class="o">.</span><span class="n">is_deleted</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">print_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pas de joueur avec le numéro </span><span class="si">{</span><span class="n">selected_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.print_error" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">print_error</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.print_error" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prints a formated error message.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>message</code></td>
+        <td><code>str</code></td>
+        <td><p>Message content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">print_error</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prints a formated error message.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Message content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">test_info</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;! </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_RED</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_BLACK</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.print_info" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">print_info</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.print_info" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prints a formated info message.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>message</code></td>
+        <td><code>str</code></td>
+        <td><p>Message content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">print_info</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prints a formated info message.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Message content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">test_info</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_MAGENTA</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_BLACK</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.print_report" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">print_report</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.print_report" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prints a generated report in console.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>data</code></td>
+        <td><code>dict</code></td>
+        <td><p>Report data dict.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">print_report</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prints a generated report in console.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (dict): Report data dict.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">element</span><span class="p">:</span>
+            <span class="n">field_name</span> <span class="o">=</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">element</span><span class="p">[</span><span class="n">key</span><span class="p">]),</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">field_name</span> <span class="o">+</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.print_success" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">print_success</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.print_success" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prints a formated success message.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>message</code></td>
+        <td><code>str</code></td>
+        <td><p>Message content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">print_success</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prints a formated success message.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Message content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt; </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_GREEN</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_BLACK</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.print_title" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">print_title</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.print_title" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prints a formated title.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>message</code></td>
+        <td><code>str</code></td>
+        <td><p>Message content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">print_title</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prints a formated title.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Message content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> -&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_CYAN</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_BLACK</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.print_warning" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">print_warning</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.print_warning" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prints a formated warning message.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>message</code></td>
+        <td><code>str</code></td>
+        <td><p>Message content.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">print_warning</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prints a formated warning message.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Message content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">RED</span><span class="p">,</span> <span class="n">blink</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.print_welcome_splash" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">print_welcome_splash</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.print_welcome_splash" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prints ASCII presentation.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">print_welcome_splash</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Prints ASCII presentation.&quot;&quot;&quot;</span>
+
+    <span class="n">welcome_splash_lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s2">&quot;    __&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;   /  </span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;                      _                         _       _&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;   </span><span class="se">\\</span><span class="s2">__/&quot;</span><span class="p">,</span> <span class="s2">&quot;                     | |                       | |     | |&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;  /____</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;     ___   ___   ___| |__   ___  ___ ___   ___| |_   _| |__&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;   |  |&quot;</span><span class="p">,</span> <span class="s2">&quot;     / _ </span><span class="se">\\</span><span class="s2"> / __| / __| &#39;_ </span><span class="se">\\</span><span class="s2"> / _ </span><span class="se">\\</span><span class="s2">/ __/ __| / __| | | | | &#39;_ </span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;   |__|&quot;</span><span class="p">,</span> <span class="s2">&quot;    | (_) | (__ | (__| | | |  __/</span><span class="se">\\</span><span class="s2">__ </span><span class="se">\\</span><span class="s2">__ </span><span class="se">\\</span><span class="s2">| (__| | |_| | |_) |&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;  (====)&quot;</span><span class="p">,</span> <span class="s2">&quot;    </span><span class="se">\\</span><span class="s2">___/ </span><span class="se">\\</span><span class="s2">___| </span><span class="se">\\</span><span class="s2">___|_| |_|</span><span class="se">\\</span><span class="s2">___||___/___/ </span><span class="se">\\</span><span class="s2">___|_|</span><span class="se">\\</span><span class="s2">__,_|_.__/&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot;  }===={&quot;</span><span class="p">,</span> <span class="s2">&quot;            ______                    ______ &quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">&quot; (______)&quot;</span><span class="p">,</span> <span class="s2">&quot;          |______|                  |______|&quot;</span><span class="p">],</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">pawn</span><span class="p">,</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">welcome_splash_lines</span><span class="p">:</span>
+        <span class="n">pawn_part</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="n">pawn</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_WHITE</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">title_part</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_MAGENTA</span><span class="p">)</span>
+
+        <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">pawn_part</span> <span class="o">+</span> <span class="n">title_part</span><span class="p">)</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.prompt_config_modification" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">prompt_config_modification</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.prompt_config_modification" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prompts the user to change the configuration.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">prompt_config_modification</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Prompts the user to change the configuration.&quot;&quot;&quot;</span>
+
+    <span class="n">confirm</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">confirm</span><span class="p">(</span><span class="s2">&quot;Souhaitez vous modifier la configuration actuelle ?&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">confirm</span><span class="p">:</span>
+        <span class="n">recheck_config</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Base de données actuelle: </span><span class="si">{</span><span class="n">_CONFIG</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;database_file&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">confirm</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">confirm</span><span class="p">(</span><span class="s2">&quot;Modifier ?&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">confirm</span><span class="p">:</span>
+        <span class="n">modify_database_file</span><span class="p">()</span>
+
+    <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Emplacement de sauvegarde des rapports actuel: </span><span class="si">{</span><span class="n">_CONFIG</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;report_save_path&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">confirm</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">confirm</span><span class="p">(</span><span class="s2">&quot;Modifier ?&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">confirm</span><span class="p">:</span>
+        <span class="n">modify_report_save_path</span><span class="p">()</span>
+
+    <span class="n">_CONFIG</span><span class="o">.</span><span class="n">save_settings</span><span class="p">()</span>
+    <span class="n">recheck_config</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.recheck_config" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">recheck_config</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.recheck_config" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Checks the configuration validity and prints adequate error messages.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">recheck_config</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Checks the configuration validity and prints adequate error messages.&quot;&quot;&quot;</span>
+
+    <span class="n">database_path_dont_exists</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">_CONFIG</span><span class="o">.</span><span class="n">database_path_exists</span><span class="p">()</span>
+    <span class="n">database_dont_exists</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">_CONFIG</span><span class="o">.</span><span class="n">database_exists</span><span class="p">()</span>
+    <span class="n">report_save_path_dont_exists</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">_CONFIG</span><span class="o">.</span><span class="n">report_save_path_exists</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="n">database_path_dont_exists</span><span class="p">,</span> <span class="n">database_dont_exists</span><span class="p">,</span> <span class="n">report_save_path_dont_exists</span><span class="p">]):</span>
+        <span class="n">print_success</span><span class="p">(</span><span class="s2">&quot;La configuration ne comporte aucune erreur.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">print_warning</span><span class="p">(</span><span class="s2">&quot;Votre configuration comporte toujours les erreurs suivantes:&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">database_path_dont_exists</span><span class="p">:</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;L&#39;emplacement de la base de données est invalide.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">database_dont_exists</span><span class="p">:</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;Le fichier de base de données n&#39;existe pas. Il sera donc créé.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">report_save_path_dont_exists</span><span class="p">:</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;L&#39;emplacement de sauvegarde des rapports est invalide.&quot;</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.report_export_prompt" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">report_export_prompt</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.report_export_prompt" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prompts the user to export the generated report.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td><p>Selected export format.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">report_export_prompt</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Prompts the user to export the generated report.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Selected export format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ask_for_report_export</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">select_export_format</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.select_export_format" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">select_export_format</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.select_export_format" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prompts the user to select export format.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>str</code></td>
+      <td><p>Selected export format.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">select_export_format</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Prompts the user to select export format.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Selected export format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">print_info</span><span class="p">(</span><span class="s2">&quot;choisissez un format d&#39;export:&quot;</span><span class="p">)</span>
+
+    <span class="n">number</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s2">&quot;1. &quot;</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="s2">&quot;Texte&quot;</span><span class="p">)</span>
+
+    <span class="n">number</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s2">&quot;2. &quot;</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="s2">&quot;CSV&quot;</span><span class="p">)</span>
+
+    <span class="n">number</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">0. &quot;</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">number</span> <span class="o">+</span> <span class="s2">&quot;Retour&quot;</span><span class="p">)</span>
+
+    <span class="n">selection</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">while</span> <span class="n">selection</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">]:</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="s2">&quot;Entrez votre sélection: &quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">selection</span> <span class="o">==</span> <span class="s2">&quot;0&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">selection</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;txt&quot;</span>
+    <span class="k">elif</span> <span class="n">selection</span> <span class="o">==</span> <span class="s2">&quot;2&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;csv&quot;</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.select_player" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">select_player</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.select_player" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prompts the user to select a player in database.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">select_player</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Prompts the user to select a player in database.&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">is_player_db_empty</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">list_all_players</span><span class="p">()</span>
+
+    <span class="n">selection</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">player_exists</span><span class="p">(</span><span class="n">selected_id</span><span class="o">=</span><span class="n">selection</span><span class="p">):</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sélectionnez un joueur&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">get_player_object_from_id_str</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="n">selection</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.select_tournament" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">select_tournament</span><span class="p">()</span></code>
+
+
+<a href="#views.helper.select_tournament" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Prompts the user to select a tournament in database.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">select_tournament</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Prompts the user to select a tournament in database.&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">is_tournament_db_empty</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">list_all_tournaments</span><span class="p">()</span>
+
+    <span class="n">selection</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">tournament_exists</span><span class="p">(</span><span class="n">selected_id</span><span class="o">=</span><span class="n">selection</span><span class="p">):</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sélectionnez un tournoi&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">get_tournament_object_from_id_str</span><span class="p">(</span><span class="n">tournament_id</span><span class="o">=</span><span class="n">selection</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="views.helper.tournament_exists" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">tournament_exists</span><span class="p">(</span><span class="n">selected_id</span><span class="p">)</span></code>
+
+
+<a href="#views.helper.tournament_exists" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Verifies if the tournament selected by the user exists.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>selected_id</code></td>
+        <td><code>str</code></td>
+        <td><p>Tournament chosen by the user.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bool</code></td>
+      <td><p>The tournament is selectable.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>views/helper.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">tournament_exists</span><span class="p">(</span><span class="n">selected_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verifies if the tournament selected by the user exists.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        selected_id (str): Tournament chosen by the user.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: The tournament is selectable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_id</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">selected_id</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+        <span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;entrez le numéro du tournoi apparaissant devant son nom&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">is_tournament_id_in_database</span><span class="p">(</span><span class="n">tournament_id</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">selected_id</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">print_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pas de tournoi avec le numéro </span><span class="si">{</span><span class="n">selected_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../game/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              game.py
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../main_menu/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              main_menu.py
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copier dans le presse-papier", "clipboard.copied": "Copi\u00e9 dans le presse-papier", "search.config.lang": "fr", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Rechercher", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.7353b375.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js"></script>
+      
+        <script src="../../../js/termynal.js"></script>
+      
+        <script src="../../../js/custom.js"></script>
+      
+    
+  </body>
+</html>

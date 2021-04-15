@@ -13,7 +13,7 @@ class PlayerMenu:
     def __init__(self):
         """Constructor for PlayerMenu."""
 
-        typer.secho("MENU DES JOUEURS", fg=typer.colors.BLACK, bg=typer.colors.BRIGHT_CYAN, bold=True, underline=True)
+        _HELPER.print_title("menu des joueurs")
 
         self.print_menu()
         self.user_selection()
@@ -161,12 +161,16 @@ class EditPlayerMenu:
         original_player_copy (Player): Deep copy of initial Player state for modification check.
     """
 
-    def __init__(self):
-        """Constructor for EditPlayerMenu."""
+    def __init__(self, player_id: int = None):
+        """Constructor for EditPlayerMenu.
 
-        _HELPER.print_success("modification d'un joueur")
+        Args:
+            player_id (int, optional): Optional player id to be loaded. Defaults to None.
+        """
 
-        self.selected_player = _HELPER.select_player()
+        _HELPER.print_title("modification d'un joueur")
+
+        self.cli_argument_handler(player_id=player_id)
 
         if self.selected_player is None:
             _HELPER.print_error("aucun joueur créé.")
@@ -184,6 +188,23 @@ class EditPlayerMenu:
             _HELPER.print_success("aucune modification effectuée.")
 
         _HELPER.go_back(current_view=self.__class__.__name__)
+
+    def cli_argument_handler(self, player_id: str):
+        """Handles eventual player id passed at instantiation.
+
+        Args:
+            player_id (str): Optional player id to be loaded.
+        """
+
+        player_exists = DatabaseHandler().helper.is_player_id_in_database(player_id=player_id)
+
+        if player_id is not None and not player_exists:
+            _HELPER.print_error(f"le joueur n°{player_id} n'est pas disponible.")
+
+        if player_id is not None and player_exists:
+            self.selected_player = DatabaseHandler().helper.get_player_object_from_id_str(player_id=str(player_id))
+        else:
+            self.selected_player = _HELPER.select_player()
 
     def select_edit(self):
         """Enumerates all player's settings and asks for edit."""
@@ -272,12 +293,16 @@ class DeletePlayerMenu:
         selected_player (Player): Player selected by user for deletion.
     """
 
-    def __init__(self):
-        """Constructor for DeletePlayerMenu."""
+    def __init__(self, player_id: int = None):
+        """Constructor for DeletePlayerMenu.
 
-        _HELPER.print_title("suppression d'un joueur'")
+        Args:
+            player_id (int, optional): Optional player id to be loaded. Defaults to None.
+        """
 
-        self.selected_player = _HELPER.select_player()
+        _HELPER.print_title("suppression d'un joueur")
+
+        self.cli_argument_handler(player_id=player_id)
 
         if self.selected_player is None:
             _HELPER.print_error("aucun joueur créé.")
@@ -288,11 +313,28 @@ class DeletePlayerMenu:
 
         _HELPER.go_back(current_view=self.__class__.__name__)
 
+    def cli_argument_handler(self, player_id: str):
+        """Handles eventual player id passed at instantiation.
+
+        Args:
+            player_id (str): Optional player id to be loaded.
+        """
+
+        player_exists = DatabaseHandler().helper.is_player_id_in_database(player_id=player_id)
+
+        if player_id is not None and not player_exists:
+            _HELPER.print_error(f"le joueur n°{player_id} n'est pas disponible.")
+
+        if player_id is not None and player_exists:
+            self.selected_player = DatabaseHandler().helper.get_player_object_from_id_str(player_id=str(player_id))
+        else:
+            self.selected_player = _HELPER.select_player()
+
     def confirm_selection(self):
         """Prompts the user to confirm user deletion."""
 
         _HELPER.print_warning(
-            "vous allez supprimer définitivement {first_name} {last_name}".format(
+            "vous allez supprimer définitivement '{first_name} {last_name}'".format(
                 first_name=self.selected_player.first_name, last_name=self.selected_player.last_name
             )
         )

@@ -135,7 +135,9 @@ class LoadTournamentMenu:
 
         selection = typer.prompt("Entrez un numéro de tournoi")
 
-        while not selection.isnumeric() or int(selection) not in self.available_tournaments:
+        available_ids = [x.id_num for x in self.available_tournaments]
+
+        while not selection.isnumeric() or int(selection) not in available_ids:
             _HELPER.print_error(f"pas de tournoi avec le numéro {selection}")
             self.user_selection()
             return
@@ -446,7 +448,7 @@ class EditTournamentMenu:
             id_num=self.selected_tournament.id_num,
         )
 
-        typer.secho(f"Le tournoi n°{str(self.selected_tournament.id_num)} a été modifié.", fg=typer.colors.GREEN)
+        _HELPER.print_success(f"le tournoi n°{str(self.selected_tournament.id_num)} a été modifié.")
 
 
 class DeleteTournamentMenu:
@@ -498,7 +500,7 @@ class DeleteTournamentMenu:
     def confirm_selection(self):
         """Prompts the user to confirm tournament deletion."""
 
-        _HELPER.print_warning(f"Vous allez supprimer définitivement le tournoi {self.selected_tournament.name}")
+        _HELPER.print_warning(f"Vous allez supprimer définitivement le tournoi '{self.selected_tournament.name}'")
 
         confirm = typer.confirm("Confirmer la suppression ?")
 
