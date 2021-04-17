@@ -1,8 +1,23 @@
 [tool.poetry]
 name = "oc_chess_club"
-version = "0.1.0"
-description = ""
+version = "0.9.0"
+description = "CLI to manage tournaments and players for a chess club"
 authors = ["PabloLec <pablo.lecolinet@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/PabloLec/oc_chess_club"
+documentation = "https://pablolec.github.io/oc_chess_club"
+keywords = ["cli", "chess", "typer"]
+classifiers = [
+			"Programming Language :: Python :: 3.9",
+			"Environment :: Console",
+			"Operating System :: OS Independent",
+			"Intended Audience :: End Users/Desktop",
+			"Topic :: Games/Entertainment :: Board Games"
+			]
+include = [
+    "LICENSE",
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -13,6 +28,7 @@ shellingham = "^1.4.0"
 PyYAML = "^5.4.1"
 
 [tool.poetry.dev-dependencies]
+mkdocs = "^1.1.2"
 mkdocs-autorefs = "^0.1.1"
 mkdocs-gen-files = "^0.3.1"
 mkdocs-material = "^7.1.1"

@@ -1,0 +1,6 @@
+click==7.1.2; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.6"
+colorama==0.4.4; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
+pyyaml==5.4.1; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.6.0")
+shellingham==1.4.0; (python_version >= "2.6" and python_version < "3.0") or (python_version > "3.0" and python_version < "3.1") or (python_version > "3.1" and python_version < "3.2") or (python_version > "3.2" and python_version < "3.3") or (python_version > "3.3")
+tinydb==4.4.0; python_version >= "3.5" and python_version < "4.0"
+typer==0.3.2; python_version >= "3.6"

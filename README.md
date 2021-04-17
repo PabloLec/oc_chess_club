@@ -16,7 +16,7 @@ You will need **Python 3.9+** as the project type hints generics from standard c
 ## Installation
 
 ```console
-python3 -m pip install oc_chess_club
+python3 -m pip install oc-chess-club
 ```
 
 ## Usage
