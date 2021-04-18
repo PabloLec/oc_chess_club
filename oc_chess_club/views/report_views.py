@@ -19,6 +19,7 @@ class ReportMenu:
                 "Le chemin de sauvegarde des rapports n'existe pas, vous ne pouvez donc pas en générer."
             )
             _HELPER.go_back(current_view=self.__class__.__name__)
+            return
 
         _HELPER.print_title("menu des rapports")
 
@@ -173,19 +174,19 @@ class TournamentReportMenu:
 
         elif selection == "3":
             selected_tournament = _HELPER.select_tournament()
+            self.report_handler.tournament_rounds(tournament=selected_tournament)
             if len(selected_tournament.rounds) == 0:
                 _HELPER.print_error("le tournoi ne comporte aucun round.")
                 _HELPER.go_back(current_view=self.__class__.__name__)
                 return
-            self.report_handler.tournament_rounds(tournament=selected_tournament)
 
         elif selection == "4":
             selected_tournament = _HELPER.select_tournament()
+            self.report_handler.tournament_matches(tournament=selected_tournament)
             if len(selected_tournament.rounds) == 0:
                 _HELPER.print_error("le tournoi ne comporte aucun match.")
                 _HELPER.go_back(current_view=self.__class__.__name__)
                 return
-            self.report_handler.tournament_matches(tournament=selected_tournament)
 
         else:
             self.user_selection()
@@ -196,6 +197,8 @@ class TournamentReportMenu:
 
         if export_format is not None:
             save_path = self.report_handler.init_export(export_format)
+        else:
+            return
 
         _HELPER.print_success(f"rapport enregistré sous: {save_path}")
 
