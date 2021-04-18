@@ -2,6 +2,8 @@ import typer
 
 import oc_chess_club.views.helper as _HELPER
 
+from time import sleep
+
 from oc_chess_club.controller.tournament_handler import TournamentHandler
 from oc_chess_club.models.match import Match
 from oc_chess_club.controller.database_handler import DatabaseHandler
@@ -158,3 +160,4 @@ class GameMenu:
             i += 1
 
         typer.echo("\n")
+        sleep(5)

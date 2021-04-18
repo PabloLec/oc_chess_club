@@ -8,10 +8,16 @@ Main dependencies are [typer](https://github.com/tiangolo/typer/) for the CLI pa
 You will need **Python 3.9+** as the project type hints generics from standard collections. (See [PEP 585](https://www.python.org/dev/peps/pep-0585/))
 
 ---
-
+<p align="center">
 <img class="emoji" title=":fr:" alt=":fr:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f1eb-1f1f7.png" data-canonical-src="https://github.githubassets.com/images/icons/emoji/unicode/1f1eb-1f1f7.png" width="20" height="20" align="absmiddle"> **Have a look at the [documentation](https://pablolec.github.io/oc_chess_club)** <img class="emoji" title=":fr:" alt=":fr:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f1eb-1f1f7.png" data-canonical-src="https://github.githubassets.com/images/icons/emoji/unicode/1f1eb-1f1f7.png" width="20" height="20" align="absmiddle">
-
+</p>
 ---
+
+## Demo
+
+<p align="center">
+    <img src="docs/images/demo.gif">
+</p>
 
 ## Installation
 
@@ -28,8 +34,6 @@ python3 -m oc_chess_club
 ```
 
 To learn more, please refer to the [documentation](https://pablolec.github.io/oc_chess_club) (:fr:).
-
-## Improvement
 
 ## License
 

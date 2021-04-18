@@ -1,7 +1,5 @@
-from oc_chess_club.models.tournament import Tournament
 from oc_chess_club.models.round import Round
 from oc_chess_club.models.match import Match
-from oc_chess_club.models.player import Player
 
 from oc_chess_club.controller.tournament_generator import TournamentGenerator
 from oc_chess_club.controller.database_handler import DatabaseHandler

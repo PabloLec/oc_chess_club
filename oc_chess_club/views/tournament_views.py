@@ -1,6 +1,5 @@
 import typer
 
-from datetime import datetime
 from copy import deepcopy
 
 from oc_chess_club.controller.database_handler import DatabaseHandler

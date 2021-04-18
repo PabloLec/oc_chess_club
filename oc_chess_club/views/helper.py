@@ -60,6 +60,7 @@ def print_title(message: str):
     """
 
     typer.secho(f"- {message.upper()} -", fg=typer.colors.BRIGHT_CYAN, bg=typer.colors.BRIGHT_BLACK, bold=True)
+    typer.echo("\n")
 
 
 def print_success(message: str):
@@ -70,6 +71,7 @@ def print_success(message: str):
     """
 
     typer.secho(f"> {message.capitalize()}", fg=typer.colors.BRIGHT_GREEN, bg=typer.colors.BRIGHT_BLACK, bold=True)
+    typer.echo("\n")
 
 
 def print_info(message: str):
@@ -79,9 +81,8 @@ def print_info(message: str):
         message (str): Message content.
     """
 
-    test_info = typer.secho(
-        f"- {message.capitalize()}", fg=typer.colors.BRIGHT_MAGENTA, bg=typer.colors.BRIGHT_BLACK, bold=True
-    )
+    typer.secho(f"- {message.capitalize()}", fg=typer.colors.BRIGHT_MAGENTA, bg=typer.colors.BRIGHT_BLACK, bold=True)
+    typer.echo("\n")
 
 
 def print_error(message: str):
@@ -91,9 +92,8 @@ def print_error(message: str):
         message (str): Message content.
     """
 
-    test_info = typer.secho(
-        f"! {message.capitalize()}", fg=typer.colors.BRIGHT_RED, bg=typer.colors.BRIGHT_BLACK, bold=True
-    )
+    typer.secho(f"! {message.capitalize()}", fg=typer.colors.BRIGHT_RED, bg=typer.colors.BRIGHT_BLACK, bold=True)
+    typer.echo("\n")
 
 
 def print_warning(message: str):
@@ -187,7 +187,7 @@ def select_player():
 
     selection = ""
     while not player_exists(selected_id=selection):
-        selection = typer.prompt(f"Sélectionnez un joueur")
+        selection = typer.prompt("Sélectionnez un joueur")
 
     return DatabaseHandler().helper.get_player_object_from_id_str(player_id=selection)
 
@@ -202,7 +202,7 @@ def select_tournament():
 
     selection = ""
     while not tournament_exists(selected_id=selection):
-        selection = typer.prompt(f"Sélectionnez un tournoi")
+        selection = typer.prompt("Sélectionnez un tournoi")
 
     return DatabaseHandler().helper.get_tournament_object_from_id_str(tournament_id=selection)
 
@@ -219,7 +219,6 @@ def list_all_tournaments():
     all_tournaments = DatabaseHandler().helper.get_tournaments_by_id()
 
     for tournament in all_tournaments:
-        tournament_id = typer.style(str(tournament.id_num), bold=True)
         if tournament.is_finished:
             is_finished = typer.style(" -> Terminé", fg=typer.colors.YELLOW)
         else:

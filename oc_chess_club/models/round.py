@@ -1,6 +1,3 @@
-from oc_chess_club.models.match import Match
-
-
 class Round:
     """Model for round. All rounds have matches associated with them and are associated with a tournament.
 

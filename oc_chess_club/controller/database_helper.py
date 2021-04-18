@@ -1,8 +1,5 @@
 from oc_chess_club.models.database import Database
-from oc_chess_club.models.player import Player
 from oc_chess_club.models.tournament import Tournament
-from oc_chess_club.models.round import Round
-from oc_chess_club.models.match import Match
 
 
 class DatabaseHelper:
@@ -248,22 +245,6 @@ class DatabaseHelper:
                 unfinished_tournaments.append(self.database.tournaments[tournament])
 
         return unfinished_tournaments
-
-    def get_all_player_objects(self):
-        """Generates a list of all existing players in database.
-
-        Returns:
-            list[Player]: All existing players in database.
-        """
-
-        players_list = []
-
-        for player_id in self.database.players:
-            if self.database.players[id_num].is_deleted:
-                continue
-            players_list.append(self.database.players[player_id])
-
-        return players_list
 
     def get_players_names(self, players_sample: list):
         """Return a list of players names from a list of Player objects.

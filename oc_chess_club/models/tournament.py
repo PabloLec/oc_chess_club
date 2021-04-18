@@ -1,9 +1,6 @@
-from oc_chess_club.models.round import Round
-from oc_chess_club.models.player import Player
-
-
 class Tournament:
-    """Model for tournament. All tournaments have rounds associated with them, these rounds have matches associated with them.
+    """Model for tournament. All tournaments have rounds associated with them,
+    these rounds have matches associated with them.
 
     Attributes:
         name (str): Tournament's name.

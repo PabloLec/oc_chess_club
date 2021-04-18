@@ -1,4 +1,4 @@
-from tinydb import TinyDB, Query, table
+from tinydb import Query, table
 
 from oc_chess_club.controller.config_loader import _CONFIG
 from oc_chess_club.models.database import Database
@@ -49,7 +49,9 @@ class DatabaseHandler(metaclass=SingletonMeta):
         self.load_database()
 
     def load_database(self):
-        """Instantiates the different tables in attributes and loads their content by creating corresponding objects."""
+        """Instantiates the different tables in attributes and loads their content
+        by creating corresponding objects.
+        """
 
         self.players_table = self.database.db.table("players")
         self.tournaments_table = self.database.db.table("tournaments")
@@ -496,7 +498,7 @@ class DatabaseHandler(metaclass=SingletonMeta):
 
         query = Query()
 
-        result = self.tournaments_table.search(query["Is Finished"] == False)
+        result = self.tournaments_table.search(query["Is Finished"] is False)
 
         return result
 

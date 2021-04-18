@@ -110,6 +110,8 @@ class PlayerReportMenu:
 
         if export_format is not None:
             save_path = self.report_handler.init_export(export_format)
+        else:
+            return
 
         _HELPER.print_success(f"rapport enregistré sous: {save_path}")
 
