@@ -23,7 +23,7 @@ Notamment du fait de l'utilisation native de type hints de génériques sans pas
 
 ``` console
 
-$ python3 _m pip install oc_chess_club
+$ python3 -m pip install oc-chess-club
 
 ```
 
