@@ -1,3 +1,5 @@
+**Pensez à [créer un tournoi](tournaments.md#creer-un-tournoi) et à [créer des joueurs](players.md#creer-un-joueur) avant d'aborder cette section.**
+
 Pour commencer ou reprendre un tournoi, vous pouvez naviguer via le menu principal ou taper directement `python3 -m oc_chess_club tournament load`.
 
 !!! astuce

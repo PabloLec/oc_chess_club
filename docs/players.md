@@ -128,9 +128,9 @@ $ y
 ``` console
 $ python3 -m oc_chess_club player delete
 
-* SUPPRESSION D'UN JOUEUR -
-* Liste des joueurs existants:
-1. Billie Gates
+- SUPPRESSION D'UN JOUEUR -
+- Liste des joueurs existants:
+1. Bill Gates
 2. Linus Torvalds
 3. Steve Jobs
 4. Ken Thompson
