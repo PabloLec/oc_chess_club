@@ -783,6 +783,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flake-report/" class="md-nav__link">
+        Rapport flake8
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1108,6 +1123,8 @@
 
     <span class="k">if</span> <span class="n">export_format</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">save_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">report_handler</span><span class="o">.</span><span class="n">init_export</span><span class="p">(</span><span class="n">export_format</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span>
 
     <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rapport enregistré sous: </span><span class="si">{</span><span class="n">save_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -1183,6 +1200,7 @@
             <span class="s2">&quot;Le chemin de sauvegarde des rapports n&#39;existe pas, vous ne pouvez donc pas en générer.&quot;</span>
         <span class="p">)</span>
         <span class="n">_HELPER</span><span class="o">.</span><span class="n">go_back</span><span class="p">(</span><span class="n">current_view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">return</span>
 
     <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_title</span><span class="p">(</span><span class="s2">&quot;menu des rapports&quot;</span><span class="p">)</span>
 
@@ -1530,19 +1548,19 @@
 
     <span class="k">elif</span> <span class="n">selection</span> <span class="o">==</span> <span class="s2">&quot;3&quot;</span><span class="p">:</span>
         <span class="n">selected_tournament</span> <span class="o">=</span> <span class="n">_HELPER</span><span class="o">.</span><span class="n">select_tournament</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report_handler</span><span class="o">.</span><span class="n">tournament_rounds</span><span class="p">(</span><span class="n">tournament</span><span class="o">=</span><span class="n">selected_tournament</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_tournament</span><span class="o">.</span><span class="n">rounds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;le tournoi ne comporte aucun round.&quot;</span><span class="p">)</span>
             <span class="n">_HELPER</span><span class="o">.</span><span class="n">go_back</span><span class="p">(</span><span class="n">current_view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
             <span class="k">return</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">report_handler</span><span class="o">.</span><span class="n">tournament_rounds</span><span class="p">(</span><span class="n">tournament</span><span class="o">=</span><span class="n">selected_tournament</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">selection</span> <span class="o">==</span> <span class="s2">&quot;4&quot;</span><span class="p">:</span>
         <span class="n">selected_tournament</span> <span class="o">=</span> <span class="n">_HELPER</span><span class="o">.</span><span class="n">select_tournament</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report_handler</span><span class="o">.</span><span class="n">tournament_matches</span><span class="p">(</span><span class="n">tournament</span><span class="o">=</span><span class="n">selected_tournament</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_tournament</span><span class="o">.</span><span class="n">rounds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_error</span><span class="p">(</span><span class="s2">&quot;le tournoi ne comporte aucun match.&quot;</span><span class="p">)</span>
             <span class="n">_HELPER</span><span class="o">.</span><span class="n">go_back</span><span class="p">(</span><span class="n">current_view</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
             <span class="k">return</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">report_handler</span><span class="o">.</span><span class="n">tournament_matches</span><span class="p">(</span><span class="n">tournament</span><span class="o">=</span><span class="n">selected_tournament</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_selection</span><span class="p">()</span>
@@ -1553,6 +1571,8 @@
 
     <span class="k">if</span> <span class="n">export_format</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">save_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">report_handler</span><span class="o">.</span><span class="n">init_export</span><span class="p">(</span><span class="n">export_format</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span>
 
     <span class="n">_HELPER</span><span class="o">.</span><span class="n">print_success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rapport enregistré sous: </span><span class="si">{</span><span class="n">save_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>

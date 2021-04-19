@@ -834,6 +834,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flake-report/" class="md-nav__link">
+        Rapport flake8
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -2025,7 +2040,7 @@
 
     <span class="n">query</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
 
-    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tournaments_table</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">[</span><span class="s2">&quot;Is Finished&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tournaments_table</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">[</span><span class="s2">&quot;Is Finished&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">result</span>
 </code></pre></div>
@@ -2048,12 +2063,15 @@
 
     <div class="doc doc-contents ">
 
-      <p>Instantiates the different tables in attributes and loads their content by creating corresponding objects.</p>
+      <p>Instantiates the different tables in attributes and loads their content
+by creating corresponding objects.</p>
 
         <details class="quote">
           <summary>Source code in <code>controller/database_handler.py</code></summary>
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">load_database</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Instantiates the different tables in attributes and loads their content by creating corresponding objects.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Instantiates the different tables in attributes and loads their content</span>
+<span class="sd">    by creating corresponding objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">players_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;players&quot;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">tournaments_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">database</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;tournaments&quot;</span><span class="p">)</span>

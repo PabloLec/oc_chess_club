@@ -849,6 +849,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../flake-report/" class="md-nav__link">
+        Rapport flake8
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1572,7 +1587,6 @@
     <span class="n">all_tournaments</span> <span class="o">=</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">get_tournaments_by_id</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">tournament</span> <span class="ow">in</span> <span class="n">all_tournaments</span><span class="p">:</span>
-        <span class="n">tournament_id</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tournament</span><span class="o">.</span><span class="n">id_num</span><span class="p">),</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">tournament</span><span class="o">.</span><span class="n">is_finished</span><span class="p">:</span>
             <span class="n">is_finished</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="s2">&quot; -&gt; Terminé&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">YELLOW</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1793,9 +1807,8 @@
 <span class="sd">        message (str): Message content.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">test_info</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;! </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_RED</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_BLACK</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;! </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_RED</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_BLACK</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1846,9 +1859,8 @@
 <span class="sd">        message (str): Message content.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">test_info</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_MAGENTA</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_BLACK</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_MAGENTA</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_BLACK</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1956,6 +1968,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&gt; </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_GREEN</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_BLACK</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -2007,6 +2020,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">typer</span><span class="o">.</span><span class="n">secho</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> -&quot;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_CYAN</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">typer</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BRIGHT_BLACK</span><span class="p">,</span> <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">typer</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -2344,7 +2358,7 @@
 
     <span class="n">selection</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">player_exists</span><span class="p">(</span><span class="n">selected_id</span><span class="o">=</span><span class="n">selection</span><span class="p">):</span>
-        <span class="n">selection</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sélectionnez un joueur&quot;</span><span class="p">)</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="s2">&quot;Sélectionnez un joueur&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">get_player_object_from_id_str</span><span class="p">(</span><span class="n">player_id</span><span class="o">=</span><span class="n">selection</span><span class="p">)</span>
 </code></pre></div>
@@ -2381,7 +2395,7 @@
 
     <span class="n">selection</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">tournament_exists</span><span class="p">(</span><span class="n">selected_id</span><span class="o">=</span><span class="n">selection</span><span class="p">):</span>
-        <span class="n">selection</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sélectionnez un tournoi&quot;</span><span class="p">)</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="s2">&quot;Sélectionnez un tournoi&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">DatabaseHandler</span><span class="p">()</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">get_tournament_object_from_id_str</span><span class="p">(</span><span class="n">tournament_id</span><span class="o">=</span><span class="n">selection</span><span class="p">)</span>
 </code></pre></div>
