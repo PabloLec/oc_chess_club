@@ -22,7 +22,8 @@ Notamment du fait de l'utilisation native de type hints de génériques sans pas
 <div class="termy">
 
 ``` console
-
+$ python3 -m venv env
+$ source env/bin/activate
 $ python3 -m pip install oc-chess-club
 
 ```

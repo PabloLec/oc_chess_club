@@ -32,6 +32,7 @@ nav:
           - report_handler.py: reference/controller/report_handler.md
           - tournament_generator.py: reference/controller/tournament_generator.md
           - tournament_handler.py: reference/controller/tournament_handler.md
+  - Rapport flake8: flake-report/index.html
 
 theme:
   language: fr
