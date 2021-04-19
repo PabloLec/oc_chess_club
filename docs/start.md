@@ -32,6 +32,7 @@ Options:
   --help                          Show this message and exit.
 
 Commands:
+  config      Modifier la configuration
   player      Affiche le menu des joueurs
   report      Affiche le menu des rapports
   tournament  Affiche le menu des tournois
