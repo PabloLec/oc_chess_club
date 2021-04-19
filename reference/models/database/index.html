@@ -405,6 +405,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#models.database.Database.create_empty_database" class="md-nav__link">
+    create_empty_database()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#models.database.Database.load_database" class="md-nav__link">
     load_database()
   </a>
@@ -754,6 +761,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#models.database.Database.create_empty_database" class="md-nav__link">
+    create_empty_database()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#models.database.Database.load_database" class="md-nav__link">
     load_database()
   </a>
@@ -923,6 +937,35 @@
 
 
 
+<h3 id="models.database.Database.create_empty_database" class="doc doc-heading">
+<code class="codehilite language-python"><span class="n">create_empty_database</span><span class="p">()</span></code>
+
+
+<a href="#models.database.Database.create_empty_database" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Creates an empty database JSON file if needed.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>models/database.py</code></summary>
+          <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">create_empty_database</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Creates an empty database JSON file if needed.&quot;&quot;&quot;</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
 <h3 id="models.database.Database.load_database" class="doc doc-heading">
 <code class="codehilite language-python"><span class="n">load_database</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
 
@@ -938,7 +981,11 @@
           <div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">load_database</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Loads a TinyDB object from a JSON file.&quot;&quot;&quot;</span>
 
-    <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">TinyDB</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">TinyDB</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_empty_database</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_database</span><span class="p">()</span>
 </code></pre></div>
         </details>
     </div>
